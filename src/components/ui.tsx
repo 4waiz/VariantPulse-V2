@@ -270,13 +270,14 @@ export function ConfidenceMeter({
 
 /* -- Buttons --------------------------------------------------------------- */
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
+type ButtonVariant = "primary" | "secondary" | "soft" | "ghost" | "danger";
 
 const BUTTON_VARIANT: Record<ButtonVariant, string> = {
   primary:
     "bg-oxblood text-white hover:bg-garnet active:bg-oxblood shadow-sm shadow-oxblood/20",
   secondary:
     "bg-surface text-accent border border-line hover:bg-canvas active:bg-surface-3",
+  soft: "bg-tile-rose text-accent border border-accent-ring hover:bg-active-bg active:bg-active-bg",
   ghost: "text-ink-2 hover:bg-surface-3 hover:text-ink",
   danger: "bg-crit text-white hover:bg-crit/90",
 };

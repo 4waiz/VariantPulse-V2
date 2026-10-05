@@ -107,7 +107,8 @@ const GARNET = "#7A263A";
 const ROSE = "#A24A60";
 const PORCELAIN = "#F2E8DD";
 const BLUSH = "#E8C3CC";
-const BONE = "#F7F4ED";
+/** The page canvas (globals.css `--color-canvas`), which far geometry fades toward. */
+const CANVAS = "#F9F5F6";
 const VERMILION = "#E85D4A";
 
 export interface HelixFinding {
@@ -188,7 +189,7 @@ export function mountHelix(stageHost: HTMLElement, interactive: HTMLElement, opt
   const stage = createStage(stageHost, { fov: FOV, onLost: options.onLost });
   const { scene, camera } = stage;
 
-  scene.fog = new Fog(BONE, 10, 30);
+  scene.fog = new Fog(CANVAS, 10, 30);
   scene.environmentIntensity = 0.5;
 
   scene.add(new HemisphereLight("#FFF9F2", "#E6D6CD", 0.9));

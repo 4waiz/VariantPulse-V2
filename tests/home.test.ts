@@ -4,7 +4,7 @@ import { CLINVAR_WIDE } from "@/data/clinvar-wide";
 import { MODELLED_HOSPITAL_REPORT } from "@/data/workspace";
 import { analyseWorkspace } from "@/lib/analysis";
 import { pick, serialiseAnalysis } from "@/lib/dto";
-import { caseBreakdown, reclassificationShifts } from "@/lib/impact";
+import { MINUTES_PER_MANUAL_CHECK, caseBreakdown, impactSeries, reclassificationShifts } from "@/lib/impact";
 
 const demo = async () => serialiseAnalysis(await analyseWorkspace({ mode: "demo", force: true }));
 
@@ -52,5 +52,28 @@ describe("home: ClinVar-wide strip", () => {
     expect(modelled.map((a) => a.variant.key)).toEqual(["MYBPC3:c.776delinsTT"]);
     // It moved VUS → likely pathogenic, and is still not counted.
     expect(reclassificationShifts(modelled)).toEqual({ compared: 0, vusToPathogenic: 0, pathogenicToVus: 0 });
+  });
+});
+
+describe("home: charts beside the figures", () => {
+  it("adds up to the figure each chart sits beside", async () => {
+    const analysis = await demo();
+    const queue = pick(analysis, analysis.reviewableKeys);
+    const series = impactSeries(analysis.assessments, queue);
+    const sum = (values: number[]) => values.reduce((a, b) => a + b, 0);
+
+    expect(series.genes).toHaveLength(new Set(analysis.assessments.map((a) => a.variant.gene)).size);
+    expect(sum(series.findingsPerGene)).toBe(analysis.scan.findingsChecked);
+    expect(sum(series.casesPerGene)).toBe(queue.length);
+    expect(series.minutesRunning[0]).toBe(0);
+    expect(series.minutesRunning.at(-1)).toBe(analysis.scan.findingsChecked * MINUTES_PER_MANUAL_CHECK);
+  });
+
+  it("orders the genes as the helix does, by chromosome", async () => {
+    const analysis = await demo();
+    const { genes } = impactSeries(analysis.assessments, []);
+    expect(genes.indexOf("CFTR")).toBeLessThan(genes.indexOf("BRCA2"));
+    expect(genes.indexOf("BRCA2")).toBeLessThan(genes.indexOf("BRCA1"));
+    expect(genes.at(-1)).toBe("LDLR");
   });
 });

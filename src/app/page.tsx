@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -18,7 +19,7 @@ import {
 } from "lucide-react";
 
 import { ClinVarWideStrip } from "@/components/clinvar-wide";
-import { EvidenceHelix } from "@/components/evidence-helix";
+import { EvidenceHelix, HelixLegend } from "@/components/evidence-helix";
 import { ImpactPanel } from "@/components/impact-panel";
 import { evidenceModeMeta } from "@/components/story/mode";
 import { SyncButton } from "@/components/sync";
@@ -39,11 +40,12 @@ export default function HomePage() {
     selectStoryAssessment(analysis.assessments) ?? pick(analysis, analysis.reviewableKeys)[0];
 
   return (
-    <div className="mx-auto w-full max-w-[1360px] space-y-3.5 px-5 pb-3 pt-2 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-[1360px] space-y-3.5 px-5 pb-3 sm:px-6 lg:px-8">
       <Hero lead={lead} assessments={analysis.assessments} scanning={sync.phase === "running"} />
 
       <ImpactPanel
         findingsChecked={analysis.scan.findingsChecked}
+        assessments={analysis.assessments}
         cases={pick(analysis, analysis.reviewableKeys)}
         scanMs={scanMs}
       />
@@ -53,7 +55,7 @@ export default function HomePage() {
       {lead ? (
         <>
           <HowItWorks lead={lead} />
-          <div className="grid gap-4 xl:grid-cols-[minmax(0,1.72fr)_minmax(0,1fr)]">
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.72fr)_minmax(0,1fr)]">
             <RealExample lead={lead} />
             <DataSources mode={analysis.mode} />
           </div>
@@ -106,42 +108,58 @@ function Hero({
   assessments: VariantAssessment[];
   scanning: boolean;
 }) {
+  const [helixReady, setHelixReady] = React.useState(false);
+  const legendId = React.useId();
+
   return (
-    <section className="grid items-center gap-5 md:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_400px] min-[90rem]:grid-cols-[minmax(0,1fr)_360px_310px]">
-      <div className="py-2">
-        <h1 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.035em] text-ink sm:text-[42px] min-[86.25rem]:text-[46px]">
+    <section className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_minmax(250px,0.8fr)] xl:grid-cols-[minmax(0,1fr)_340px] min-[90rem]:grid-cols-[minmax(0,1fr)_288px_276px]">
+      {/* Above the helix, which reaches back under the end of the heading. */}
+      <div className="relative z-10 pb-3 pt-6 md:pt-9 min-[90rem]:pl-3">
+        <h1 className="text-[32px] font-bold leading-[1.08] tracking-[-0.04em] text-ink min-[400px]:text-[36px] md:text-[clamp(34px,3.7vw,54px)]">
           The same DNA.
           <span className="block text-accent">A different meaning.</span>
         </h1>
-        <p className="mt-3 max-w-[30rem] text-[16px] leading-relaxed text-muted">
+        <p className="mt-3 max-w-[30rem] text-[16px] leading-[1.5] text-muted xl:text-[17px]">
           VariantPulse watches old genetic test results and flags when new scientific evidence
           changes what they mean.
         </p>
+        <HelixLegend
+          id={legendId}
+          assessments={assessments}
+          ready={helixReady}
+          className="mt-6 hidden md:block"
+        />
       </div>
 
       <EvidenceHelix
         assessments={assessments}
         leadKey={lead?.variant.key ?? null}
         scanning={scanning}
-        className="hidden md:block"
+        onReadyChange={setHelixReady}
+        describedBy={legendId}
+        className="hidden md:-ml-8 md:block xl:-ml-16 min-[90rem]:-ml-24"
       />
 
       {/* Only the widest screens have room for this card beside the helix. */}
       <Link
         href={lead ? `/variants/${encodeURIComponent(lead.variant.key)}` : "/variants"}
-        className="group hidden rounded-[20px] border border-accent-ring/60 bg-gradient-to-br from-accent-soft to-surface p-5 transition-shadow hover:shadow-[0_14px_34px_-22px_rgba(120,20,50,0.45)] min-[90rem]:block"
+        className="vp-glass-blush group relative z-10 hidden p-5 transition-shadow hover:shadow-[0_28px_54px_-28px_rgba(72,26,39,0.5)] min-[90rem]:block"
       >
-        <span className="flex items-start gap-3.5">
-          <Dna className="h-10 w-10 shrink-0 text-accent/70" strokeWidth={1.3} />
-          <span className="min-w-0 flex-1 text-[15.5px] font-semibold leading-snug tracking-tight text-ink">
-            Your DNA didn&rsquo;t change.
-            <span className="block text-[19px] text-accent">Science did.</span>
+        <span className="flex items-start gap-3">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[radial-gradient(closest-side,rgba(240,196,210,0.75),rgba(240,196,210,0))] text-accent">
+            <Dna className="h-8 w-8" strokeWidth={1.6} />
           </span>
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface text-accent shadow-[0_1px_3px_rgba(18,19,26,0.12)] transition-transform group-hover:translate-x-0.5">
+          <span className="min-w-0 flex-1 pt-1 text-[16px] font-semibold leading-snug tracking-tight text-ink">
+            Your DNA didn&rsquo;t change.
+            <span className="mt-0.5 block text-[21px] font-bold tracking-[-0.025em] text-accent">
+              Science did.
+            </span>
+          </span>
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface text-accent shadow-[0_6px_16px_-8px_rgba(72,26,39,0.45)] transition-transform group-hover:translate-x-0.5">
             <ArrowRight className="h-4 w-4" />
           </span>
         </span>
-        <span className="mt-3.5 block text-[14px] leading-relaxed text-muted">
+        <span className="mt-4 block text-[15px] leading-relaxed text-muted">
           We monitor scientific evidence so patients can benefit from new knowledge.
         </span>
       </Link>
@@ -162,10 +180,10 @@ function HowItWorks({ lead }: { lead: VariantAssessment }) {
           title="How it works"
           subtitle="From new scientific evidence to a clinical review, automatically."
         />
-        <SyncButton size="sm" />
+        <SyncButton size="sm" variant="soft" className="h-9 rounded-[12px] px-3.5 text-[13px]" />
       </div>
 
-      <ol className="mt-3.5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4 xl:gap-7">
+      <ol className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
         <Step number={1} title="Historical result" when={recordedWhen(lead)}>
           <StepIcon tone="muted">
             <FileText className="h-5 w-5" />
@@ -225,34 +243,36 @@ function Step({
   const body = (
     <>
       <span className="flex items-start gap-3">
-        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent-soft text-[13px] font-semibold text-accent vp-num">
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-tile-rose text-[13px] font-semibold text-accent vp-num">
           {number}
         </span>
-        <span className="min-w-0">
+        <span className="min-w-0 pt-0.5">
           <span className="block text-[15px] font-semibold leading-tight text-ink">{title}</span>
-          {when ? <span className="mt-0.5 block text-[12px] text-muted vp-num">{when}</span> : null}
+          {when ? <span className="mt-1 block text-[13px] text-muted vp-num">{when}</span> : null}
         </span>
       </span>
-      <span className="mt-3 flex items-center gap-3">{children}</span>
+      <span className="mt-3.5 flex items-center gap-3">{children}</span>
     </>
   );
 
+  const tile =
+    "h-full rounded-[18px] border border-line/80 bg-gradient-to-b from-surface to-surface-2 p-4 shadow-[0_12px_26px_-22px_rgba(72,26,39,0.35)]";
   return (
     <li className="relative">
       {href ? (
         <Link
           href={href}
-          className="block h-full rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-accent-ring hover:bg-accent-soft/30"
+          className={cn(tile, "block transition-colors hover:border-accent-ring hover:from-accent-soft/40")}
         >
           {body}
         </Link>
       ) : (
-        <div className="h-full rounded-2xl border border-line bg-surface p-4">{body}</div>
+        <div className={tile}>{body}</div>
       )}
       {!last ? (
         <ArrowRight
           aria-hidden
-          className="absolute -right-[22px] top-1/2 hidden h-4 w-4 -translate-y-1/2 text-accent xl:block"
+          className="absolute -right-5 top-1/2 hidden h-4 w-4 -translate-y-1/2 text-accent xl:block"
         />
       ) : null}
     </li>
@@ -272,8 +292,8 @@ function StepIcon({
     <span
       className={cn(
         "grid h-11 w-11 shrink-0 place-items-center",
-        round ? "rounded-full" : "rounded-xl",
-        tone === "accent" ? "bg-accent-soft text-accent" : "bg-surface-3 text-muted",
+        round ? "rounded-full" : "rounded-[14px]",
+        tone === "accent" ? "bg-tile-rose text-accent" : "bg-surface-3 text-muted",
       )}
     >
       {children}
@@ -284,10 +304,10 @@ function StepIcon({
 function VariantAndCode({ gene, hgvs, code }: { gene: string; hgvs: string; code: ClassificationCode }) {
   return (
     <span className="min-w-0">
-      <span className="block truncate text-[13px] text-ink">
+      <span className="block truncate text-[14px] text-ink">
         <span className="font-semibold">{gene}</span> {hgvs}
       </span>
-      <ClassificationPill code={code} className="mt-1.5" />
+      <ClassificationPill code={code} className="mt-2" />
     </span>
   );
 }
@@ -500,9 +520,9 @@ function SectionTitle({
 }) {
   return (
     <div className="flex min-w-0 items-start gap-3">
-      <span aria-hidden className="mt-[3px] h-[18px] w-[3px] shrink-0 rounded-full bg-accent" />
-      <div className={cn("min-w-0", inline && "flex flex-wrap items-baseline gap-x-3 gap-y-0.5")}>
-        <h2 className="text-[17px] font-semibold tracking-tight text-ink">{title}</h2>
+      <span aria-hidden className="mt-[3px] h-[22px] w-1 shrink-0 rounded-full bg-accent" />
+      <div className={cn("min-w-0", inline && "flex flex-wrap items-baseline gap-x-3.5 gap-y-0.5")}>
+        <h2 className="text-[19px] font-bold tracking-[-0.025em] text-ink">{title}</h2>
         <p className={cn("text-[14px] text-muted", !inline && "mt-0.5")}>{subtitle}</p>
       </div>
     </div>
@@ -515,7 +535,7 @@ function ClassificationPill({ code, className }: { code: ClassificationCode; cla
     <Badge
       tone={info.tone}
       title={info.label}
-      className={cn("px-3 py-1.5 text-[12.5px] font-semibold", className)}
+      className={cn("px-3.5 py-[7px] text-[13px] font-semibold", className)}
     >
       {info.short}
     </Badge>

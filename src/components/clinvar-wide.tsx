@@ -12,8 +12,9 @@
  * ClinVar held no classification for it in January 2023.
  */
 
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight, Database, ExternalLink, Users } from "lucide-react";
 
+import { MiniSplit } from "@/components/mini-chart";
 import { Badge, Card } from "@/components/ui";
 import { CLINVAR_WIDE } from "@/data/clinvar-wide";
 import type { VariantAssessment } from "@/lib/analysis";
@@ -31,10 +32,10 @@ export function ClinVarWideStrip({
   const own = reclassificationShifts(assessments);
 
   return (
-    <Card
+    <div
       role="group"
       aria-label="Reclassification across ClinVar and in this workspace"
-      className={cn("grid divide-y divide-line md:grid-cols-2 md:divide-x md:divide-y-0", className)}
+      className={cn("grid gap-3.5 md:grid-cols-2", className)}
     >
       <Half
         tag="ClinVar-wide"
@@ -69,7 +70,7 @@ export function ClinVarWideStrip({
         scope="monitored variants"
         note={`The same comparison for the ${formatNumber(own.compared)} monitored variants ClinVar classified in January 2023, against its current reading.`}
       />
-    </Card>
+    </div>
   );
 }
 
@@ -91,27 +92,47 @@ function Half({
   scope: string;
   note: React.ReactNode;
 }) {
+  const TagIcon = tagTone === "accent" ? Users : Database;
+  const share = up + down > 0 ? Math.round((up / (up + down)) * 100) : null;
   return (
-    <div className="min-w-0 px-5 py-3.5">
-      <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+    <Card className="@container relative min-w-0 px-5 py-4">
+      <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
         <span
           className={cn(
-            "rounded-full border px-2.5 py-1 text-[12px] font-semibold uppercase leading-none tracking-[0.07em]",
+            "inline-flex items-center gap-1.5 rounded-[10px] border px-2.5 py-1.5 text-[12px] font-semibold uppercase leading-none tracking-[0.08em]",
             tagTone === "accent"
-              ? "border-accent-ring bg-accent-soft text-accent"
-              : "border-info-border bg-info-soft text-info",
+              ? "border-accent-ring bg-tile-rose text-accent"
+              : "border-info-border bg-tile-blue text-info",
           )}
         >
+          <TagIcon aria-hidden className="h-3.5 w-3.5" strokeWidth={2} />
           {tag}
         </span>
-        <span className="text-[12px] text-muted vp-num">{period}</span>
+        <span className="text-[13px] text-muted vp-num">{period}</span>
       </p>
-      <div className="mt-2.5 flex flex-wrap items-center gap-x-7 gap-y-2">
+      <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
         <Shift value={up} from="VUS" to="P/LP" spoken={`${formatNumber(up)} ${scope} moved from uncertain significance to pathogenic or likely pathogenic`} />
+        <span aria-hidden className="hidden h-5 w-px bg-line sm:block" />
         <Shift value={down} from="P/LP" to="VUS" spoken={`${formatNumber(down)} ${scope} moved the other way, from pathogenic or likely pathogenic to uncertain significance`} />
       </div>
-      <p className="mt-2 text-[12px] leading-snug text-muted">{note}</p>
-    </div>
+      {/* Both directions as shares of every crossing: the same measure in both halves. */}
+      {share !== null ? (
+        <div className="absolute right-5 top-[19px] hidden w-[104px] @min-[29rem]:block">
+          <MiniSplit
+            parts={[
+              { value: up, className: "bg-crit/45" },
+              { value: down, className: "bg-amber/60" },
+            ]}
+            title={`${formatNumber(up)} VUS → P/LP against ${formatNumber(down)} P/LP → VUS`}
+          />
+          <p className="mt-1.5 text-right text-[12px] leading-none text-muted vp-num">
+            <span aria-hidden>{share}% to P/LP</span>
+            <span className="sr-only">{share}% of these moves were toward pathogenic or likely pathogenic.</span>
+          </p>
+        </div>
+      ) : null}
+      <p className="mt-2.5 text-[12.5px] leading-snug text-muted">{note}</p>
+    </Card>
   );
 }
 
@@ -130,17 +151,17 @@ function Shift({
   spoken: string;
 }) {
   return (
-    <p className="flex items-center gap-2.5">
+    <p className="flex items-center gap-3">
       <span className="sr-only">{spoken}</span>
-      <span aria-hidden className="text-[18px] font-semibold leading-tight tracking-tight text-ink vp-num">
+      <span aria-hidden className="text-[22px] font-bold leading-tight tracking-[-0.03em] text-ink vp-num">
         {formatNumber(value)}
       </span>
-      <span aria-hidden className="inline-flex items-center gap-1.5">
-        <Badge tone={PILL_TONE[from]} title={PILL_TITLE[from]}>
+      <span aria-hidden className="inline-flex items-center gap-2">
+        <Badge tone={PILL_TONE[from]} title={PILL_TITLE[from]} className="px-3 py-1.5 text-[12.5px] font-semibold">
           {from}
         </Badge>
-        <ArrowRight className="h-3.5 w-3.5 text-faint" />
-        <Badge tone={PILL_TONE[to]} title={PILL_TITLE[to]}>
+        <ArrowRight className="h-3.5 w-3.5 text-muted" />
+        <Badge tone={PILL_TONE[to]} title={PILL_TITLE[to]} className="px-3 py-1.5 text-[12.5px] font-semibold">
           {to}
         </Badge>
       </span>

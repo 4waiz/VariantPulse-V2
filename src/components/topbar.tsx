@@ -79,12 +79,12 @@ export function Topbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex h-[68px] shrink-0 items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-30 flex h-[72px] shrink-0 items-center gap-3 px-4 sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={() => setMenuOpen(true)}
           aria-label="Open navigation"
-          className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-line bg-surface text-ink-2 lg:hidden"
+          className="vp-pill grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-ink-2 lg:hidden"
         >
           <Menu className="h-4 w-4" />
         </button>
@@ -106,7 +106,7 @@ export function Topbar() {
             </Link>
           ) : null}
           <span
-            className="hidden items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 xl:inline-flex"
+            className="vp-pill hidden h-9 items-center gap-2 rounded-full px-3.5 xl:inline-flex"
             title={
               analysis.mode === "cached"
                 ? `Serving the bundled snapshot. ${analysis.reason ?? "The live source was unavailable."}`
@@ -125,11 +125,11 @@ export function Topbar() {
             onClick={() => setPaletteOpen(true)}
             aria-label="Search patients, variants and cases"
             aria-keyshortcuts="Control+K Meta+K"
-            className="group flex h-10 items-center gap-2.5 rounded-xl border border-line bg-surface px-3 text-left transition-colors hover:border-line-2 sm:w-[268px]"
+            className="vp-pill group flex h-10 items-center gap-2.5 rounded-[14px] px-3.5 text-left transition-colors hover:border-line-2 sm:w-[300px] xl:w-[360px]"
           >
-            <Search className="h-4 w-4 shrink-0 text-faint" />
+            <Search className="h-4 w-4 shrink-0 text-muted" />
             <span className="hidden flex-1 truncate text-[13px] text-faint sm:block">
-              Search patients, variants...
+              Search patients, variants, evidence...
             </span>
             <kbd className="hidden shrink-0 rounded-md border border-line bg-surface-2 px-1.5 py-0.5 text-[12px] font-medium text-faint sm:block">
               {shortcut}
@@ -142,7 +142,7 @@ export function Topbar() {
               onClick={() => setNotifOpen((v) => !v)}
               aria-label={`Review queue, ${open.length} open case${open.length === 1 ? "" : "s"}${overdue ? `, ${overdue} overdue` : ""}`}
               aria-expanded={notifOpen}
-              className="relative grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface text-ink-2 transition-colors hover:bg-surface-2"
+              className="vp-pill relative grid h-10 w-10 place-items-center rounded-[14px] text-ink-2 transition-colors hover:bg-surface"
             >
               <Bell className="h-[17px] w-[17px]" />
               {open.length > 0 ? (
@@ -210,12 +210,12 @@ export function Topbar() {
             onClick={() => setMenuOpen(false)}
             className="absolute inset-0 bg-ink/30 backdrop-blur-[2px]"
           />
-          <div className="vp-rise absolute inset-y-0 left-0 w-[268px] bg-surface shadow-2xl">
+          <div className="vp-rise absolute inset-y-0 left-0 w-[256px] bg-surface shadow-2xl">
             <button
               type="button"
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation"
-              className="absolute right-3 top-4 z-10 grid h-8 w-8 place-items-center rounded-lg text-faint hover:bg-surface-3"
+              className="absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-lg text-faint hover:bg-surface-3"
             >
               <X className="h-4 w-4" />
             </button>

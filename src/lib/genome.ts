@@ -97,6 +97,20 @@ export function compareLoci(a: Locus, b: Locus): number {
   return chromosomeRank(a.chromosome.name) - chromosomeRank(b.chromosome.name) || a.position - b.position;
 }
 
+/**
+ * Genome order, so neighbours in a list are neighbours on the genome. Anything
+ * the evidence cannot place goes last, in its original order.
+ */
+export function inGenomeOrder<T extends { evidence: Pick<EvidenceRecord, "location"> }>(items: readonly T[]): T[] {
+  return items
+    .map((item, index) => ({ item, index, locus: locusOf(item.evidence) }))
+    .sort((a, b) => {
+      if (a.locus && b.locus) return compareLoci(a.locus, b.locus) || a.index - b.index;
+      return a.locus ? -1 : b.locus ? 1 : a.index - b.index;
+    })
+    .map(({ item }) => item);
+}
+
 /** `43067626` as `43,067,626`. */
 export function formatPosition(position: number): string {
   return new Intl.NumberFormat("en-US").format(position);

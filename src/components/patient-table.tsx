@@ -66,7 +66,7 @@ export function PatientImpactTable({
               <th
                 key={heading}
                 scope="col"
-                className="px-2.5 py-2.5 align-bottom text-[12px] font-semibold uppercase leading-snug tracking-[0.05em] text-faint"
+                className="px-2 py-2.5 align-bottom text-[12px] font-semibold uppercase leading-snug tracking-[0.05em] text-faint"
               >
                 {heading}
               </th>
@@ -84,7 +84,7 @@ export function PatientImpactTable({
                 key={patient.id}
                 className="border-b border-line transition-colors last:border-0 hover:bg-surface-2"
               >
-                <th scope="row" className="whitespace-nowrap px-2.5 py-3">
+                <th scope="row" className="whitespace-nowrap px-2 py-3">
                   <Link
                     href={`/patients/${patient.id}`}
                     className="font-mono text-[12.5px] font-medium text-ink hover:text-accent"
@@ -92,14 +92,14 @@ export function PatientImpactTable({
                     {patient.id}
                   </Link>
                 </th>
-                <td className="whitespace-nowrap px-2.5 py-3 text-[12.5px] text-ink-2 vp-num">
+                <td className="whitespace-nowrap px-2 py-3 text-[12.5px] text-ink-2 vp-num">
                   {patient.ageBand}
                 </td>
-                <td className="whitespace-nowrap px-2.5 py-3 text-[12.5px] text-muted vp-num">
+                <td className="whitespace-nowrap px-2 py-3 text-[12.5px] text-muted vp-num">
                   {formatDate(patient.testedOn)}
                 </td>
                 {showVariant ? (
-                  <td className="whitespace-nowrap px-2.5 py-3">
+                  <td className="whitespace-nowrap px-2 py-3">
                     <Link
                       href={`/variants/${encodeURIComponent(patient.variantKey)}`}
                       className="block text-[12.5px] leading-snug text-ink-2 hover:text-accent"
@@ -111,22 +111,22 @@ export function PatientImpactTable({
                     </Link>
                   </td>
                 ) : null}
-                <td className="px-2.5 py-3">
+                <td className="px-2 py-3">
                   {assessment ? <ClassificationBadge code={assessment.recordedCode} compact /> : "-"}
                 </td>
-                <td className="px-2.5 py-3">
+                <td className="px-2 py-3">
                   {assessment ? <ClassificationBadge code={assessment.currentCode} compact /> : "-"}
                 </td>
-                <td className="px-2.5 py-3 text-[12.5px] leading-snug text-ink-2">
+                <td className="px-2 py-3 text-[12.5px] leading-snug text-ink-2">
                   {patient.orderingDepartment}
                 </td>
-                <td className="px-2.5 py-3 text-[12.5px] leading-snug text-ink-2">
+                <td className="px-2 py-3 text-[12.5px] leading-snug text-ink-2">
                   {patient.clinicalOwner}
                 </td>
-                <td className="whitespace-nowrap px-2.5 py-3 text-[12.5px] text-muted vp-num">
+                <td className="whitespace-nowrap px-2 py-3 text-[12.5px] text-muted vp-num">
                   <RelativeTime value={patient.lastContact} />
                 </td>
-                <td className="px-2.5 py-3">
+                <td className="px-2 py-3">
                   <Badge tone={STATE_TONE[reviewStateFor(patient, caseStatus)]} className="px-2">
                     {reviewStateFor(patient, caseStatus)}
                   </Badge>

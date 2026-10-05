@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f4ed",
+  themeColor: "#f9f5f6",
   width: "device-width",
   initialScale: 1,
 };
@@ -61,11 +61,11 @@ export default async function RootLayout({
             >
               Skip to content
             </a>
-            <div className="flex h-dvh overflow-hidden bg-surface">
+            <div className="vp-ambient flex h-dvh overflow-hidden">
               <div className="hidden lg:block">
                 <Sidebar />
               </div>
-              <div className="relative flex min-w-0 flex-1 flex-col bg-canvas lg:rounded-l-[26px] lg:border-l lg:border-line">
+              <div className="relative flex min-w-0 flex-1 flex-col">
                 <Topbar />
                 <main
                   id="workspace-content"
