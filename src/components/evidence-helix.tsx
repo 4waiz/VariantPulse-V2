@@ -289,7 +289,7 @@ export function EvidenceHelix({
                 <span className="font-normal text-ink-2">{active.assessment.variant.hgvsCoding}</span>
               </span>
               {active.band ? (
-                <span className="shrink-0 text-[11px] text-faint vp-num">{active.band}</span>
+                <span className="shrink-0 text-[12px] text-faint vp-num">{active.band}</span>
               ) : null}
             </p>
             <span className="mt-2 flex flex-wrap items-center gap-1.5">
@@ -297,7 +297,7 @@ export function EvidenceHelix({
               <ArrowRight className="h-3 w-3 text-faint" />
               <ClassificationBadge code={active.assessment.currentCode} />
             </span>
-            <span className="mt-2 flex items-center gap-1.5 text-[11.5px] text-muted">
+            <span className="mt-2 flex items-center gap-1.5 text-[12px] text-muted">
               <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", SIGNALS[active.signal].dot)} />
               {CHANGE_TYPES[active.assessment.changeType].label}
               <span className="text-faint">·</span>
@@ -316,7 +316,7 @@ export function EvidenceHelix({
           ready ? "opacity-100" : "opacity-0",
         )}
       >
-        <span className="flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5 text-[11px] text-muted">
+        <span className="flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5 text-[12px] text-muted">
           {counts.map(({ signal, count }) => (
             <span key={signal} className="inline-flex items-center gap-1.5 whitespace-nowrap">
               <span className={cn("h-2 w-2 rounded-full", SIGNALS[signal].dot)} />
@@ -325,7 +325,7 @@ export function EvidenceHelix({
             </span>
           ))}
         </span>
-        <span className="mt-0.5 block text-[10.5px] text-faint">
+        <span className="mt-0.5 block text-[12px] text-faint">
           Genome order, not to scale · drag to turn
         </span>
       </figcaption>

@@ -224,7 +224,7 @@ function EvidenceBrief({
           <span aria-hidden className={`absolute inset-x-0 top-0 h-1 ${CURRENT.fill}`} />
           <header className="flex items-start justify-between gap-6 border-b border-line pb-5">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-faint">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-faint">
                 Clinical evidence brief
               </p>
               <h1 className="mt-2 text-[24px] font-semibold tracking-tight text-ink">
@@ -233,13 +233,13 @@ function EvidenceBrief({
                   {variant.hgvsCoding}
                 </span>
               </h1>
-              <p className="mt-1 text-[13px] text-muted">{variant.condition}</p>
+              <p className="mt-1 text-[14px] text-muted">{variant.condition}</p>
             </div>
             <div className="shrink-0 text-right">
               <p className="text-[15px] font-semibold tracking-tight text-ink">VariantPulse</p>
-              <p className="mt-0.5 text-[11px] text-faint">Genomic Change Intelligence</p>
+              <p className="mt-0.5 text-[12px] text-faint">Genomic Change Intelligence</p>
               <p className="mt-2 font-mono text-[12px] text-ink-2">{assessment.caseId}</p>
-              <p className="mt-0.5 text-[11px] text-faint">{generatedAt}</p>
+              <p className="mt-0.5 text-[12px] text-faint">{generatedAt}</p>
             </div>
           </header>
 
@@ -254,7 +254,7 @@ function EvidenceBrief({
               <Item label="Review status" value={assessment.confidence.label} />
               <Item label="Submissions" value={String(evidence.submissionCount)} />
             </dl>
-            <p className="mt-3.5 border-l-2 border-line-2 pl-3 text-[12.5px] text-muted">
+            <p className="mt-3.5 border-l-2 border-line-2 pl-3 text-[14px] text-muted">
               The DNA has not changed. Only the interpretation has.
             </p>
           </Section>
@@ -283,15 +283,15 @@ function EvidenceBrief({
           </Section>
 
           <Section title="Evidence summary">
-            <p className="text-[13.5px] leading-relaxed text-ink-2">{assessment.summary}</p>
+            <p className="text-[16px] leading-relaxed text-ink-2">{assessment.summary}</p>
           </Section>
 
           {summaryNote ? (
             <Section title="Summary filed for this case">
-              <p className="whitespace-pre-line text-[13.5px] leading-relaxed text-ink-2">
+              <p className="whitespace-pre-line text-[16px] leading-relaxed text-ink-2">
                 {summaryNote.detail}
               </p>
-              <p className="mt-2 text-[11.5px] text-faint">
+              <p className="mt-2 text-[12px] text-faint">
                 Added by {summaryNote.actor}, {formatDate(summaryNote.at)}, from the drafted
                 evidence summary on the case.
               </p>
@@ -300,7 +300,7 @@ function EvidenceBrief({
 
           {regional && assessment.regionalSignal?.flagged ? (
             <Section title="Regional evidence">
-              <p className="text-[13.5px] leading-relaxed text-ink-2">
+              <p className="text-[16px] leading-relaxed text-ink-2">
                 {assessment.regionalSignal.reason} {regional.note}
               </p>
             </Section>
@@ -311,7 +311,7 @@ function EvidenceBrief({
               <thead>
                 <tr className="border-b border-line">
                   {["Record", "Age band", "Test date", "Department", "Clinical owner"].map((h) => (
-                    <th key={h} className="py-1.5 pr-4 text-[10.5px] font-semibold uppercase tracking-[0.07em] text-faint">
+                    <th key={h} className="py-1.5 pr-4 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint">
                       {h}
                     </th>
                   ))}
@@ -332,7 +332,7 @@ function EvidenceBrief({
           </Section>
 
           <Section title="Review recommendation">
-            <p className="text-[13.5px] leading-relaxed text-ink-2">
+            <p className="text-[16px] leading-relaxed text-ink-2">
               {composeRecommendation(assessment.changeType, assessment.impactedRecordCount)}
             </p>
             <dl className="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -342,7 +342,7 @@ function EvidenceBrief({
               <Item label="History entries" value={String(state.events.length)} />
             </dl>
             {decision ? (
-              <p className="mt-3 text-[12.5px] leading-relaxed text-ink-2">
+              <p className="mt-3 text-[14px] leading-relaxed text-ink-2">
                 <strong className="font-medium text-ink">Clinician decision:</strong>{" "}
                 {decision.decision} ({decision.reviewer}, {formatDate(decision.at)}). {decision.note}
               </p>
@@ -379,7 +379,7 @@ function EvidenceBrief({
               any record and does not issue a diagnosis. Patient records in this workspace are
               synthetic; variant evidence is read from ClinVar.
             </p>
-            <p className="mt-2.5 text-[11px] text-faint">VariantPulse · Built by Team Kanban</p>
+            <p className="mt-2.5 text-[12px] text-faint">VariantPulse · Built by Team Kanban</p>
           </footer>
         </article>
       </div>
@@ -390,7 +390,7 @@ function EvidenceBrief({
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-6">
-      <h2 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-faint">
+      <h2 className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-faint">
         {title}
       </h2>
       {children}
@@ -415,7 +415,7 @@ function Item({
         : "text-ink-2";
   return (
     <div>
-      <dt className="text-[10.5px] font-medium uppercase tracking-[0.07em] text-faint">{label}</dt>
+      <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{label}</dt>
       <dd className={`mt-0.5 text-[13px] ${toneClass}`}>
         {value}
       </dd>

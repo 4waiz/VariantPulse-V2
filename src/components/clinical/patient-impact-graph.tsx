@@ -93,7 +93,7 @@ export function PatientImpactGraph({
 
   if (patients.length === 0) {
     return (
-      <p className={cn("text-[12.5px] text-muted", className)}>
+      <p className={cn("text-[14px] text-muted", className)}>
         No historical records carry this variant.
       </p>
     );
@@ -118,12 +118,12 @@ export function PatientImpactGraph({
             )}
           >
             <span aria-hidden className={cn("absolute inset-y-0 left-0 w-[3px]", changed ? CHANGE.fill : "bg-line-2")} />
-            <p className="text-[10.5px] font-semibold uppercase tracking-[0.11em] text-faint">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.11em] text-faint">
               {changed ? "Changed variant" : "Variant"}
             </p>
             <p className="mt-1 text-[14px] font-semibold text-ink">{variant.gene}</p>
-            <p className="font-mono text-[11.5px] text-muted [overflow-wrap:anywhere]">{variant.hgvsCoding}</p>
-            <p className="mt-2 flex flex-wrap items-center gap-1 text-[11.5px] font-medium">
+            <p className="font-mono text-[12px] text-muted [overflow-wrap:anywhere]">{variant.hgvsCoding}</p>
+            <p className="mt-2 flex flex-wrap items-center gap-1 text-[12px] font-medium">
               <span className={HISTORICAL.text}>{meta(recordedCode).short}</span>
               <ArrowRight aria-hidden className={cn("h-3 w-3", changed ? CHANGE.icon : "text-faint")} />
               <span className={changed ? CURRENT.text : "text-ink-2"}>{meta(currentCode).short}</span>
@@ -191,7 +191,7 @@ export function PatientImpactGraph({
                   </span>
                   <span className="min-w-0">
                     <span className="block font-mono text-[12.5px] font-medium text-ink">{patient.id}</span>
-                    <span className="block truncate text-[11px] text-muted vp-num">
+                    <span className="block truncate text-[12px] text-muted vp-num">
                       Tested {formatDate(patient.testedOn)}
                     </span>
                   </span>
@@ -215,7 +215,7 @@ export function PatientImpactGraph({
               {reviewStateFor(selected, caseStatus)}
             </Badge>
           </div>
-          <p className="mt-0.5 text-[11.5px] text-muted">
+          <p className="mt-0.5 text-[12px] text-muted">
             {selected.ageBand} · {selected.orderingDepartment}
           </p>
           <dl className="mt-3.5 space-y-3">
@@ -226,7 +226,7 @@ export function PatientImpactGraph({
               value={
                 <span className="inline-flex flex-wrap items-center gap-1.5">
                   <ClassificationBadge code={recordedCode} full />
-                  <span className="text-[11.5px] text-muted">reported {formatDate(variant.recordedOn)}</span>
+                  <span className="text-[12px] text-muted">reported {formatDate(variant.recordedOn)}</span>
                 </span>
               }
             />
@@ -235,7 +235,7 @@ export function PatientImpactGraph({
               value={
                 <span className="inline-flex flex-wrap items-center gap-1.5">
                   <ClassificationBadge code={currentCode} full />
-                  <span className="text-[11.5px] text-muted">
+                  <span className="text-[12px] text-muted">
                     ClinVar, evaluated {formatDate(evidence.lastEvaluated)}
                   </span>
                 </span>
@@ -261,7 +261,7 @@ export function PatientImpactGraph({
 function Detail({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="grid grid-cols-[110px_minmax(0,1fr)] items-baseline gap-3">
-      <dt className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">{label}</dt>
+      <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{label}</dt>
       <dd className="min-w-0 text-[13px] text-ink">{value}</dd>
     </div>
   );

@@ -122,7 +122,7 @@ export default function SettingsPage() {
           <Field label="Access role" value={ROLES[persona.role].label} />
           <Field label="Organisation" value={persona.organisation} />
         </dl>
-        <p className="mt-4 border-t border-line pt-3.5 text-[12.5px] leading-relaxed text-muted">
+        <p className="mt-4 border-t border-line pt-3.5 text-[14px] leading-relaxed text-muted">
           {ROLES[persona.role].description}
         </p>
       </Card>
@@ -158,12 +158,12 @@ export default function SettingsPage() {
                     >
                       <Icon className="h-4 w-4" />
                     </span>
-                    <span className="text-[10.5px] font-semibold text-faint vp-num">
+                    <span className="text-[12px] font-semibold text-faint vp-num">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
-                  <p className="mt-2.5 text-[13px] font-semibold text-ink">{stage.title}</p>
-                  <p className="mt-1 text-[11.5px] leading-snug text-muted">{stage.detail}</p>
+                  <p className="mt-2.5 text-[14px] font-semibold text-ink">{stage.title}</p>
+                  <p className="mt-1 text-[13px] leading-snug text-muted">{stage.detail}</p>
                 </div>
               </li>
             );
@@ -192,8 +192,8 @@ export default function SettingsPage() {
                 <span className="grid h-8 w-8 place-items-center rounded-lg bg-surface text-accent">
                   <Icon className="h-4 w-4" />
                 </span>
-                <p className="mt-2.5 text-[13px] font-semibold text-ink">{agent.name}</p>
-                <p className="mt-1 text-[11.5px] leading-snug text-muted">{agent.role}</p>
+                <p className="mt-2.5 text-[14px] font-semibold text-ink">{agent.name}</p>
+                <p className="mt-1 text-[13px] leading-snug text-muted">{agent.role}</p>
               </div>
             );
           })}
@@ -207,7 +207,7 @@ export default function SettingsPage() {
             title="Security and privacy"
             icon={<ShieldCheck className="h-4 w-4" />}
           />
-          <ul className="mt-4 space-y-3 text-[13px] leading-relaxed text-ink-2">
+          <ul className="mt-4 space-y-3 text-[16px] leading-relaxed text-ink-2">
             <Point>
               <strong className="font-medium text-ink">Role-based access.</strong> Four roles with
               fixed permissions, and separation of duties on anything that reaches a patient. Every
@@ -229,7 +229,7 @@ export default function SettingsPage() {
               attached to them is real and independently verifiable.
             </Point>
           </ul>
-          <p className="mt-4 border-t border-line pt-3.5 text-[11.5px] leading-relaxed text-faint">
+          <p className="mt-4 border-t border-line pt-3.5 text-[12px] leading-relaxed text-faint">
             This workspace is not a certified medical device and has not been through regulatory
             assessment. It is decision support for a clinical team, not a diagnostic system.
           </p>
@@ -282,7 +282,7 @@ export default function SettingsPage() {
 
       <Card className="mt-5 p-5">
         <SectionHeading title="Built for population-scale genomic programmes" />
-        <p className="mt-3 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
+        <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-ink-2">
           Reclassification is not an edge case. It is the normal behaviour of a field where
           evidence accumulates faster than reports are revisited. A programme sequencing at
           population scale accumulates that debt continuously, and the gap widens quietly. Watching

@@ -191,14 +191,14 @@ export default function SourcesPage() {
                       </a>
                     ) : null}
                   </div>
-                  <p className="mt-1 text-[12.5px] text-muted">{source.description}</p>
+                  <p className="mt-1 text-[14px] text-muted">{source.description}</p>
                 </div>
               </div>
 
               <dl className="mt-4 grid grid-cols-3 gap-4 border-t border-line pt-3.5">
                 {source.stats.map((stat) => (
                   <div key={stat.label}>
-                    <dt className="text-[10.5px] font-medium uppercase tracking-[0.07em] text-faint">
+                    <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">
                       {stat.label}
                     </dt>
                     <dd className="mt-1 text-[13.5px] font-medium text-ink vp-num">{stat.value}</dd>
@@ -206,7 +206,7 @@ export default function SourcesPage() {
                 ))}
               </dl>
 
-              <p className="mt-3.5 text-[12px] leading-relaxed text-muted">{source.detail}</p>
+              <p className="mt-3.5 text-[14px] leading-relaxed text-muted">{source.detail}</p>
             </Card>
           );
         })}
@@ -217,7 +217,7 @@ export default function SourcesPage() {
           title="When a source is unreachable"
           description="The workspace degrades visibly rather than silently."
         />
-        <ul className="mt-4 space-y-2.5 text-[13px] leading-relaxed text-ink-2">
+        <ul className="mt-4 space-y-2.5 text-[16px] leading-relaxed text-ink-2">
           <li className="flex gap-2.5">
             <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-warn" />
             Demo mode, the default, serves the bundled snapshot with no network access, so every
@@ -256,7 +256,7 @@ export default function SourcesPage() {
                   {integration.status}
                 </Badge>
               </dt>
-              <dd className="text-[12.5px] leading-relaxed text-ink-2">
+              <dd className="text-[14px] leading-relaxed text-ink-2">
                 {integration.detail}
                 {integration.href ? (
                   <Link href={integration.href} className="ml-1.5 inline-flex items-center gap-1 font-medium text-accent hover:underline">

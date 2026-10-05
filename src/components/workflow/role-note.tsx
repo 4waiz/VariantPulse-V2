@@ -29,7 +29,7 @@ export function RoleNote({
   const offer = target && target.id !== persona.id ? target : undefined;
 
   return (
-    <p className={cn("flex items-start gap-2 text-[11.5px] leading-relaxed text-muted", className)}>
+    <p className={cn("flex items-start gap-2 text-[13px] leading-relaxed text-muted", className)}>
       <Lock className="mt-[3px] h-3 w-3 shrink-0 text-faint" aria-hidden />
       <span>
         {reason}

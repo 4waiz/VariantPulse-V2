@@ -143,7 +143,7 @@ function SilentScope() {
             <Lock className="h-4 w-4 text-warn" />
             <Eyebrow>Held while silent</Eyebrow>
           </div>
-          <ul className="mt-3 space-y-2 text-[13px] leading-relaxed text-ink-2">
+          <ul className="mt-3 space-y-2 text-[16px] leading-relaxed text-ink-2">
             <li>Patient explanation letters: not drafted or released.</li>
             <li>Referrals and anything else that reaches a patient: approved and recorded, never carried out.</li>
             <li>FHIR export to hospital systems: unavailable.</li>
@@ -154,14 +154,14 @@ function SilentScope() {
             <ShieldCheck className="h-4 w-4 text-ok" />
             <Eyebrow>Carries on, so it can be measured</Eyebrow>
           </div>
-          <ul className="mt-3 space-y-2 text-[13px] leading-relaxed text-ink-2">
+          <ul className="mt-3 space-y-2 text-[16px] leading-relaxed text-ink-2">
             <li>Detection, record matching and the review queue.</li>
             <li>Owners, deadlines, decisions and approvals, with their timings.</li>
             <li>The case histories and the audit trail.</li>
           </ul>
         </div>
       </div>
-      <p className="mt-4 border-t border-line pt-3.5 text-[12px] leading-relaxed text-muted">
+      <p className="mt-4 border-t border-line pt-3.5 text-[14px] leading-relaxed text-muted">
         {silentMode
           ? "Silent pilot mode is on for this session. A banner on every case says so."
           : "Silent pilot mode is off. The service lead switches it on for an evaluation run."}
@@ -194,7 +194,7 @@ function Replay() {
           description="ClinVar's archived releases, run checkpoint by checkpoint against the classifications on record, through the same engine as the live workspace."
         />
         {first && second && third ? (
-          <p className="mt-3 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
+          <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-ink-2">
             Had VariantPulse been watching since {replay.baseline.label}, it would have held{" "}
             <strong className="font-semibold text-ink vp-num">{replay.alertsAt[first.release]}</strong> open
             alert{replay.alertsAt[first.release] === 1 ? "" : "s"} by {first.label},{" "}
@@ -226,15 +226,15 @@ function Replay() {
                   <th scope="row" className="px-4 py-2.5">
                     <Link href={`/variants/${encodeURIComponent(row.key)}`} className="hover:text-accent">
                       <span className="text-[13px] font-semibold text-ink">{row.gene}</span>{" "}
-                      <span className="font-mono text-[11.5px] text-muted">{row.hgvs}</span>
+                      <span className="font-mono text-[12px] text-muted">{row.hgvs}</span>
                     </Link>
-                    <span className="block text-[11px] text-faint">
+                    <span className="block text-[12px] text-faint">
                       {row.records} record{row.records === 1 ? "" : "s"}
                     </span>
                   </th>
                   <td className="px-4 py-2.5">
                     <span className="text-[12.5px] font-medium text-ink-2">{meta(row.baseline).short}</span>
-                    <span className="block text-[11px] text-faint">{row.baselineSource}</span>
+                    <span className="block text-[12px] text-faint">{row.baselineSource}</span>
                   </td>
                   {row.cells.map((cell) => (
                     <td key={cell.release} className="px-4 py-2.5">
@@ -265,7 +265,7 @@ function Replay() {
           </tbody>
         </table>
       </div>
-      <p className="border-t border-line px-5 py-3.5 text-[12px] leading-relaxed text-muted">
+      <p className="border-t border-line px-5 py-3.5 text-[13px] leading-relaxed text-muted">
         Archived readings exist only at these checkpoints, so each change is dated to the first one that shows
         it. Regional signals are not replayed: the regional sources were read once, on 25 Sep 2026. &ldquo;Today&rdquo;
         is the current analysis, which is how CFTR c.601G&gt;A carries a case with no global change.
@@ -294,14 +294,14 @@ function ReplayCell({
       title={CHANGE_TYPES[changeType].description}
     >
       <span className="text-[12px] font-semibold">{label}</span>
-      <span className="text-[10.5px] font-medium">{CHANGE_TYPES[changeType].label}</span>
+      <span className="text-[12px] font-medium">{CHANGE_TYPES[changeType].label}</span>
     </span>
   );
 }
 
 function Th({ children }: { children: React.ReactNode }) {
   return (
-    <th scope="col" className="whitespace-nowrap px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint">
+    <th scope="col" className="whitespace-nowrap px-4 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint">
       {children}
     </th>
   );
@@ -357,7 +357,7 @@ function Metrics({ evaluation }: { evaluation: ReturnType<typeof evaluate> }) {
     <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
       {tiles.map((tile) => (
         <Card key={tile.label} className="flex flex-col p-4">
-          <p className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">{tile.label}</p>
+          <p className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{tile.label}</p>
           <p
             className={cn(
               "mt-2 text-[22px] font-semibold leading-none tracking-tight vp-num",
@@ -366,8 +366,8 @@ function Metrics({ evaluation }: { evaluation: ReturnType<typeof evaluate> }) {
           >
             {tile.value ?? "Not measured"}
           </p>
-          <p className="mt-1.5 text-[11.5px] text-muted vp-num">{tile.n}</p>
-          <p className="mt-auto pt-3 text-[11.5px] leading-snug text-ink-2">{tile.establishes}</p>
+          <p className="mt-1.5 text-[12px] text-muted vp-num">{tile.n}</p>
+          <p className="mt-auto pt-3 text-[13px] leading-snug text-ink-2">{tile.establishes}</p>
           {tile.href && !imports ? (
             <Link href={tile.href} className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-accent hover:underline">
               Review an import
@@ -466,7 +466,7 @@ function Worklist({ alertKeys }: { alertKeys: string[] }) {
             <FileUp className="h-3.5 w-3.5" />
             Load reference set
           </Button>
-          <input ref={fileRef} type="file" accept=".csv,text/csv" className="hidden" onChange={onFile} />
+          <input ref={fileRef} name="reference-set" type="file" accept=".csv,text/csv" className="hidden" onChange={onFile} />
           <Button size="sm" onClick={exportLabels}>
             <Download className="h-3.5 w-3.5" />
             Labels
@@ -475,7 +475,7 @@ function Worklist({ alertKeys }: { alertKeys: string[] }) {
       </div>
 
       {loaded || problems.length > 0 ? (
-        <div className="border-b border-line bg-surface-2 px-5 py-3 text-[12.5px] leading-relaxed">
+        <div className="border-b border-line bg-surface-2 px-5 py-3 text-[14px] leading-relaxed">
           {loaded ? <p className="text-ok">{loaded}</p> : null}
           {problems.map((problem) => (
             <p key={problem} className="text-warn">
@@ -499,11 +499,11 @@ function Worklist({ alertKeys }: { alertKeys: string[] }) {
           return (
             <li key={key} className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3">
               <div className="min-w-0 flex-1 basis-56">
-                <p className="text-[13px] text-ink">
+                <p className="text-[14px] text-ink">
                   <span className="font-semibold">{assessment.variant.gene}</span>{" "}
-                  <span className="font-mono text-[11.5px] text-muted">{assessment.variant.hgvsCoding}</span>
+                  <span className="font-mono text-[12px] text-muted">{assessment.variant.hgvsCoding}</span>
                 </p>
-                <p className="mt-1 flex flex-wrap items-center gap-1.5 text-[11.5px] text-muted">
+                <p className="mt-1 flex flex-wrap items-center gap-1.5 text-[12px] text-muted">
                   {alerted ? (
                     <>
                       <Badge tone="muted">{assessment.caseId}</Badge>
@@ -536,7 +536,7 @@ function Worklist({ alertKeys }: { alertKeys: string[] }) {
                   ))}
                 </select>
                 {current ? (
-                  <span className="text-[11px] text-faint">
+                  <span className="text-[12px] text-faint">
                     {current.reviewer} · {formatDate(current.at)}
                     {current.source === "reference-set" ? " · reference set" : ""}
                   </span>
@@ -601,7 +601,7 @@ function Criteria({ evaluation, criteria }: { evaluation: ReturnType<typeof eval
               <li key={result.key} className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1 py-2.5">
                 <span className="min-w-0">
                   <span className="block text-[13px] font-medium text-ink">{result.label}</span>
-                  <span className="block text-[11.5px] text-muted">
+                  <span className="block text-[12px] text-muted">
                     Target: {result.target} · Observed: {result.observed}
                   </span>
                 </span>
@@ -611,7 +611,7 @@ function Criteria({ evaluation, criteria }: { evaluation: ReturnType<typeof eval
               </li>
             ))}
           </ul>
-          <p className="mt-2 text-[11.5px] leading-relaxed text-faint">
+          <p className="mt-2 text-[12px] leading-relaxed text-faint">
             {criteria.agreedWith ? `Agreed with ${criteria.agreedWith}.` : "Not yet agreed with a partner."}
           </p>
           {!canEdit ? <RoleNote className="mt-2" reason={denial(persona, "pilot:configure")} switchTo={SERVICE_LEAD.id} /> : null}
@@ -658,7 +658,7 @@ function CriteriaForm({
 
   const field = (id: string, label: string, value: string, set: (v: string) => void, suffix: string) => (
     <label htmlFor={id} className="block">
-      <span className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">{label}</span>
+      <span className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{label}</span>
       <span className="mt-1.5 flex items-center gap-2">
         <input
           id={id}
@@ -680,7 +680,7 @@ function CriteriaForm({
       {field("crit-false", "False or duplicate alerts, at most", falseRate, setFalseRate, "% of alerts")}
       {field("crit-minutes", "Median review time, at most", minutes, setMinutes, "minutes")}
       <label htmlFor="crit-agreed" className="block">
-        <span className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">Agreed with</span>
+        <span className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">Agreed with</span>
         <input
           id="crit-agreed"
           value={agreedWith}
@@ -697,7 +697,7 @@ function CriteriaForm({
           Cancel
         </Button>
       </div>
-      <p className="text-[11.5px] leading-relaxed text-faint">Leave a field empty until it has been agreed.</p>
+      <p className="text-[12px] leading-relaxed text-faint">Leave a field empty until it has been agreed.</p>
     </form>
   );
 }
@@ -720,10 +720,10 @@ function Protocol() {
       <ol className="mt-4 space-y-2.5">
         {PROTOCOL.map((step, index) => (
           <li key={step} className="flex gap-3">
-            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-[11.5px] font-semibold text-accent vp-num">
+            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-[12px] font-semibold text-accent vp-num">
               {index + 1}
             </span>
-            <span className="text-[13px] leading-relaxed text-ink-2">{step}</span>
+            <span className="text-[16px] leading-relaxed text-ink-2">{step}</span>
           </li>
         ))}
       </ol>
@@ -763,7 +763,7 @@ function Walkthrough() {
               </span>
               <span className="min-w-0">
                 <span className="block text-[13.5px] font-semibold text-ink">{step.title}</span>
-                <span className="mt-1 block text-[12.5px] leading-relaxed text-muted">{step.detail}</span>
+                <span className="mt-1 block text-[14px] leading-relaxed text-muted">{step.detail}</span>
               </span>
             </Link>
           </li>

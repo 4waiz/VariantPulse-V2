@@ -91,7 +91,7 @@ export default function PatientsPage() {
                 )}
               >
                 {option.label}
-                <span className="text-[11px] text-faint vp-num">{counts[option.id]}</span>
+                <span className="text-[12px] text-faint vp-num">{counts[option.id]}</span>
               </button>
             ))}
           </div>
@@ -99,6 +99,7 @@ export default function PatientsPage() {
           <label className="ml-auto flex h-9 min-w-[220px] flex-1 items-center gap-2 rounded-xl border border-line px-3 sm:max-w-[280px] sm:flex-none">
             <Search className="h-3.5 w-3.5 shrink-0 text-faint" />
             <input
+              name="filter-records"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Filter records"

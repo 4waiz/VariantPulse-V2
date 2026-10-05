@@ -122,7 +122,7 @@ export function DecisionBlock({
 
       {earlier.length > 0 ? (
         <div className="mt-4 border-t border-line pt-3.5">
-          <p className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">
+          <p className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">
             Amended {earlier.length === 1 ? "once" : `${earlier.length} times`} · earlier entries
           </p>
           <ol className="mt-2.5 space-y-3">
@@ -135,7 +135,7 @@ export function DecisionBlock({
         </div>
       ) : null}
 
-      <p className="mt-4 text-[11.5px] leading-relaxed text-faint">
+      <p className="mt-4 text-[12px] leading-relaxed text-faint">
         Read-only. An amendment is added to this record; it never replaces what was decided.
       </p>
     </Card>
@@ -161,7 +161,7 @@ function DecisionEntry({
       </p>
       <p
         className={cn(
-          "mt-1.5 text-[13px] leading-relaxed [overflow-wrap:anywhere]",
+          "mt-1.5 text-[16px] leading-relaxed [overflow-wrap:anywhere]",
           muted ? "text-muted" : "text-ink-2",
         )}
       >

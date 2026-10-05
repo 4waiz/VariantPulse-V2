@@ -110,7 +110,11 @@ function shape(record, citations) {
     clinvarId: record.uid,
     accession: record.accession,
     title: record.title,
-    gene: record.genes?.[0]?.symbol ?? null,
+    // ClinVar can list an overlapping locus first; prefer the gene named in the title.
+    gene:
+      (record.genes ?? []).find((g) => record.title?.includes(`(${g.symbol})`))?.symbol ??
+      record.genes?.[0]?.symbol ??
+      null,
     cdnaChange: variation.cdna_change ?? null,
     variantType: variation.variant_type ?? record.obj_type ?? null,
     molecularConsequence: (record.molecular_consequence_list ?? [])[0] ?? null,

@@ -140,10 +140,10 @@ export function ScienceTimeline({
                 {event.year}
               </span>
               <span className="min-w-0 flex-1 pt-1.5">
-                <span className="block text-[13.5px] font-medium leading-snug text-ink">
+                <span className="block text-[15px] font-medium leading-snug text-ink">
                   {event.title}
                 </span>
-                <span className="mt-1 block text-[12.5px] leading-relaxed text-muted">
+                <span className="mt-1 block text-[14px] leading-relaxed text-muted">
                   {event.detail}
                 </span>
               </span>
@@ -177,10 +177,10 @@ export function ReasoningPanel({
           <Info className="h-4 w-4" />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block text-[13.5px] font-semibold text-ink">
+          <span className="block text-[15px] font-semibold text-ink">
             How VariantPulse reached this result
           </span>
-          <span className="block text-[12px] text-muted">
+          <span className="block text-[13px] text-muted">
             Eight steps, each one inspectable
           </span>
         </span>
@@ -193,12 +193,12 @@ export function ReasoningPanel({
             {index < assessment.pipeline.length - 1 ? (
               <span aria-hidden className="absolute left-3 top-7 h-[calc(100%-12px)] w-px bg-line" />
             ) : null}
-            <span className="z-10 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-line bg-surface text-[11px] font-semibold text-muted vp-num">
+            <span className="z-10 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-line bg-surface text-[12px] font-semibold text-muted vp-num">
               {index + 1}
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block text-[13px] font-medium text-ink">{step.label}</span>
-              <span className="mt-0.5 block text-[12.5px] leading-relaxed text-muted">
+              <span className="block text-[14px] font-medium text-ink">{step.label}</span>
+              <span className="mt-0.5 block text-[14px] leading-relaxed text-muted">
                 {step.detail}
               </span>
             </span>
@@ -224,14 +224,14 @@ export function EvidenceSummaryPanel({
         <span className="grid h-7 w-7 place-items-center rounded-lg bg-accent-soft text-accent">
           <Sparkles className="h-3.5 w-3.5" />
         </span>
-        <h3 className="text-[13.5px] font-semibold text-ink">Evidence summary</h3>
+        <h3 className="text-[15px] font-semibold text-ink">Evidence summary</h3>
         <Badge tone="muted" className="ml-auto">
           Decision support
         </Badge>
       </div>
       <div className="px-5 py-4">
-        <p className="text-[14px] leading-relaxed text-ink-2">{assessment.summary}</p>
-        <p className="mt-3.5 border-t border-line pt-3 text-[11.5px] leading-relaxed text-faint">
+        <p className="text-[16px] leading-relaxed text-ink-2">{assessment.summary}</p>
+        <p className="mt-3.5 border-t border-line pt-3 text-[12px] leading-relaxed text-faint">
           Composed from the structured fields of the records cited on this page. Requires
           clinical verification before it informs any decision.
         </p>
@@ -353,7 +353,7 @@ export function EvidenceComparison({
                   <th
                     key={heading}
                     scope="col"
-                    className="px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint"
+                    className="px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint"
                   >
                     {heading}
                   </th>
@@ -367,7 +367,7 @@ export function EvidenceComparison({
                 <th scope="row" className="px-5 py-3.5 text-[13px] font-medium text-ink">
                   {row.source}
                   {row.note ? (
-                    <span className="mt-1 block max-w-[15rem] text-[11.5px] font-normal leading-snug text-faint">
+                    <span className="mt-1 block max-w-[15rem] text-[12px] font-normal leading-snug text-faint">
                       {row.note}
                     </span>
                   ) : null}
@@ -439,7 +439,7 @@ export function RegionalComparison({
   return (
     <Card className={cn("overflow-hidden", className)}>
       <div className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-4">
-        <h3 className="text-[14px] font-semibold text-ink">Global and regional evidence</h3>
+        <h3 className="text-[15px] font-semibold text-ink">Global and regional evidence</h3>
         {conflicting ? (
           <Badge tone="warning" dot>
             Regional conflict
@@ -520,14 +520,14 @@ export function RegionalComparison({
 
       <div className="border-t border-line bg-surface-2 px-5 py-4">
         <Eyebrow>VariantPulse analysis</Eyebrow>
-        <p className="mt-2 text-[13px] leading-relaxed text-ink-2">
+        <p className="mt-2 text-[16px] leading-relaxed text-ink-2">
           {conflicting
             ? regionalSignal?.reason
             : "Both sources place this variant in the same band, so there is no divergence to resolve."}{" "}
           {regional.note}
         </p>
         {conflicting ? (
-          <p className="mt-3 text-[12.5px] font-medium text-ink">
+          <p className="mt-3 text-[14px] font-medium text-ink">
             VariantPulse recommends manual review due to conflicting interpretation across
             evidence sources. It does not rank one source above the other.
           </p>
@@ -587,7 +587,7 @@ export function PriorityPanel({
           <li key={factor.label} className="flex items-start gap-3">
             <span
               className={cn(
-                "mt-0.5 rounded-md px-1.5 py-0.5 text-[11px] font-semibold vp-num",
+                "mt-0.5 rounded-md px-1.5 py-0.5 text-[12px] font-semibold vp-num",
                 factor.weight >= 0 ? "bg-accent-soft text-accent" : "bg-surface-3 text-muted",
               )}
             >
@@ -595,8 +595,8 @@ export function PriorityPanel({
               {factor.weight}
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block text-[13px] font-medium text-ink">{factor.label}</span>
-              <span className="block text-[12px] leading-snug text-muted">{factor.detail}</span>
+              <span className="block text-[14px] font-medium text-ink">{factor.label}</span>
+              <span className="block text-[13px] leading-snug text-muted">{factor.detail}</span>
             </span>
           </li>
         ))}

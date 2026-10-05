@@ -94,7 +94,7 @@ export default function EvidencePage() {
                       <span className="block truncate text-[13px] font-semibold text-ink">
                         {item.variant.gene}
                       </span>
-                      <span className="block truncate font-mono text-[11.5px] text-muted">
+                      <span className="block truncate font-mono text-[12px] text-muted">
                         {item.variant.hgvsCoding}
                       </span>
                       <span className="mt-1.5 block">
@@ -118,13 +118,13 @@ export default function EvidencePage() {
                     {assessment.variant.hgvsCoding}
                   </span>
                 </h2>
-                <p className="mt-1 text-[13px] text-muted">
+                <p className="mt-1 text-[14px] text-muted">
                   {assessment.variant.condition} · {assessment.variant.panel}
                 </p>
               </div>
               <div className="text-right">
                 <ClassificationBadge code={assessment.currentCode} full />
-                <p className="mt-1.5 text-[11.5px] text-faint">
+                <p className="mt-1.5 text-[12px] text-faint">
                   Last evaluated {formatDate(assessment.evidence.lastEvaluated)}
                 </p>
               </div>

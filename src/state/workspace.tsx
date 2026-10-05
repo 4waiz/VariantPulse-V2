@@ -35,7 +35,7 @@ import {
 } from "@/lib/decision";
 import { EVIDENCE_MODES } from "@/lib/evidence-mode";
 import { parseScanTiming } from "@/lib/impact";
-import { composeReviewReason, workspaceScope } from "@/lib/narrative";
+import { workspaceScope } from "@/lib/narrative";
 import type { ImportTotals } from "@/lib/onboarding";
 import {
   ADJUDICATION,
@@ -44,6 +44,7 @@ import {
   type AdjudicationLabel,
   type SuccessCriteria,
 } from "@/lib/pilot";
+import { SYSTEM_ACTOR, SYSTEM_ROLE, seedActivity, type ActivityEntry } from "@/lib/trail";
 import { ROLES, can as roleCan, canApproveFollowUp, canCloseCase, type Permission } from "@/lib/roles";
 import { formatDate } from "@/lib/utils";
 import {
@@ -63,34 +64,7 @@ import {
 import { DEFAULT_PERSONA, PERSONA_BY_ID, SERVICE_LEAD, type Persona } from "@/data/workspace";
 
 export type { CaseState } from "@/lib/workflow";
-
-export interface ActivityEntry {
-  id: string;
-  at: string;
-  title: string;
-  detail?: string;
-  /** Who performed the action: a named person, or VariantPulse for engine events. */
-  actor: string;
-  /** The actor's role at the time. */
-  role?: string;
-  caseId?: string;
-  kind:
-    | "sync"
-    | "detection"
-    | "impact"
-    | "case"
-    | "assignment"
-    | "note"
-    | "evidence-request"
-    | "follow-up"
-    | "approval"
-    | "review"
-    | "escalation"
-    | "closure"
-    | "import"
-    | "pilot"
-    | "session";
-}
+export type { ActivityEntry } from "@/lib/trail";
 
 export type SyncStage =
   | { phase: "idle" }
@@ -159,9 +133,11 @@ interface WorkspaceValue {
 const WorkspaceContext = React.createContext<WorkspaceValue | null>(null);
 
 // v5: case state keyed by variant, and follow-ups tied to the decision they
-// serve. Earlier shapes are discarded rather than migrated.
-const STORAGE_KEY = "variantpulse.session.v5";
+// serve. v6: the panel grew to 25 cases and the seeded trail carries the
+// evidence read's real time. Earlier shapes are discarded rather than migrated.
+const STORAGE_KEY = "variantpulse.session.v6";
 const RETIRED_KEYS = [
+  "variantpulse.session.v5",
   "variantpulse.session.v4",
   "variantpulse.session.v3",
   "variantpulse.session.v2",
@@ -178,70 +154,7 @@ const SYNC_STEPS = [
   { label: "Preparing evidence briefs", detail: "Composing summaries from the cited records" },
 ];
 
-const SYSTEM_ACTOR = "VariantPulse";
-const SYSTEM_ROLE = "System";
-
 const newId = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-
-/** Seeds the trail with the work the engine has already done. */
-function seedActivity(analysis: ClientAnalysis): ActivityEntry[] {
-  const base = new Date(analysis.checkedAt).getTime();
-  const at = (offsetSeconds: number) => new Date(base + offsetSeconds * 1000).toISOString();
-  const entries: ActivityEntry[] = [
-    {
-      id: "seed-sync",
-      at: at(0),
-      kind: "sync",
-      actor: SYSTEM_ACTOR,
-      role: SYSTEM_ROLE,
-      title: "Evidence sync completed",
-      detail: `${analysis.scan.findingsChecked.toLocaleString("en-US")} findings checked against ${EVIDENCE_MODES[analysis.mode].noun} evidence`,
-    },
-  ];
-
-  const reviewable = analysis.assessments
-    .filter((a) => a.caseId)
-    .sort((a, b) => (a.caseId ?? "").localeCompare(b.caseId ?? ""));
-
-  reviewable.forEach((assessment, index) => {
-    const caseId = assessment.caseId ?? undefined;
-    const label = `${assessment.variant.gene} ${assessment.variant.hgvsCoding}`;
-    entries.push(
-      {
-        id: `seed-detect-${assessment.variant.key}`,
-        at: at(30 + index * 22),
-        kind: "detection",
-        actor: SYSTEM_ACTOR,
-        role: SYSTEM_ROLE,
-        caseId,
-        title: composeReviewReason(assessment.changeType, assessment.variant.gene),
-        detail: label,
-      },
-      {
-        id: `seed-impact-${assessment.variant.key}`,
-        at: at(38 + index * 22),
-        kind: "impact",
-        actor: SYSTEM_ACTOR,
-        role: SYSTEM_ROLE,
-        caseId,
-        title: `${assessment.impactedRecordCount} historical record${assessment.impactedRecordCount === 1 ? "" : "s"} mapped`,
-        detail: label,
-      },
-      {
-        id: `seed-case-${assessment.variant.key}`,
-        at: at(46 + index * 22),
-        kind: "case",
-        actor: SYSTEM_ACTOR,
-        role: SYSTEM_ROLE,
-        caseId,
-        title: `Clinical review case ${assessment.caseId} created`,
-        detail: `Priority ${assessment.priority.level.toLowerCase()}`,
-      },
-    );
-  });
-
-  return entries.sort((a, b) => b.at.localeCompare(a.at));
-}
 
 interface Persisted {
   /** When this session's cases were raised; deadlines run from here. */

@@ -117,19 +117,21 @@ export function Topbar() {
             <span className="text-[12px] font-medium text-ink-2">
               {modeMeta.indicator}
             </span>
-            <RelativeTime value={lastChecked} className="text-[11.5px] text-faint vp-num" />
+            <RelativeTime value={lastChecked} className="text-[12px] text-faint vp-num" />
           </span>
 
           <button
             type="button"
             onClick={() => setPaletteOpen(true)}
+            aria-label="Search patients, variants and cases"
+            aria-keyshortcuts="Control+K Meta+K"
             className="group flex h-10 items-center gap-2.5 rounded-xl border border-line bg-surface px-3 text-left transition-colors hover:border-line-2 sm:w-[268px]"
           >
             <Search className="h-4 w-4 shrink-0 text-faint" />
             <span className="hidden flex-1 truncate text-[13px] text-faint sm:block">
               Search patients, variants...
             </span>
-            <kbd className="hidden shrink-0 rounded-md border border-line bg-surface-2 px-1.5 py-0.5 text-[10.5px] font-medium text-faint sm:block">
+            <kbd className="hidden shrink-0 rounded-md border border-line bg-surface-2 px-1.5 py-0.5 text-[12px] font-medium text-faint sm:block">
               {shortcut}
             </kbd>
           </button>
@@ -144,7 +146,7 @@ export function Topbar() {
             >
               <Bell className="h-[17px] w-[17px]" />
               {open.length > 0 ? (
-                <span className="absolute right-2 top-2 grid h-[15px] min-w-[15px] place-items-center rounded-full bg-crit px-1 text-[9.5px] font-bold text-white vp-num">
+                <span className="absolute -right-1.5 -top-1.5 grid h-[19px] min-w-[19px] place-items-center rounded-full bg-crit px-1 text-[12px] font-bold leading-none text-white ring-2 ring-surface vp-num">
                   {open.length}
                 </span>
               ) : null}
@@ -176,7 +178,7 @@ export function Topbar() {
                           <span className="block text-[12.5px] font-medium text-ink">
                             {a.variant.gene} {a.variant.hgvsCoding}
                           </span>
-                          <span className="mt-0.5 block text-[11.5px] text-muted">
+                          <span className="mt-0.5 block text-[12px] text-muted">
                             {a.caseId} · {getCase(a.caseId as string).owner ?? "Unassigned"}
                           </span>
                         </span>
@@ -231,7 +233,7 @@ export function Topbar() {
 export function ProtectedWorkspaceMark({ className }: { className?: string }) {
   return (
     <span
-      className={cn("inline-flex items-center gap-1.5 text-[11.5px] text-faint", className)}
+      className={cn("inline-flex items-center gap-1.5 text-[12px] text-faint", className)}
       title="Role-based access, full audit trail, and no patient identifiers sent to external services."
     >
       <ShieldCheck className="h-3.5 w-3.5" />

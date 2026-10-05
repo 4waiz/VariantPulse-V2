@@ -117,6 +117,8 @@ export function Sidebar() {
           <span className="block text-[16.5px] font-semibold leading-none tracking-tight text-ink">
             VariantPulse
           </span>
+          {/* Part of the logo lockup, so held at its drawn size: the one text on
+              the page below the 12px floor, as a logotype (cf. WCAG 1.4.3). */}
           <span className="mt-[5px] block whitespace-nowrap text-[10.5px] font-medium leading-none text-faint">
             Genomic Change Intelligence
           </span>
@@ -127,7 +129,7 @@ export function Sidebar() {
         {GROUPS.map((group, index) => (
           <div key={group.label ?? "workspace"} className={cn(index > 0 && "mt-3 border-t border-line pt-3")}>
             {group.label ? (
-              <p className="px-3 pb-1.5 text-[10.5px] font-semibold uppercase tracking-[0.13em] text-faint">
+              <p className="px-3 pb-1.5 text-[12px] font-semibold uppercase tracking-[0.13em] text-faint">
                 {group.label}
               </p>
             ) : null}
@@ -151,7 +153,7 @@ export function Sidebar() {
           className="h-[22px] w-[22px] object-contain opacity-80"
         />
         <span className="leading-tight">
-          <span className="block text-[10.5px] text-faint">Built by</span>
+          <span className="block text-[12px] text-faint">Built by</span>
           <span className="block text-[12.5px] font-semibold text-ink-2">Team Kanban</span>
         </span>
       </div>

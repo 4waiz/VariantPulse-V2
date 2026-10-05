@@ -57,7 +57,7 @@ export function EvidenceLanes({
           {conflict ? (
             <div className="flex items-center gap-2 py-2.5 pl-4" aria-hidden>
               <span className="h-px w-6 border-t border-dashed border-warn" />
-              <span className={cn("text-[10.5px] font-semibold uppercase tracking-[0.12em]", REVIEW.text)}>
+              <span className={cn("text-[12px] font-semibold uppercase tracking-[0.12em]", REVIEW.text)}>
                 Interpretations diverge
               </span>
             </div>
@@ -105,7 +105,7 @@ export function EvidenceLanes({
                 <UserCheck className="h-4 w-4" />
                 Human review required
               </p>
-              <p className="mt-1 text-[11.5px] leading-snug text-ink-2">
+              <p className="mt-1 text-[13px] leading-snug text-ink-2">
                 {meta(globalCode).short} globally, {meta(regionalCode).short} regionally. A clinician
                 weighs both; neither source is treated as correct.
               </p>
@@ -117,14 +117,14 @@ export function EvidenceLanes({
                 <ShieldCheck className="h-4 w-4" />
                 Sources consistent
               </p>
-              <p className="mt-1 text-[11.5px] leading-snug text-ink-2">
+              <p className="mt-1 text-[13px] leading-snug text-ink-2">
                 Both lanes fall in the same clinical band.
               </p>
             </div>
           )}
         </div>
       </div>
-      <figcaption className="mt-3.5 text-[12px] leading-relaxed text-muted">
+      <figcaption className="mt-3.5 text-[13px] leading-relaxed text-muted">
         {disagreement.reason}
       </figcaption>
     </figure>
@@ -145,13 +145,13 @@ function Lane({
   return (
     <div className="min-w-0 rounded-xl border border-line bg-surface p-3.5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="flex min-w-0 items-center gap-1.5 text-[11.5px] font-medium text-muted">
+        <p className="flex min-w-0 items-center gap-1.5 text-[12px] font-medium text-muted">
           <span className="text-faint">{icon}</span>
           <span className="truncate">{source}</span>
         </p>
         <ClassificationBadge code={code} full />
       </div>
-      <p className="mt-1.5 text-[11.5px] text-faint vp-num">{detail}</p>
+      <p className="mt-1.5 text-[12px] text-faint vp-num">{detail}</p>
     </div>
   );
 }

@@ -130,10 +130,10 @@ export default function OnboardingPage() {
               <span className="text-[13.5px] font-medium text-ink">Choose a file to validate</span>
               <span className="text-[12px] text-muted">Read in this browser. Nothing is uploaded.</span>
             </button>
-            <input ref={fileRef} type="file" accept=".csv,.tsv,.txt,text/csv" className="hidden" onChange={onFile} />
+            <input ref={fileRef} name="import-file" type="file" accept=".csv,.tsv,.txt,text/csv" className="hidden" onChange={onFile} />
           </div>
           <div>
-            <label htmlFor="paste" className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">
+            <label htmlFor="paste" className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">
               Or paste rows, header first
             </label>
             <textarea
@@ -189,7 +189,7 @@ export default function OnboardingPage() {
 
       <Card className="mt-5 p-5">
         <SectionHeading title="From file import to integration" />
-        <p className="mt-3 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
+        <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-ink-2">
           A validated structured-file import is the first step, because it works with any laboratory or record
           system and shows its problems plainly. The integration a partner actually needs comes next, scoped to
           their workflow and tested against their systems. VariantPulse already exports a reviewed case as a FHIR
@@ -269,7 +269,7 @@ function Report({
         {unreadable ? (
           <div className="px-5 py-4">
             {report.fileErrors.map((error) => (
-              <p key={error} className="flex items-start gap-2 text-[13px] text-crit">
+              <p key={error} className="flex items-start gap-2 text-[14px] text-crit">
                 <CircleX className="mt-0.5 h-4 w-4 shrink-0" />
                 {error}
               </p>
@@ -280,14 +280,14 @@ function Report({
             <dl className="grid grid-cols-2 divide-line border-b border-line sm:grid-cols-3 lg:grid-cols-9 lg:divide-x">
               {tiles.map((tile) => (
                 <div key={tile.label} className="px-4 py-3">
-                  <dt className="text-[10.5px] font-medium uppercase tracking-[0.07em] text-faint">{tile.label}</dt>
+                  <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{tile.label}</dt>
                   <dd className={cn("mt-1 text-[20px] font-semibold leading-none vp-num", tile.tone)}>{tile.value}</dd>
                 </div>
               ))}
             </dl>
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line px-5 py-3">
-              <span className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">Columns read</span>
+              <span className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">Columns read</span>
               {Object.entries(report.columns.mapped).map(([key, header]) => (
                 <Badge key={key} tone="muted" title={`Read "${header}" as ${key}`}>
                   {header === key ? key : `${header} → ${key}`}
@@ -333,7 +333,7 @@ function Report({
                       <th
                         key={heading}
                         scope="col"
-                        className="whitespace-nowrap px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint"
+                        className="whitespace-nowrap px-4 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint"
                       >
                         {heading}
                       </th>
@@ -358,7 +358,7 @@ function Report({
             description="Accepted rows that match a monitored variant, compared on the classification each row reports against the evidence today. A preview: nothing is added to the workspace."
           />
           {impact.length === 0 ? (
-            <p className="mt-3 text-[12.5px] text-muted">No accepted row matches a monitored variant.</p>
+            <p className="mt-3 text-[14px] text-muted">No accepted row matches a monitored variant.</p>
           ) : (
             <ul className="mt-4 grid gap-3 lg:grid-cols-2">
               {impact.map((group) => (
@@ -394,7 +394,7 @@ function Report({
               ))}
             </ul>
           )}
-          <p className="mt-4 border-t border-line pt-3.5 text-[11.5px] leading-relaxed text-faint">
+          <p className="mt-4 border-t border-line pt-3.5 text-[12px] leading-relaxed text-faint">
             In a pilot, accepted rows enter the monitored corpus only after the data steward signs the report off,
             and rows for variants not yet monitored wait until the panel is extended.
           </p>
@@ -412,8 +412,8 @@ function RowView({ row }: { row: ImportRow }) {
       <td className="whitespace-nowrap px-4 py-3 font-mono text-[12.5px] text-ink">{row.recordId || <span className="text-faint">Missing</span>}</td>
       <td className="whitespace-nowrap px-4 py-3 text-[12.5px] text-ink">
         {row.gene ? <span className="font-semibold">{row.gene}</span> : null}{" "}
-        <span className="font-mono text-[11.5px] text-muted">{row.hgvs || "Unreadable"}</span>
-        {row.transcript ? <span className="block font-mono text-[11px] text-faint">{row.transcript}</span> : null}
+        <span className="font-mono text-[12px] text-muted">{row.hgvs || "Unreadable"}</span>
+        {row.transcript ? <span className="block font-mono text-[12px] text-faint">{row.transcript}</span> : null}
       </td>
       <td className="px-4 py-3">{row.classification ? <ClassificationBadge code={row.classification} /> : <span className="text-[12px] text-faint">Not read</span>}</td>
       <td className="whitespace-nowrap px-4 py-3 text-[12.5px] text-ink-2 vp-num">{row.reportDate ? formatDate(row.reportDate) : <span className="text-faint">Not read</span>}</td>
@@ -430,7 +430,7 @@ function RowView({ row }: { row: ImportRow }) {
         >
           {row.match.status === "matched" ? "Matched" : row.match.status === "conflict" ? "Conflict" : row.match.status === "unmatched" ? "Not monitored" : "Not checked"}
         </Badge>
-        {row.match.basis ? <span className="mt-1 block text-[11px] text-faint">{row.match.basis}</span> : null}
+        {row.match.basis ? <span className="mt-1 block text-[12px] text-faint">{row.match.basis}</span> : null}
       </td>
       <td className="min-w-[320px] px-4 py-3">
         <Badge tone={status.tone} dot>
@@ -471,7 +471,7 @@ function Columns() {
           <thead>
             <tr className="border-b border-line bg-surface-2">
               {["Column", "Required", "Holds", "Example", "Also read from"].map((heading) => (
-                <th key={heading} scope="col" className="px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint">
+                <th key={heading} scope="col" className="px-4 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint">
                   {heading}
                 </th>
               ))}
@@ -486,7 +486,7 @@ function Columns() {
                 <td className="px-4 py-2.5 text-[12.5px]">{column.required ? <Badge tone="warning">Required</Badge> : <span className="text-muted">Optional</span>}</td>
                 <td className="px-4 py-2.5 text-[12.5px] leading-relaxed text-ink-2">{column.description}</td>
                 <td className="whitespace-nowrap px-4 py-2.5 font-mono text-[12px] text-muted">{column.example}</td>
-                <td className="px-4 py-2.5 font-mono text-[11.5px] leading-relaxed text-faint">{column.aliases.join(", ")}</td>
+                <td className="px-4 py-2.5 font-mono text-[12px] leading-relaxed text-faint">{column.aliases.join(", ")}</td>
               </tr>
             ))}
           </tbody>

@@ -20,7 +20,7 @@ import Link from "next/link";
 import { ClassificationBadge } from "@/components/ui";
 import { useDisplayed } from "@/components/use-displayed";
 import type { VariantAssessment } from "@/lib/analysis";
-import { CHANGE_TYPES } from "@/lib/classification";
+import { CHANGE_TYPES, meta } from "@/lib/classification";
 import { GRCH38, formatPosition, locusOf, type Locus } from "@/lib/genome";
 import { SIGNALS, SIGNAL_OF, SIGNAL_ORDER, type Signal } from "@/lib/signal";
 import { cn } from "@/lib/utils";
@@ -272,7 +272,7 @@ export function GenomeMap({
                   }
                 }}
                 className={cn(
-                  "pointer-events-none absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[10.5px] vp-num data-[shown=false]:hidden",
+                  "pointer-events-none absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[12px] vp-num data-[shown=false]:hidden",
                   item.carrier ? "font-semibold text-ink-2" : "text-faint",
                 )}
               >
@@ -284,6 +284,9 @@ export function GenomeMap({
               <Link
                 key={item.key}
                 href={`/variants/${encodeURIComponent(item.key)}`}
+                // Named like the helix beads, for voice control and audits; the
+                // layer itself stays hidden from assistive technology (see above).
+                aria-label={`${item.assessment.variant.gene} ${item.assessment.variant.hgvsCoding}: ${meta(item.assessment.recordedCode).label} on record, ${meta(item.assessment.currentCode).label} now. ${SIGNALS[item.signal].label}.`}
                 tabIndex={-1}
                 draggable={false}
                 ref={(element) => {
@@ -312,7 +315,7 @@ export function GenomeMap({
             aria-hidden
             className="pointer-events-none absolute left-0 top-0 z-10 whitespace-nowrap"
           >
-            <span className="absolute bottom-3.5 left-0 -translate-x-1/2 rounded-full border border-accent-ring bg-surface px-2.5 py-1 text-[11.5px] font-semibold text-accent shadow-[0_6px_18px_-10px_rgba(122,38,58,0.5)] vp-num">
+            <span className="absolute bottom-3.5 left-0 -translate-x-1/2 rounded-full border border-accent-ring bg-surface px-2.5 py-1 text-[12px] font-semibold text-accent shadow-[0_6px_18px_-10px_rgba(122,38,58,0.5)] vp-num">
               {focus.locus.band ?? `chr${focus.locus.chromosome.name}`}
             </span>
           </span>
@@ -330,18 +333,18 @@ export function GenomeMap({
                 {hovered.assessment.variant.gene}{" "}
                 <span className="font-normal text-ink-2">{hovered.assessment.variant.hgvsCoding}</span>
               </span>
-              <span className="shrink-0 text-[11px] text-faint vp-num">{hovered.locus.band}</span>
+              <span className="shrink-0 text-[12px] text-faint vp-num">{hovered.locus.band}</span>
             </p>
             <span className="mt-2 flex flex-wrap items-center gap-1.5">
               <ClassificationBadge code={hovered.assessment.recordedCode} />
-              <span className="text-[11px] text-faint">→</span>
+              <span className="text-[12px] text-faint">→</span>
               <ClassificationBadge code={hovered.assessment.currentCode} />
             </span>
-            <span className="mt-2 flex items-center gap-1.5 text-[11.5px] text-muted">
+            <span className="mt-2 flex items-center gap-1.5 text-[12px] text-muted">
               <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", SIGNALS[hovered.signal].dot)} />
               {CHANGE_TYPES[hovered.assessment.changeType].label}
             </span>
-            <span className="mt-1 block text-[11px] text-faint vp-num">
+            <span className="mt-1 block text-[12px] text-faint vp-num">
               GRCh38 chr{hovered.locus.chromosome.name}:{formatPosition(hovered.locus.position)}
             </span>
           </div>
@@ -350,7 +353,7 @@ export function GenomeMap({
 
       <figcaption
         className={cn(
-          "flex flex-wrap items-center gap-x-4 gap-y-1 px-1 pt-2 text-[11px] text-muted transition-opacity duration-700",
+          "flex flex-wrap items-center gap-x-4 gap-y-1 px-1 pt-2 text-[12px] text-muted transition-opacity duration-700",
           status === "ready" ? "opacity-100" : "opacity-0",
         )}
       >
@@ -361,7 +364,7 @@ export function GenomeMap({
             {SIGNALS[signal].label.toLowerCase()}
           </span>
         ))}
-        <span className="ml-auto text-[10.5px] text-faint">
+        <span className="ml-auto text-[12px] text-faint">
           GRCh38 positions from ClinVar · lengths to scale · drag to turn
         </span>
       </figcaption>

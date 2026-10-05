@@ -56,9 +56,9 @@ export function SectionHeading({
           </span>
         ) : null}
         <div className="min-w-0">
-          <h2 className="truncate text-[15px] font-semibold text-ink">{title}</h2>
+          <h2 className="truncate text-[17px] font-semibold text-ink">{title}</h2>
           {description ? (
-            <p className="mt-0.5 text-[12.5px] leading-snug text-muted">{description}</p>
+            <p className="mt-0.5 text-[14px] leading-snug text-muted">{description}</p>
           ) : null}
         </div>
       </div>
@@ -78,7 +78,7 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        "text-[11px] font-semibold uppercase tracking-[0.13em] text-faint",
+        "text-[12px] font-semibold uppercase tracking-[0.13em] text-faint",
         className,
       )}
     >
@@ -133,7 +133,7 @@ export function Badge({
     <span
       title={title}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11.5px] font-medium leading-none whitespace-nowrap",
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12px] font-medium leading-none whitespace-nowrap",
         solid ? TONE_SOLID[tone] : TONE_CLASS[tone],
         className,
       )}
@@ -151,18 +151,21 @@ export function Badge({
 export function ClassificationBadge({
   code,
   full = false,
+  compact = false,
   className,
 }: {
   code: ClassificationCode;
   full?: boolean;
+  /** For dense tables: no dot (the tint already carries the tone) and tighter padding. */
+  compact?: boolean;
   className?: string;
 }) {
   const info = classificationMeta(code);
   return (
     <Badge
       tone={info.tone}
-      dot
-      className={className}
+      dot={!compact}
+      className={cn(compact && "px-2", className)}
       title={info.code === "VUS" ? "Variant of uncertain significance" : info.label}
     >
       {full ? info.label : info.short}
@@ -328,7 +331,7 @@ export function Field({
 }) {
   return (
     <div className={cn("min-w-0", className)}>
-      <dt className="text-[11.5px] font-medium uppercase tracking-[0.08em] text-faint">
+      <dt className="text-[12px] font-medium uppercase tracking-[0.08em] text-faint">
         {label}
       </dt>
       <dd
@@ -372,7 +375,7 @@ export function VariantLabel({
       <span
         className={cn(
           "font-mono text-muted",
-          size === "sm" && "text-[11.5px]",
+          size === "sm" && "text-[12px]",
           size === "md" && "text-[12.5px]",
           size === "lg" && "text-[14px]",
         )}
@@ -410,9 +413,9 @@ export function EmptyState({
         </span>
       ) : null}
       <div>
-        <p className="text-[14px] font-medium text-ink">{title}</p>
+        <p className="text-[16px] font-semibold text-ink">{title}</p>
         {description ? (
-          <p className="mx-auto mt-1 max-w-sm text-[13px] leading-relaxed text-muted">
+          <p className="mx-auto mt-1 max-w-sm text-[14px] leading-relaxed text-muted">
             {description}
           </p>
         ) : null}

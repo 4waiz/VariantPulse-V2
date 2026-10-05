@@ -8,8 +8,41 @@
  * is an estimate, and it is labelled as one wherever it is shown.
  */
 
+import type { VariantAssessment } from "./analysis";
+import { meta } from "./classification";
+import { SIGNAL_OF } from "./signal";
+
 /** Assumed minutes a clinician spends looking one finding up in ClinVar by hand. */
 export const MINUTES_PER_MANUAL_CHECK = 2;
+
+/**
+ * "Cases surfaced": the review queue itself, split the way the helix legend and
+ * the variant filters split it, so every count on the page agrees.
+ */
+export function caseBreakdown(cases: VariantAssessment[]) {
+  return {
+    total: cases.length,
+    reclassified: cases.filter((a) => SIGNAL_OF[a.changeType] === "changed").length,
+    conflictOrRegional: cases.filter((a) => SIGNAL_OF[a.changeType] === "review").length,
+  };
+}
+
+/**
+ * How many monitored variants crossed between uncertain significance and the
+ * pathogenic band, in each direction, measured as the ClinVar-wide figures are:
+ * ClinVar's January 2023 reading against its current one. A classification on
+ * record that ClinVar did not hold in January 2023 (the modelled hospital
+ * report) is left out of the comparison.
+ */
+export function reclassificationShifts(assessments: VariantAssessment[]) {
+  const dated = assessments.filter((a) => a.variant.historicalSource.kind === "clinvar-release");
+  const band = (a: VariantAssessment) => [meta(a.recordedCode).band, meta(a.currentCode).band].join(">");
+  return {
+    compared: dated.length,
+    vusToPathogenic: dated.filter((a) => band(a) === "uncertain>pathogenic").length,
+    pathogenicToVus: dated.filter((a) => band(a) === "pathogenic>uncertain").length,
+  };
+}
 
 export function estimatedHoursSaved(findingsChecked: number): number {
   return (findingsChecked * MINUTES_PER_MANUAL_CHECK) / 60;

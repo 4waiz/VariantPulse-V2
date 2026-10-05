@@ -109,7 +109,7 @@ export function WhatChanged({
 
         {change.trajectory.length > 0 ? (
           <div className="mt-3.5">
-            <p className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">
+            <p className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">
               ClinVar at each archived checkpoint
             </p>
             <ol className="mt-2 flex flex-wrap items-center gap-1.5">
@@ -117,13 +117,13 @@ export function WhatChanged({
                 <li key={entry.release} className="flex items-center gap-1.5">
                   {index > 0 ? <ArrowRight aria-hidden className="h-3 w-3 text-faint" /> : null}
                   <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface-2 px-2 py-1">
-                    <span className="text-[11px] font-medium text-muted vp-num">{entry.label}</span>
+                    <span className="text-[12px] font-medium text-muted vp-num">{entry.label}</span>
                     <CheckpointCode code={entry.code} />
                   </span>
                 </li>
               ))}
             </ol>
-            <p className="mt-2 text-[12px] leading-relaxed text-muted">
+            <p className="mt-2 text-[14px] leading-relaxed text-muted">
               {first
                 ? `The change first shows at the ${first.label} checkpoint.`
                 : "No archived checkpoint differs from the classification on record."}{" "}
@@ -147,7 +147,7 @@ export function WhatChanged({
           <ChangeTypeBadge type={assessment.changeType} />
           {assessment.caseId ? <PriorityBadge level={assessment.priority.level} /> : null}
         </div>
-        <p className="mt-2.5 text-[13px] leading-relaxed text-ink-2">
+        <p className="mt-2.5 text-[16px] leading-relaxed text-ink-2">
           {CHANGE_TYPES[assessment.changeType].description}{" "}
           {assessment.caseId
             ? `The priority is a triage signal built from ${assessment.priority.factors.length} listed factors; it is not a clinical risk score.`
@@ -160,7 +160,7 @@ export function WhatChanged({
         <Eyebrow>
           <span id="wc-records">Records matched, and why</span>
         </Eyebrow>
-        <p className="mt-2 text-[13px] leading-relaxed text-ink-2">{matches.basis}</p>
+        <p className="mt-2 text-[16px] leading-relaxed text-ink-2">{matches.basis}</p>
         {matches.records.length > 0 ? (
           <ul className="mt-2.5 divide-y divide-line rounded-xl border border-line">
             {matches.records.map((record) => (
@@ -173,7 +173,7 @@ export function WhatChanged({
             ))}
           </ul>
         ) : (
-          <p className="mt-2 text-[12.5px] text-muted">No record on file carries this variant.</p>
+          <p className="mt-2 text-[14px] text-muted">No record on file carries this variant.</p>
         )}
       </section>
 
@@ -188,7 +188,7 @@ export function WhatChanged({
               <Badge tone={LIMITATION_TONE[note.kind]} className="mt-px shrink-0">
                 {LIMITATION_LABEL[note.kind]}
               </Badge>
-              <span className="text-[12.5px] leading-relaxed text-ink-2">{note.text}</span>
+              <span className="text-[14px] leading-relaxed text-ink-2">{note.text}</span>
             </li>
           ))}
         </ul>
@@ -202,7 +202,7 @@ export function WhatChanged({
         <dl className="mt-2.5 grid gap-x-6 gap-y-3 sm:grid-cols-2">
           {rows.map((row) => (
             <div key={row.label} className="min-w-0">
-              <dt className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">{row.label}</dt>
+              <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{row.label}</dt>
               <dd className="mt-0.5 text-[13px] leading-snug">
                 <span className={cn("font-medium", TONE_TEXT[row.tone])}>{row.value}</span>
                 {row.at ? (
@@ -211,7 +211,7 @@ export function WhatChanged({
                     · <RelativeTime value={row.at} />
                   </span>
                 ) : null}
-                {row.note ? <span className="mt-0.5 block text-[11.5px] text-muted">{row.note}</span> : null}
+                {row.note ? <span className="mt-0.5 block text-[12px] text-muted">{row.note}</span> : null}
               </dd>
             </div>
           ))}
@@ -229,13 +229,13 @@ function ReadingRow({ label, reading, current = false }: { label: string; readin
         current ? "border-selected-border bg-selected-bg" : "border-line bg-surface",
       )}
     >
-      <p className={cn("text-[11px] font-bold uppercase tracking-[0.1em]", current ? "text-garnet" : "text-muted")}>
+      <p className={cn("text-[12px] font-bold uppercase tracking-[0.1em]", current ? "text-garnet" : "text-muted")}>
         {label}
       </p>
       <div className="min-w-0">
         <p className="flex flex-wrap items-center gap-2">
           {reading.code ? <ClassificationBadge code={reading.code} full /> : null}
-          <span className="text-[12.5px] text-ink-2">&ldquo;{reading.wording}&rdquo;</span>
+          <span className="text-[14px] text-ink-2">&ldquo;{reading.wording}&rdquo;</span>
         </p>
         <p className="mt-1.5 text-[12px] leading-relaxed text-muted">
           {reading.source}
@@ -261,6 +261,6 @@ function ReadingRow({ label, reading, current = false }: { label: string; readin
 }
 
 function CheckpointCode({ code }: { code: ClassificationCode | null }) {
-  if (!code) return <span className="text-[11.5px] text-faint">Not in ClinVar</span>;
-  return <span className="text-[11.5px] font-semibold text-ink">{meta(code).short}</span>;
+  if (!code) return <span className="text-[12px] text-faint">Not in ClinVar</span>;
+  return <span className="text-[12px] font-semibold text-ink">{meta(code).short}</span>;
 }

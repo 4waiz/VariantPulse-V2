@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Download, History } from "lucide-react";
 
+import { useClock, type Clock } from "@/components/clock";
 import { ActivityItem } from "@/components/domain";
 import { PageHeader, PageShell } from "@/components/page-header";
 import { SyncButton } from "@/components/sync";
@@ -33,17 +34,22 @@ const FILTERS: { id: string; label: string; kinds: Kind[] | null }[] = [
   { id: "pilot", label: "Pilot and data", kinds: ["pilot", "import", "session"] },
 ];
 
-/** Groups entries under a day heading so a long trail stays readable. */
-function dayKey(iso: string): string {
+/**
+ * Groups entries under a day heading so a long trail stays readable. "Today"
+ * is judged on the shared clock, in UTC until hydration and in the reader's
+ * zone after, so the server and the browser never disagree about the day.
+ */
+function dayKey(iso: string, clock: Clock): string {
   const date = new Date(iso);
-  const today = new Date();
-  const isToday = date.toDateString() === today.toDateString();
-  if (isToday) return "Today";
-  const yesterday = new Date(today.getTime() - 86_400_000);
-  if (date.toDateString() === yesterday.toDateString()) return "Yesterday";
-  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(
-    date,
-  );
+  const day = (value: Date) => new Intl.DateTimeFormat("en-CA", { timeZone: clock.timeZone }).format(value);
+  if (day(date) === day(new Date(clock.now))) return "Today";
+  if (day(date) === day(new Date(clock.now - 86_400_000))) return "Yesterday";
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: clock.timeZone,
+  }).format(date);
 }
 
 const csvCell = (value: string) => (/[",\n\r]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value);
@@ -59,6 +65,7 @@ function download(name: string, type: string, body: string) {
 
 export default function ActivityPage() {
   const { activity, hydrated } = useWorkspace();
+  const clock = useClock();
   const [filter, setFilter] = React.useState("all");
 
   const kinds = FILTERS.find((option) => option.id === filter)?.kinds ?? null;
@@ -67,13 +74,13 @@ export default function ActivityPage() {
   const groups = React.useMemo(() => {
     const map = new Map<string, ActivityEntry[]>();
     for (const entry of rows) {
-      const key = dayKey(entry.at);
+      const key = dayKey(entry.at, clock);
       const bucket = map.get(key);
       if (bucket) bucket.push(entry);
       else map.set(key, [entry]);
     }
     return [...map.entries()];
-  }, [rows]);
+  }, [rows, clock]);
 
   const stamp = () => new Date().toISOString().slice(0, 10);
 
@@ -171,7 +178,7 @@ export default function ActivityPage() {
         </div>
       )}
 
-      <p className="mt-4 text-[11.5px] leading-relaxed text-faint">
+      <p className="mt-4 text-[12px] leading-relaxed text-faint">
         The trail is held for this browser session only and exports as it stands. In a pilot it would be
         written to an append-only, server-side audit store. No entry records a change of classification or
         diagnosis: VariantPulse surfaces evidence, clinicians decide.

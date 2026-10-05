@@ -4,27 +4,33 @@
  * One compact row on the home dashboard: what the scan covered and what it
  * stands in for. The first two figures are read from the analysis and the scan
  * time is measured; the third is an estimate and says so beneath it.
+ *
+ * "Cases surfaced" is the review queue itself, so it always matches the queue
+ * and the alert count in the top bar, split the way the helix legend splits it.
  */
 
 import * as React from "react";
 
 import { Card } from "@/components/ui";
-import { MINUTES_PER_MANUAL_CHECK, estimatedHoursSaved, formatScanSeconds } from "@/lib/impact";
+import type { VariantAssessment } from "@/lib/analysis";
+import { MINUTES_PER_MANUAL_CHECK, caseBreakdown, estimatedHoursSaved, formatScanSeconds } from "@/lib/impact";
 import { cn, formatNumber } from "@/lib/utils";
 
 export function ImpactPanel({
   findingsChecked,
-  casesSurfaced,
+  cases,
   scanMs,
   className,
 }: {
   findingsChecked: number;
-  casesSurfaced: number;
+  /** Every assessment that opens a review case: the queue. */
+  cases: VariantAssessment[];
   /** Measured duration of the analysis run, when known. */
   scanMs: number | null;
   className?: string;
 }) {
   const hours = estimatedHoursSaved(findingsChecked);
+  const split = caseBreakdown(cases);
 
   return (
     <Card
@@ -42,8 +48,8 @@ export function ImpactPanel({
       />
       <ImpactStat
         label="Cases surfaced"
-        value={formatNumber(casesSurfaced)}
-        detail="Evidence changes detected"
+        value={formatNumber(split.total)}
+        detail={`${formatNumber(split.reclassified)} reclassified · ${formatNumber(split.conflictOrRegional)} conflict or regional`}
       />
       <ImpactStat
         label="Estimated clinician time saved"
@@ -61,11 +67,11 @@ export function ImpactPanel({
 function ImpactStat({ label, value, detail }: { label: string; value: string; detail: string }) {
   return (
     <div className="min-w-0 px-5 py-3">
-      <p className="text-[10.5px] font-medium uppercase tracking-[0.07em] text-faint">{label}</p>
+      <p className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{label}</p>
       <p className="mt-1 text-[18px] font-semibold leading-tight tracking-tight text-ink vp-num">
         {value}
       </p>
-      <p className="mt-0.5 text-[11.5px] leading-snug text-muted">{detail}</p>
+      <p className="mt-0.5 text-[12px] leading-snug text-muted">{detail}</p>
     </div>
   );
 }

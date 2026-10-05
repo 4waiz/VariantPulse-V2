@@ -59,7 +59,7 @@ export function MetricCard({
         ) : null}
       </div>
       <p className="mt-2 text-[13px] font-medium leading-snug text-ink-2">{label}</p>
-      {hint ? <p className="mt-1 text-[11.5px] leading-snug text-faint">{hint}</p> : null}
+      {hint ? <p className="mt-1 text-[12px] leading-snug text-faint">{hint}</p> : null}
     </>
   );
 
@@ -147,7 +147,7 @@ export function ThenNow({
             </span>
             <span
               className={cn(
-                "text-[10.5px] font-semibold uppercase tracking-[0.12em]",
+                "text-[12px] font-semibold uppercase tracking-[0.12em]",
                 changed ? CHANGE.text : "text-faint",
               )}
             >
@@ -181,7 +181,7 @@ export function ThenNow({
             />
             <span
               className={cn(
-                "text-center text-[10.5px] font-semibold uppercase tracking-[0.12em] whitespace-nowrap",
+                "text-center text-[12px] font-semibold uppercase tracking-[0.12em] whitespace-nowrap",
                 changed ? CHANGE.text : "text-faint",
               )}
             >
@@ -197,7 +197,7 @@ export function ThenNow({
           <span className="text-[14px] font-medium text-ink">
             The DNA has not changed. Only the interpretation has.
           </span>
-          <span className="font-mono text-[11.5px] text-muted">
+          <span className="font-mono text-[12px] text-muted">
             {variant.gene} {variant.hgvsCoding}
             {variant.proteinChange ? ` (${variant.proteinChange})` : ""} · identical in both
           </span>
@@ -230,7 +230,7 @@ function Panel({
       )}
     >
       <span aria-hidden className={cn("absolute inset-y-0 left-0 w-[3px]", role.fill)} />
-      <p className="text-[10.5px] font-semibold uppercase tracking-[0.11em] text-faint vp-num">
+      <p className="text-[12px] font-semibold uppercase tracking-[0.11em] text-faint vp-num">
         {eyebrow}
       </p>
       <p
@@ -242,7 +242,7 @@ function Panel({
       >
         {size === "sm" ? info.short : info.label}
       </p>
-      <p className="mt-1.5 text-[11.5px] leading-snug text-muted">{note}</p>
+      <p className="mt-1.5 text-[12px] leading-snug text-muted">{note}</p>
     </div>
   );
 }
@@ -281,7 +281,7 @@ export function EvidenceAlert({
       <div className="flex flex-wrap items-center gap-2">
         <PriorityBadge level={priority.level} />
         <ChangeTypeBadge type={changeType} />
-        <span className="ml-auto inline-flex items-center gap-1.5 text-[11.5px] text-faint">
+        <span className="ml-auto inline-flex items-center gap-1.5 text-[12px] text-faint">
           <Clock className="h-3 w-3" />
           {evidence.lastEvaluated
             ? `Evidence updated ${formatDate(evidence.lastEvaluated)}`
@@ -296,7 +296,7 @@ export function EvidenceAlert({
           protein={variant.proteinChange}
           size="lg"
         />
-        <p className="mt-1 text-[12.5px] text-muted">{variant.condition}</p>
+        <p className="mt-1 text-[14px] text-muted">{variant.condition}</p>
       </div>
 
       <ThenNow assessment={assessment} className="mt-4" />
@@ -359,7 +359,7 @@ export function VariantRow({
           protein={variant.proteinChange}
           size="sm"
         />
-        <span className="mt-1 block truncate text-[11.5px] text-muted">{variant.condition}</span>
+        <span className="mt-1 block truncate text-[13px] text-muted">{variant.condition}</span>
       </span>
 
       <span className="hidden items-center gap-2 md:flex">
@@ -412,7 +412,7 @@ export function SourceCard({
       </span>
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[13px] font-semibold text-ink">{name}</span>
-        <span className="block truncate text-[11.5px] text-muted">{description}</span>
+        <span className="block truncate text-[12px] text-muted">{description}</span>
         <span className="mt-1.5 flex items-center gap-1.5">
           <span
             className={cn(
@@ -424,7 +424,7 @@ export function SourceCard({
           />
           <span
             className={cn(
-              "text-[11px] font-medium capitalize",
+              "text-[12px] font-medium capitalize",
               tone === "positive" && "text-ok",
               tone === "warning" && "text-warn",
               tone === "critical" && "text-crit",
@@ -432,7 +432,7 @@ export function SourceCard({
           >
             {status}
           </span>
-          {detail ? <span className="text-[11px] text-faint">· {detail}</span> : null}
+          {detail ? <span className="text-[12px] text-faint">· {detail}</span> : null}
         </span>
       </span>
     </div>
@@ -490,13 +490,13 @@ export function ActivityItem({
         className={cn("relative mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full", ACTIVITY_TONE[kind] ?? "bg-faint")}
       />
       <span className="min-w-0 flex-1">
-        <span className="block text-[13px] font-medium leading-snug text-ink">{title}</span>
+        <span className="block text-[15px] font-medium leading-snug text-ink">{title}</span>
         {detail ? (
-          <span className="mt-0.5 block text-[12px] leading-snug text-muted [overflow-wrap:anywhere]">
+          <span className="mt-0.5 block text-[14px] leading-snug text-muted [overflow-wrap:anywhere]">
             {detail}
           </span>
         ) : null}
-        <span className="mt-1 flex flex-wrap items-center gap-x-1.5 text-[11px] text-faint">
+        <span className="mt-1 flex flex-wrap items-center gap-x-1.5 text-[12px] text-faint">
           {actor ? <span className="font-medium text-ink-2">{actor}</span> : null}
           {actor && role ? (
             <>

@@ -196,6 +196,7 @@ export function CommandPalette({
         <div className="flex items-center gap-3 border-b border-line px-4">
           <Search className="h-4 w-4 shrink-0 text-faint" />
           <input
+            name="search"
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -256,7 +257,7 @@ export function CommandPalette({
                     </span>
                     <span className="block truncate text-[12px] text-muted">{entry.subtitle}</span>
                   </span>
-                  <span className="shrink-0 text-[11px] font-medium uppercase tracking-wide text-faint">
+                  <span className="shrink-0 text-[12px] font-medium uppercase tracking-wide text-faint">
                     {KIND_LABEL[entry.kind]}
                   </span>
                   {index === active ? (

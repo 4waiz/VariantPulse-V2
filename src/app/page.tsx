@@ -17,6 +17,7 @@ import {
   Users,
 } from "lucide-react";
 
+import { ClinVarWideStrip } from "@/components/clinvar-wide";
 import { EvidenceHelix } from "@/components/evidence-helix";
 import { ImpactPanel } from "@/components/impact-panel";
 import { evidenceModeMeta } from "@/components/story/mode";
@@ -43,9 +44,11 @@ export default function HomePage() {
 
       <ImpactPanel
         findingsChecked={analysis.scan.findingsChecked}
-        casesSurfaced={analysis.metrics.evidenceChanges}
+        cases={pick(analysis, analysis.reviewableKeys)}
         scanMs={scanMs}
       />
+
+      <ClinVarWideStrip assessments={analysis.assessments} />
 
       {lead ? (
         <>
@@ -70,8 +73,8 @@ export default function HomePage() {
           <ShieldCheck className="h-5 w-5" />
         </span>
         <div className="min-w-0 flex-1 basis-60">
-          <p className="text-[14px] font-semibold text-ink">AI assists. Clinicians decide.</p>
-          <p className="mt-0.5 text-[12.5px] leading-relaxed text-muted">
+          <p className="text-[17px] font-semibold text-ink">AI assists. Clinicians decide.</p>
+          <p className="mt-0.5 text-[16px] leading-relaxed text-muted">
             VariantPulse highlights changes in scientific evidence to support clinical teams. It does
             not alter patient records and does not make a diagnosis.
           </p>
@@ -110,7 +113,7 @@ function Hero({
           The same DNA.
           <span className="block text-accent">A different meaning.</span>
         </h1>
-        <p className="mt-3 max-w-[30rem] text-[15px] leading-relaxed text-muted">
+        <p className="mt-3 max-w-[30rem] text-[16px] leading-relaxed text-muted">
           VariantPulse watches old genetic test results and flags when new scientific evidence
           changes what they mean.
         </p>
@@ -138,7 +141,7 @@ function Hero({
             <ArrowRight className="h-4 w-4" />
           </span>
         </span>
-        <span className="mt-3.5 block text-[12.5px] leading-relaxed text-muted">
+        <span className="mt-3.5 block text-[14px] leading-relaxed text-muted">
           We monitor scientific evidence so patients can benefit from new knowledge.
         </span>
       </Link>
@@ -185,7 +188,7 @@ function HowItWorks({ lead }: { lead: VariantAssessment }) {
             <span className="block text-[24px] font-semibold leading-none text-accent vp-num">
               {impactedRecordCount}
             </span>
-            <span className="mt-1 block text-[12.5px] leading-snug text-muted">
+            <span className="mt-1 block text-[14px] leading-snug text-muted">
               affected patient record{impactedRecordCount === 1 ? "" : "s"} identified
             </span>
           </span>
@@ -195,7 +198,7 @@ function HowItWorks({ lead }: { lead: VariantAssessment }) {
           <StepIcon>
             <ClipboardList className="h-5 w-5" />
           </StepIcon>
-          <span className="text-[12.5px] leading-snug text-muted">
+          <span className="text-[14px] leading-snug text-muted">
             A named owner, a documented decision and approved follow-up, every step on record
           </span>
         </Step>
@@ -226,7 +229,7 @@ function Step({
           {number}
         </span>
         <span className="min-w-0">
-          <span className="block text-[13.5px] font-semibold leading-tight text-ink">{title}</span>
+          <span className="block text-[15px] font-semibold leading-tight text-ink">{title}</span>
           {when ? <span className="mt-0.5 block text-[12px] text-muted vp-num">{when}</span> : null}
         </span>
       </span>
@@ -328,7 +331,7 @@ function RealExample({ lead }: { lead: VariantAssessment }) {
               <ArrowRight className="h-4 w-4 rotate-90 sm:rotate-0" />
             </span>
           </span>
-          <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted sm:text-center">
+          <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-muted sm:text-center">
             Science
             <br className="hidden sm:block" /> changed
           </span>
@@ -499,8 +502,8 @@ function SectionTitle({
     <div className="flex min-w-0 items-start gap-3">
       <span aria-hidden className="mt-[3px] h-[18px] w-[3px] shrink-0 rounded-full bg-accent" />
       <div className={cn("min-w-0", inline && "flex flex-wrap items-baseline gap-x-3 gap-y-0.5")}>
-        <h2 className="text-[16.5px] font-semibold tracking-tight text-ink">{title}</h2>
-        <p className={cn("text-[12.5px] text-muted", !inline && "mt-0.5")}>{subtitle}</p>
+        <h2 className="text-[17px] font-semibold tracking-tight text-ink">{title}</h2>
+        <p className={cn("text-[14px] text-muted", !inline && "mt-0.5")}>{subtitle}</p>
       </div>
     </div>
   );

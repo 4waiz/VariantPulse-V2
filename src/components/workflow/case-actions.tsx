@@ -64,9 +64,9 @@ const EVIDENCE_REQUEST =
   "Asked the reporting laboratory for functional or segregation data not present in the current submission set.";
 
 const TEXTAREA =
-  "w-full resize-y rounded-xl border border-line bg-surface-2 px-3.5 py-2.5 text-[13px] leading-relaxed text-ink outline-none transition-colors placeholder:text-faint focus:border-accent-ring focus:bg-surface";
+  "w-full resize-y rounded-xl border border-line bg-surface-2 px-3.5 py-2.5 text-[16px] leading-relaxed text-ink outline-none transition-colors placeholder:text-faint focus:border-accent-ring focus:bg-surface";
 
-const LABEL = "text-[11px] font-medium uppercase tracking-[0.07em] text-faint";
+const LABEL = "text-[12px] font-medium uppercase tracking-[0.07em] text-faint";
 
 interface CaseProps {
   caseId: string;
@@ -157,7 +157,7 @@ export function OwnerCard({ caseId, assessment, state }: CaseProps) {
         <RoleNote className="mt-4" reason={denial(persona, "case:own")} switchTo="kassim" />
       ) : null}
 
-      <p className="mt-4 text-[11.5px] leading-relaxed text-faint">
+      <p className="mt-4 text-[12px] leading-relaxed text-faint">
         Deadlines run from when the case was raised and are met by the first documented decision. Past it,
         an undecided case goes to the service lead. The days per priority are placeholders a pilot agrees
         with the partner.
@@ -212,7 +212,7 @@ export function ReviewCard({ caseId, state }: CaseProps) {
         </Button>
       </div>
       {state.reviewOpenedAt ? (
-        <p className="mt-2 text-[11.5px] text-faint">
+        <p className="mt-2 text-[12px] text-faint">
           Review opened <Timestamp value={state.reviewOpenedAt} className="vp-num" />
         </p>
       ) : null}
@@ -306,7 +306,7 @@ export function DecisionCard({ caseId, state }: CaseProps) {
               Cancel amendment
             </button>
           ) : null}
-          <p id={`${caseId}-decision-help`} className="mt-2 text-[11.5px] leading-relaxed text-faint">
+          <p id={`${caseId}-decision-help`} className="mt-2 text-[12px] leading-relaxed text-faint">
             {!state.owner
               ? "Assign an owner first: every decision has a named clinician accountable for the case."
               : `A decision needs a rationale of at least ${DECISION_NOTE_MIN} characters${trimmed && remaining > 0 ? ` (${remaining} more)` : ""}. It records the outcome of the review; it writes to no patient record and issues no diagnosis.`}
@@ -315,7 +315,7 @@ export function DecisionCard({ caseId, state }: CaseProps) {
       ) : !decision ? (
         <Card className="p-5">
           <SectionHeading title="Decision" />
-          <p className="mt-3 text-[12.5px] text-muted">
+          <p className="mt-3 text-[14px] text-muted">
             {closed ? "The case was closed without a decision." : "No decision recorded yet."}
           </p>
           <RoleNote className="mt-3" reason={closed ? null : denied} switchTo="kassim" />
@@ -430,11 +430,11 @@ export function FollowUpCard({ caseId, assessment, state }: CaseProps) {
                   <Badge tone={STATUS_TONE[task.status]} dot>
                     {statusLabel(task)}
                   </Badge>
-                  <span className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">{kind.label}</span>
+                  <span className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{kind.label}</span>
                 </div>
-                <p className="mt-2 text-[13px] font-medium text-ink">{task.title}</p>
-                <p className="mt-0.5 text-[12.5px] leading-relaxed text-ink-2">{task.detail}</p>
-                <p className="mt-1.5 text-[11px] leading-relaxed text-faint">{reviewTrail(task)}</p>
+                <p className="mt-2 text-[14px] font-medium text-ink">{task.title}</p>
+                <p className="mt-0.5 text-[14px] leading-relaxed text-ink-2">{task.detail}</p>
+                <p className="mt-1.5 text-[12px] leading-relaxed text-faint">{reviewTrail(task)}</p>
 
                 {task.status === "Proposed" && !closed && !approveDenied ? (
                   declining === task.id ? (
@@ -492,7 +492,7 @@ export function FollowUpCard({ caseId, assessment, state }: CaseProps) {
 
                 {task.status === "Approved" && can("follow-up:complete") ? (
                   heldBySilence ? (
-                    <p className="mt-2.5 flex items-start gap-2 text-[11.5px] leading-relaxed text-warn">
+                    <p className="mt-2.5 flex items-start gap-2 text-[12px] leading-relaxed text-warn">
                       <Lock className="mt-[3px] h-3 w-3 shrink-0" aria-hidden />
                       Silent pilot: approved and recorded for evaluation, but not carried out.
                     </p>
@@ -533,6 +533,7 @@ export function FollowUpCard({ caseId, assessment, state }: CaseProps) {
                   className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-line bg-surface px-3 py-2.5 transition-colors hover:bg-surface-2"
                 >
                   <input
+                    name="follow-ups"
                     type="checkbox"
                     checked={selected.has(draft.title)}
                     onChange={() => toggle(draft.title)}
@@ -540,7 +541,7 @@ export function FollowUpCard({ caseId, assessment, state }: CaseProps) {
                   />
                   <span className="min-w-0">
                     <span className="block text-[13px] font-medium text-ink">{draft.title}</span>
-                    <span className="mt-0.5 block text-[12px] leading-relaxed text-muted">{draft.detail}</span>
+                    <span className="mt-0.5 block text-[13px] leading-relaxed text-muted">{draft.detail}</span>
                     <KindNote kind={draft.kind} />
                   </span>
                 </label>
@@ -566,7 +567,7 @@ export function FollowUpCard({ caseId, assessment, state }: CaseProps) {
           </Button>
         </div>
       ) : active.length === 0 ? (
-        <p className="mt-3 text-[12.5px] text-muted">
+        <p className="mt-3 text-[14px] text-muted">
           {!decision
             ? "Follow-ups are proposed once a decision is recorded."
             : !settled
@@ -601,9 +602,9 @@ export function FollowUpCard({ caseId, assessment, state }: CaseProps) {
 
 function KindNote({ kind }: { kind: FollowUpKind }) {
   return FOLLOW_UP_KINDS[kind].patientFacing ? (
-    <span className="mt-1 block text-[11px] font-medium text-warn">Reaches a patient: needs approval</span>
+    <span className="mt-1 block text-[12px] font-medium text-warn">Reaches a patient: needs approval</span>
   ) : (
-    <span className="mt-1 block text-[11px] text-faint">Internal: still approved before it is done</span>
+    <span className="mt-1 block text-[12px] text-faint">Internal: still approved before it is done</span>
   );
 }
 
@@ -621,8 +622,8 @@ export function ClosureCard({ caseId, state }: CaseProps) {
     return (
       <Card className="p-5">
         <SectionHeading title="Closed" />
-        <p className="mt-3 text-[13px] leading-relaxed text-ink-2">{state.closure.note}</p>
-        <p className="mt-2 text-[11.5px] text-faint">
+        <p className="mt-3 text-[16px] leading-relaxed text-ink-2">{state.closure.note}</p>
+        <p className="mt-2 text-[12px] text-faint">
           {state.closure.by} · <Timestamp value={state.closure.at} className="vp-num" />
         </p>
         {!reopenDenied ? (
@@ -661,7 +662,7 @@ export function ClosureCard({ caseId, state }: CaseProps) {
         description="Closed by the case owner or the service lead, with a note. Reopening is recorded too."
       />
       {blocker ? (
-        <p className="mt-3 text-[12.5px] leading-relaxed text-muted">{blocker}</p>
+        <p className="mt-3 text-[14px] leading-relaxed text-muted">{blocker}</p>
       ) : closeDenied ? (
         <RoleNote className="mt-3" reason={closeDenied} switchTo={SERVICE_LEAD.id} />
       ) : (
@@ -690,7 +691,7 @@ export function ClosureCard({ caseId, state }: CaseProps) {
             Close case
           </Button>
           {!can("case:close") ? (
-            <p className="mt-2 text-[11.5px] text-faint">You can close this case because you own it.</p>
+            <p className="mt-2 text-[12px] text-faint">You can close this case because you own it.</p>
           ) : null}
         </div>
       )}
@@ -729,7 +730,7 @@ export function OutputsCard({ assessment, state }: CaseProps) {
             {letterReady && can("follow-up:complete") ? (
               <PatientLetterButton assessment={assessment} />
             ) : (
-              <p className="text-[11.5px] leading-relaxed text-faint">
+              <p className="text-[12px] leading-relaxed text-faint">
                 A patient letter is drafted only through an approved &ldquo;Patient explanation&rdquo; follow-up.
               </p>
             )}

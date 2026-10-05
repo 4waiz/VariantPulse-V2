@@ -1,25 +1,18 @@
 "use client";
 
+import { useClock } from "@/components/clock";
+import { formatMoment } from "@/lib/utils";
+
 /**
- * An absolute, locale-formatted timestamp for the audit trail. The server and
- * the browser can sit in different time zones, so the expected text
- * difference is suppressed rather than treated as a hydration error.
+ * An absolute timestamp for the audit trail, with its time zone named. The
+ * server and the hydrating browser both print it in UTC, so they agree; the
+ * browser then shows it in the reader's own zone (see `clock.tsx`).
  */
 export function Timestamp({ value, className }: { value: string; className?: string }) {
-  const date = new Date(value);
-  const text = Number.isNaN(date.getTime())
-    ? value
-    : new Intl.DateTimeFormat("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }).format(date);
+  const { timeZone } = useClock();
   return (
-    <time dateTime={value} className={className} suppressHydrationWarning>
-      {text}
+    <time dateTime={value} className={className}>
+      {formatMoment(value, timeZone)}
     </time>
   );
 }

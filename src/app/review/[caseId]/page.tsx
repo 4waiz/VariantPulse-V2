@@ -70,13 +70,13 @@ export default function ReviewCasePage() {
         }
       />
 
-      <p className="mb-4 text-[13.5px] text-muted">
+      <p className="mb-4 text-[16px] text-muted">
         <span className="font-semibold text-ink">Your DNA didn&rsquo;t change. Science did.</span> AI assists.
         Clinicians decide.
       </p>
 
       {silentMode ? (
-        <p className="mb-4 flex items-start gap-2.5 rounded-2xl border border-warn-border bg-warn-soft px-4 py-3 text-[13px] leading-relaxed text-warn">
+        <p className="mb-4 flex items-start gap-2.5 rounded-2xl border border-warn-border bg-warn-soft px-4 py-3 text-[14px] leading-relaxed text-warn">
           <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
           <span>
             <strong className="font-semibold">Silent pilot.</strong> Review, decisions and approvals are
@@ -166,7 +166,7 @@ export default function ReviewCasePage() {
           <OutputsCard {...props} />
           <Card className="p-5">
             <SectionHeading title="Recommendation" />
-            <p className="mt-3 text-[13px] leading-relaxed text-ink-2">
+            <p className="mt-3 text-[16px] leading-relaxed text-ink-2">
               {composeRecommendation(assessment.changeType, assessment.impactedRecordCount)}
             </p>
           </Card>

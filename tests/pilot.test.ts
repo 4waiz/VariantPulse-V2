@@ -51,14 +51,14 @@ describe("retrospective replay", () => {
   });
 
   it("never alerts on the unchanged controls", () => {
-    for (const key of ["LDLR:c.2479G>A", "BRCA1:c.1140dup", "CFTR:c.601G>A"]) {
+    for (const key of ["LDLR:c.2479G>A", "BRCA1:c.1140dup", "CFTR:c.601G>A", "CFTR:c.1646G>A"]) {
       expect(row(key).firstAlert, key).toBeNull();
     }
   });
 
   it("counts alerts open at each checkpoint from the engine, not from a table", () => {
-    expect(replay.alertsAt).toEqual({ "2024-01": 4, "2025-01": 7, "2026-09": 12 });
-    expect(replay.recordsAt["2026-09"]).toBe(22);
+    expect(replay.alertsAt).toEqual({ "2024-01": 13, "2025-01": 18, "2026-09": 24 });
+    expect(replay.recordsAt["2026-09"]).toBe(39);
   });
 });
 

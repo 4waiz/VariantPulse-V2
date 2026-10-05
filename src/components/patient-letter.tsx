@@ -251,7 +251,7 @@ function PatientLetterDialog({
         <article className="rounded-2xl border border-line-2 bg-surface p-6 shadow-xl sm:p-8">
           <header className="flex flex-wrap items-start justify-between gap-4 border-b border-line pb-4">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-faint">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-faint">
                 Patient letter · English and Arabic
               </p>
               <h2 id="patient-letter-title" className="mt-1.5 text-[20px] font-semibold tracking-tight text-ink">
@@ -267,7 +267,7 @@ function PatientLetterDialog({
             <div className="mt-4">
               <label
                 htmlFor="letter-record"
-                className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint"
+                className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint"
               >
                 Letter for record
               </label>
@@ -275,7 +275,7 @@ function PatientLetterDialog({
                 id="letter-record"
                 value={record?.id ?? ""}
                 onChange={(event) => setRecordId(event.target.value)}
-                className="mt-2 w-full max-w-md rounded-xl border border-line bg-surface-2 px-3.5 py-2.5 text-[13px] text-ink outline-none transition-colors focus:border-accent-ring focus:bg-surface"
+                className="mt-2 w-full max-w-md rounded-xl border border-line bg-surface-2 px-3.5 py-2.5 text-[14px] text-ink outline-none transition-colors focus:border-accent-ring focus:bg-surface"
               >
                 {records.map((r) => (
                   <option key={r.id} value={r.id}>
@@ -305,13 +305,13 @@ function PatientLetterDialog({
               />
             </div>
           ) : (
-            <p className="mt-6 text-center text-[13px] text-muted">
+            <p className="mt-6 text-center text-[14px] text-muted">
               No affected record on this case to address a letter to.
             </p>
           )}
 
           <footer className="mt-4 flex flex-wrap items-start justify-between gap-3 border-t border-line pt-4">
-            <p className="max-w-2xl text-[12px] leading-relaxed text-muted">
+            <p className="max-w-2xl text-[13px] leading-relaxed text-muted">
               <strong className="font-semibold text-ink">{LETTER_DRAFT_NOTE}.</strong> Filled from
               the record: test date, gene, ordering department and clinical owner. It states no
               diagnosis and no risk figures.
@@ -378,7 +378,7 @@ function LetterField({
           htmlFor={id}
           lang={lang}
           className={cn(
-            "text-[11px] font-medium uppercase tracking-[0.07em] text-faint",
+            "text-[12px] font-medium uppercase tracking-[0.07em] text-faint",
             rtl && "text-[13px] normal-case tracking-normal",
             rtl && className,
           )}
@@ -386,7 +386,7 @@ function LetterField({
           {label}
         </label>
         <span
-          className={cn("text-[11px] vp-num", words > LETTER_WORD_LIMIT ? "text-warn" : "text-faint")}
+          className={cn("text-[12px] vp-num", words > LETTER_WORD_LIMIT ? "text-warn" : "text-faint")}
         >
           {words} words
           {words > LETTER_WORD_LIMIT ? ` · over the ~${LETTER_WORD_LIMIT}-word guide` : ""}
@@ -402,7 +402,7 @@ function LetterField({
         spellCheck
         className={cn(
           "mt-2 w-full resize-y rounded-xl border border-line bg-surface-2 px-4 py-3 leading-relaxed text-ink outline-none transition-colors focus:border-accent-ring focus:bg-surface",
-          rtl ? "text-[15px]" : "text-[13.5px]",
+          rtl ? "text-[17px]" : "text-[16px]",
           className,
         )}
       />
