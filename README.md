@@ -173,18 +173,20 @@ variant, classification, frequency and catalogue reading is public and cited.
 
 | | What it is | Where it lives |
 |---|---|---|
-| **Patients** | 26 synthetic hospital records (`VP-xxxxx`): no real person, clinician or institution | `src/data/workspace.ts` |
-| **Variants** | 15 real ClinVar variants, each identified by its VCV accession and, where one exists, its rsID | `src/data/workspace.ts` |
-| **Historical evidence** | For 14 variants, ClinVar's own classification in its **January 2023** release (`variant_summary_2023-01`), with the review status of the day. MYBPC3 c.776delinsTT was not in ClinVar then: its classification on record is the synthetic hospital's report of a novel variant, and is labelled as such everywhere | `src/data/workspace.ts`, `src/data/provenance.json` |
+| **Patients** | 44 synthetic hospital records (`VP-xxxxx`): no real person, clinician or institution | `src/data/workspace.ts` |
+| **Variants** | 28 real ClinVar variants, each identified by its VCV accession and, where one exists, its rsID | `src/data/workspace.ts` |
+| **Historical evidence** | For 27 variants, ClinVar's own classification in its **January 2023** release (`variant_summary_2023-01`), with the review status of the day. MYBPC3 c.776delinsTT was not in ClinVar then: its classification on record is the synthetic hospital's report of a novel variant, and is labelled as such everywhere | `src/data/workspace.ts`, `src/data/provenance.json` |
 | **Current evidence** | Live NCBI ClinVar, one batched E-utilities request per sync | `src/lib/clinvar.ts` |
-| **Offline fallback** | A saved ClinVar snapshot, verified identical to a live read (15 of 15 records) when it was imported | `src/data/evidence-snapshot.json` |
-| **Regional evidence** | gnomAD v4 allele counts for the Middle Eastern genetic ancestry group and all samples, for every variant; and, for three variants, the reading of the Catalogue for Transmission Genetics in Arabs (CTGA, Centre for Arab Genomic Studies), quoted and attributed | `src/data/regional.ts` |
+| **Offline fallback** | A saved ClinVar snapshot, verified identical to a live read (28 of 28 records, 4 October 2026) | `src/data/evidence-snapshot.json` |
+| **Regional evidence** | gnomAD v4 allele counts for the Middle Eastern genetic ancestry group and all samples, for every variant; and, for four variants, the reading of the Catalogue for Transmission Genetics in Arabs (CTGA, Centre for Arab Genomic Studies), quoted and attributed | `src/data/regional.ts` |
+| **ClinVar-wide scale** | How many variants crossed between VUS and pathogenic or likely pathogenic across all of ClinVar from January 2023 to September 2026 (5,022 one way, 1,703 the other), from Huda's comparison of the archived releases. Shown on Home, labelled ClinVar-wide, beside the same count for this workspace | `src/data/clinvar-wide.ts` |
 | **Genome map** | GRCh38 chromosome lengths (UCSC hg38) and centromeres (the p11/q11 boundary in the hg38 cytoBand table), fixed properties of the assembly. Each variant stands at the GRCh38 position its ClinVar record gives; a test checks every one against ClinVar's own cytogenetic band | `src/lib/genome.ts` |
 
-With the bundled snapshot, `npm run verify:data` computes: **11 reclassifications** (10 against the
+With the bundled snapshot, `npm run verify:data` computes: **23 reclassifications** (22 against the
 January 2023 release, 1 against the modelled hospital report), **1 consensus conflict**, **2 regional
-signals**, **3 unchanged classifications** (two of which raise nothing at all) and **13 review
-cases covering 23 synthetic patients**. The lead case is **BRCA1 c.5056C>T**: uncertain significance
+signals**, **4 unchanged classifications** (three of which raise nothing at all) and **25 review
+cases covering 40 synthetic patients**: 22 reclassified and 3 conflict or regional, the split Home
+shows under "Cases surfaced". The lead case is **BRCA1 c.5056C>T**: uncertain significance
 in January 2023, likely pathogenic after expert-panel review (last evaluated 18 August 2025), carried
 by four synthetic patients. Live ClinVar can move these numbers; the interface always shows the
 computed values.
@@ -194,7 +196,8 @@ and a clinician decides.
 
 ### How each source was checked
 
-Every non-synthetic value was re-checked against its primary source on 25 September 2026:
+Every non-synthetic value was re-checked against its primary source on 25 September 2026, and the
+thirteen variants added on 4 October 2026 were checked the same way that day:
 
 - **ClinVar, January 2023 and after**: the historical classification, review status and rsID of each
   variant against NCBI's archived `variant_summary_2023-01` (GRCh38 rows), and the January 2024 and
@@ -203,8 +206,8 @@ Every non-synthetic value was re-checked against its primary source on 25 Septem
 - **ClinVar, current**: the snapshot against a live E-utilities read, field by field.
   `npm run verify:history -- --live` repeats it.
 - **gnomAD v4**: allele counts against the gnomAD API (dataset `gnomad_r4`). Counts are the joint
-  exome-and-genome figures, except for the four variants gnomAD holds only in exomes, which are
-  labelled as exome counts. Three variants are absent from gnomAD v4 altogether.
+  exome-and-genome figures, except for the six variants gnomAD holds only in exomes, which are
+  labelled as exome counts. Twelve variants are absent from gnomAD v4 altogether.
 - **CTGA**: each quoted reading against its CTGA variant page, linked from the interface.
 
 ### Live reads and fallback
@@ -257,8 +260,8 @@ evidence snapshot.
 
 - **Silent pilot** (`/pilot`). While on, nothing reaches a patient and nothing is exported, but
   review carries on so it can be measured. A **retrospective replay** runs ClinVar's archived
-  releases against the classifications on record: VariantPulse would have held 4 open alerts by
-  January 2024, 7 by January 2025 and 12 by September 2026. The **evaluation** computes agreement
+  releases against the classifications on record: VariantPulse would have held 13 open alerts by
+  January 2024, 18 by January 2025 and 24 by September 2026. The **evaluation** computes agreement
   with expert review, missed changes, false or duplicate alerts, review time per case and import
   errors, only from labels entered in the session or loaded from a reference set, and success
   criteria stay unset until agreed with the partner. No figure is supplied.
@@ -279,7 +282,7 @@ This distinction is maintained deliberately and is stated throughout the interfa
 
 **Real:**
 
-- All fifteen monitored variants are genuine ClinVar records. Their current classifications,
+- All twenty-eight monitored variants are genuine ClinVar records. Their current classifications,
   review statuses, submission counts, evaluation dates, dbSNP identifiers and coordinates are
   read from ClinVar; their historical classifications come from ClinVar's own archived releases.
 - Population frequencies are gnomAD v4 allele counts. The Middle Eastern group is about 3,000
@@ -298,7 +301,7 @@ This distinction is maintained deliberately and is stated throughout the interfa
   held no record of the variant in January 2023.
 
 Nothing in VariantPulse is endorsed by, supplied by or integrated with any hospital, national
-programme, registry or government entity. A sync walks the 26 synthetic records and nothing
+programme, registry or government entity. A sync walks the 44 synthetic records and nothing
 else: there is no generated background volume behind the numbers.
 
 ## The accent and the alarm
@@ -338,7 +341,7 @@ evaluate it. The same path is linked step by step at the foot of `/pilot`.
    the helix is a monitored finding, coloured by what its evidence did: drag to turn it, and hover
    or tab to a bead to see the change (arrow keys move between them).
 2. **Run evidence sync**. Reads current ClinVar live (or the verified snapshot offline), compares
-   classifications, walks the 26 synthetic records and compares regional evidence; a ring scans
+   classifications, walks the 44 synthetic records and compares regional evidence; a ring scans
    along the helix as it runs. It ends on the highest-priority change: uncertain significance →
    likely pathogenic, four synthetic patients, one clinical review case.
 3. **Open the case**. *What changed?* shows ClinVar's reading then and now, the archived

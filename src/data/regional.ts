@@ -358,7 +358,8 @@ const CONTEXT: Record<string, RegionalContext> = {
       "It is a control: nothing has changed, so nothing is raised.",
     citations: [],
     flagForReview: false,
-  },  "CFTR:c.1646G>A": {
+  },
+  "CFTR:c.1646G>A": {
     note:
       "p.Ser549Asn. CTGA records it as pathogenic in UAE cystic fibrosis patients (Shafiq et al. 2021), as well as in Kuwait and Lebanon. Regional and global readings agree, so it is a control: nothing is raised.",
     citations: [],
