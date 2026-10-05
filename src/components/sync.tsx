@@ -166,7 +166,7 @@ export function SyncOverlay() {
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-[14px] font-semibold text-ink">Evidence sync complete</p>
-                <p className="mt-1 text-[12.5px] leading-relaxed text-muted">
+                <p className="mt-1 text-[14px] leading-relaxed text-muted">
                   {formatNumber(analysis.scan.findingsChecked)} synthetic records checked against{" "}
                   {analysis.mode === "live"
                     ? "live ClinVar evidence"
@@ -190,7 +190,7 @@ export function SyncOverlay() {
 
                 {lead ? (
                   <div className="vp-rise mt-3.5 rounded-xl border border-line bg-surface-2 p-3.5">
-                    <p className="text-[10.5px] font-semibold uppercase tracking-[0.1em] text-faint">
+                    <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-faint">
                       Highest priority
                     </p>
                     <p className="mt-1.5 text-[13px] font-semibold text-ink">
@@ -225,7 +225,7 @@ export function SyncOverlay() {
                     Dismiss
                   </Button>
                 </div>
-                <p className="mt-3 border-t border-line pt-2.5 text-[11.5px] text-faint">
+                <p className="mt-3 border-t border-line pt-2.5 text-[12px] text-faint">
                   Your DNA didn&rsquo;t change. Science did. · AI assists. Clinicians decide.
                 </p>
               </div>

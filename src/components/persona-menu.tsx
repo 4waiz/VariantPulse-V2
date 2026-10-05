@@ -53,7 +53,7 @@ export function PersonaMenu() {
         </span>
         <span className="hidden min-w-0 text-left leading-tight sm:block">
           <span className="block max-w-[140px] truncate text-[12.5px] font-medium text-ink">{persona.name}</span>
-          <span className="block max-w-[140px] truncate text-[11px] text-muted">{ROLES[persona.role].label}</span>
+          <span className="block max-w-[140px] truncate text-[12px] text-muted">{ROLES[persona.role].label}</span>
         </span>
         <span className="sr-only">, switch identity</span>
       </button>
@@ -65,7 +65,7 @@ export function PersonaMenu() {
         >
           <div className="border-b border-line px-4 py-3">
             <p className="text-[13px] font-semibold text-ink">Signed in as</p>
-            <p className="mt-0.5 text-[11.5px] leading-relaxed text-muted">
+            <p className="mt-0.5 text-[12px] leading-relaxed text-muted">
               Demonstration identities, one role each. In a pilot, sign-in and MFA come from the
               facility&rsquo;s identity provider.
             </p>
@@ -100,8 +100,8 @@ export function PersonaMenu() {
                         {option.name}
                         {active ? <Check className="h-3.5 w-3.5 text-garnet" aria-hidden /> : null}
                       </span>
-                      <span className="block text-[11.5px] font-medium text-garnet">{ROLES[option.role].label}</span>
-                      <span className="mt-0.5 block text-[11.5px] leading-snug text-muted">
+                      <span className="block text-[12px] font-medium text-garnet">{ROLES[option.role].label}</span>
+                      <span className="mt-0.5 block text-[12px] leading-snug text-muted">
                         {ROLES[option.role].description}
                       </span>
                     </span>

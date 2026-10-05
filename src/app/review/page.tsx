@@ -102,7 +102,7 @@ export default function ReviewPage() {
               {option.label}
               <span
                 className={cn(
-                  "grid h-5 min-w-5 place-items-center rounded-full px-1 text-[11px] font-semibold vp-num",
+                  "grid h-5 min-w-5 place-items-center rounded-full px-1 text-[12px] font-semibold vp-num",
                   tab === option.id
                     ? option.id === "overdue" && counts.overdue > 0
                       ? "bg-crit-soft text-crit"
@@ -161,7 +161,7 @@ export default function ReviewPage() {
                       hgvs={assessment.variant.hgvsCoding}
                       protein={assessment.variant.proteinChange}
                     />
-                    <p className="mt-1.5 text-[13px] text-ink-2">
+                    <p className="mt-1.5 text-[14px] text-ink-2">
                       {composeReviewReason(assessment.changeType, assessment.variant.gene)}
                     </p>
                   </div>
@@ -176,13 +176,13 @@ export default function ReviewPage() {
 
                 <dl className="mt-4 grid gap-x-6 gap-y-3 border-t border-line pt-3.5 sm:grid-cols-2 lg:grid-cols-4">
                   <div>
-                    <dt className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">Owner</dt>
+                    <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">Owner</dt>
                     <dd className="mt-1 text-[13px] text-ink">
                       {state.owner ?? <span className="text-warn">Unassigned</span>}
                     </dd>
                   </div>
                   <div>
-                    <dt className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">
+                    <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">
                       Records impacted
                     </dt>
                     <dd className="mt-1 inline-flex items-center gap-1.5 text-[13px] font-medium text-ink">
@@ -191,7 +191,7 @@ export default function ReviewPage() {
                     </dd>
                   </div>
                   <div>
-                    <dt className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">
+                    <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">
                       Evidence confidence
                     </dt>
                     <dd className="mt-1">
@@ -199,7 +199,7 @@ export default function ReviewPage() {
                     </dd>
                   </div>
                   <div>
-                    <dt className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">Follow-up</dt>
+                    <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">Follow-up</dt>
                     <dd className="mt-1 text-[13px] text-ink">
                       {state.followUps.length === 0 ? (
                         <span className="text-muted">None yet</span>

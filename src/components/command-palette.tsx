@@ -256,7 +256,7 @@ export function CommandPalette({
                     </span>
                     <span className="block truncate text-[12px] text-muted">{entry.subtitle}</span>
                   </span>
-                  <span className="shrink-0 text-[11px] font-medium uppercase tracking-wide text-faint">
+                  <span className="shrink-0 text-[12px] font-medium uppercase tracking-wide text-faint">
                     {KIND_LABEL[entry.kind]}
                   </span>
                   {index === active ? (

@@ -38,7 +38,7 @@ export function PageHeader({
             {title}
           </h1>
           {description ? (
-            <p className="mt-2 max-w-2xl text-[13.5px] leading-relaxed text-muted">
+            <p className="mt-2 max-w-2xl text-[16px] leading-relaxed text-muted">
               {description}
             </p>
           ) : null}
@@ -61,8 +61,8 @@ export function PageShell({
     <div className={cn("mx-auto w-full max-w-[1360px] px-5 pb-12 sm:px-6 lg:px-8", className)}>
       {children}
       <footer className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
-        <p className="text-[11.5px] text-faint">VariantPulse · Built by Team Kanban</p>
-        <p className="text-[11.5px] text-faint">
+        <p className="text-[12px] text-faint">VariantPulse · Built by Team Kanban</p>
+        <p className="text-[12px] text-faint">
           Synthetic patient records · Real public genomic evidence
         </p>
       </footer>

@@ -52,8 +52,8 @@ export function GovernanceView({ facts }: { facts: DeploymentFacts }) {
       <div className="mt-4 grid gap-3 lg:grid-cols-3">
         {HOSTING_OPTIONS.map((option, index) => (
           <Card key={option.name} className={cn("p-5", index === HOSTING_OPTIONS.length - 1 && "bg-surface-2")}>
-            <p className="text-[14px] font-semibold text-ink">{option.name}</p>
-            <p className="mt-1.5 text-[13px] leading-relaxed text-ink-2">{option.summary}</p>
+            <p className="text-[15px] font-semibold text-ink">{option.name}</p>
+            <p className="mt-1.5 text-[16px] leading-relaxed text-ink-2">{option.summary}</p>
             <p className="mt-3 border-t border-line pt-2.5 text-[12px] text-muted">
               <span className="font-medium text-ink-2">Suits: </span>
               {option.suits}
@@ -91,13 +91,13 @@ export function GovernanceView({ facts }: { facts: DeploymentFacts }) {
         <SessionData />
         <Card className="p-5">
           <SectionHeading title="Responsible-AI alignment" />
-          <p className="mt-3 text-[13.5px] leading-relaxed text-ink-2">
+          <p className="mt-3 text-[16px] leading-relaxed text-ink-2">
             Aligning VariantPulse with the Department of Health – Abu Dhabi&rsquo;s requirements for responsible
             AI in healthcare is a separate workstream, done with the partner. Its inputs are on this page and
             the next: the AI inventory, the silent pilot&rsquo;s evaluation results, the known limitations and the
             human-oversight controls.
           </p>
-          <p className="mt-3 text-[12.5px] leading-relaxed text-muted">
+          <p className="mt-3 text-[14px] leading-relaxed text-muted">
             Nothing here establishes compliance. The controls marked &ldquo;not in this demo&rdquo; are plans for a
             pilot, not features.
           </p>
@@ -149,7 +149,7 @@ function ThisDeployment({ facts }: { facts: DeploymentFacts }) {
           <div className="min-w-0">
             <Eyebrow>{item.label}</Eyebrow>
             <p className="mt-1 text-[13.5px] font-semibold text-ink">{item.value}</p>
-            <p className="mt-0.5 text-[12px] leading-snug text-muted">{item.note}</p>
+            <p className="mt-0.5 text-[13px] leading-snug text-muted">{item.note}</p>
           </div>
         </div>
       ))}
@@ -171,7 +171,7 @@ function Controls() {
           <thead>
             <tr className="border-b border-line bg-surface-2">
               {["Control", "Here", "In this demonstration", "For a pilot"].map((heading) => (
-                <th key={heading} scope="col" className="px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint">
+                <th key={heading} scope="col" className="px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint">
                   {heading}
                 </th>
               ))}
@@ -201,7 +201,7 @@ function Controls() {
           {Object.values(ROLES).map((role) => (
             <div key={role.role}>
               <dt className="text-[13px] font-medium text-ink">{role.label}</dt>
-              <dd className="mt-0.5 text-[12px] leading-snug text-muted">{role.description}</dd>
+              <dd className="mt-0.5 text-[13px] leading-snug text-muted">{role.description}</dd>
             </div>
           ))}
         </dl>
@@ -224,7 +224,7 @@ function DataFlows({ aiConfigured }: { aiConfigured: boolean }) {
           <thead>
             <tr className="border-b border-line bg-surface-2">
               {["Destination", "When", "Sends", "Never sends", "Control"].map((heading) => (
-                <th key={heading} scope="col" className="px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint">
+                <th key={heading} scope="col" className="px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint">
                   {heading}
                 </th>
               ))}
@@ -268,10 +268,10 @@ function Inventory({ facts }: { facts: DeploymentFacts }) {
           return (
             <Card key={component.name} className="p-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-[14px] font-semibold text-ink">{component.name}</p>
+                <p className="text-[15px] font-semibold text-ink">{component.name}</p>
                 <Badge tone={model ? "warning" : "neutral"}>{component.kind}</Badge>
               </div>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-ink-2">{component.purpose}</p>
+              <p className="mt-1.5 text-[16px] leading-relaxed text-ink-2">{component.purpose}</p>
               {model ? (
                 <p className="mt-1.5 text-[12px] font-medium text-muted">
                   {facts.aiConfigured ? `On this deployment: ${facts.aiModel}` : "On this deployment: off, fixed templates used"}
@@ -286,8 +286,8 @@ function Inventory({ facts }: { facts: DeploymentFacts }) {
                   ["Evaluation to date", component.evaluation],
                 ].map(([label, value]) => (
                   <div key={label}>
-                    <dt className="text-[10.5px] font-medium uppercase tracking-[0.07em] text-faint">{label}</dt>
-                    <dd className="mt-0.5 text-[12.5px] leading-relaxed text-ink-2">{value}</dd>
+                    <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{label}</dt>
+                    <dd className="mt-0.5 text-[14px] leading-relaxed text-ink-2">{value}</dd>
                   </div>
                 ))}
               </dl>
@@ -320,7 +320,7 @@ function SessionData() {
           ["Import reviews", lastImport ? 1 : 0],
         ].map(([label, value]) => (
           <div key={label}>
-            <dt className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">{label}</dt>
+            <dt className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{label}</dt>
             <dd className="mt-0.5 text-[16px] font-semibold text-ink vp-num">{hydrated ? value : "–"}</dd>
           </div>
         ))}
@@ -361,7 +361,7 @@ function SessionData() {
 
 function Point({ children, muted = false }: { children: React.ReactNode; muted?: boolean }) {
   return (
-    <li className="flex gap-2.5 text-[13px] leading-relaxed">
+    <li className="flex gap-2.5 text-[16px] leading-relaxed">
       <span className={cn("mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full", muted ? "bg-slate" : "bg-accent")} />
       <span className="text-ink-2">{children}</span>
     </li>

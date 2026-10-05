@@ -91,7 +91,7 @@ export default function PatientsPage() {
                 )}
               >
                 {option.label}
-                <span className="text-[11px] text-faint vp-num">{counts[option.id]}</span>
+                <span className="text-[12px] text-faint vp-num">{counts[option.id]}</span>
               </button>
             ))}
           </div>

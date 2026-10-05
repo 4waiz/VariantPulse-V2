@@ -131,13 +131,13 @@ export function AiSummaryPanel({
                 <textarea
                   value={text}
                   onChange={(event) => setText(event.target.value)}
-                  rows={6}
+                  rows={10}
                   aria-label="Evidence summary draft"
                   aria-describedby={sourceId}
-                  className="mt-2.5 w-full resize-y rounded-xl border border-line bg-surface-2 px-3.5 py-2.5 text-[13px] leading-relaxed text-ink outline-none transition-colors focus:border-accent-ring focus:bg-surface"
+                  className="mt-2.5 w-full resize-y rounded-xl border border-line bg-surface-2 px-3.5 py-2.5 text-[16px] leading-relaxed text-ink outline-none transition-colors focus:border-accent-ring focus:bg-surface"
                 />
                 <div className="mt-2.5 flex flex-wrap items-center justify-between gap-3">
-                  <p className="max-w-xl text-[11.5px] leading-relaxed text-faint">
+                  <p className="max-w-xl text-[12px] leading-relaxed text-faint">
                     Each sentence ends with the tag of its source. Check it against that entry below.
                   </p>
                   <Button size="sm" onClick={useInBrief} disabled={!text.trim()}>
@@ -157,9 +157,9 @@ export function AiSummaryPanel({
           <section id={sourceId} aria-label="Source of the draft: evidence summary" className="min-w-0">
             <StepLabel label="Source" note="Evidence summary, composed from the records cited on this page" />
             <div className="mt-2.5 rounded-xl border border-line bg-surface-2 px-4 py-3.5">
-              <p className="text-[14px] leading-relaxed text-ink-2">{assessment.summary}</p>
+              <p className="text-[16px] leading-relaxed text-ink-2">{assessment.summary}</p>
               <SourceEntries facts={facts} cited={cited} />
-              <p className="mt-3 border-t border-line pt-3 text-[11.5px] leading-relaxed text-faint">
+              <p className="mt-3 border-t border-line pt-3 text-[12px] leading-relaxed text-faint">
                 Composed from the structured fields of the cited records by fixed templates. Requires
                 clinical verification before it informs any decision.
               </p>
@@ -188,8 +188,8 @@ function StepMark({ tone, children }: { tone: "draft" | "source"; children: Reac
 function StepLabel({ label, note }: { label: string; note: string }) {
   return (
     <p className="flex min-h-6 flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-[3px]">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-2">{label}</span>
-      <span className="text-[12px] text-muted">{note}</span>
+      <span className="text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-2">{label}</span>
+      <span className="text-[13px] text-muted">{note}</span>
     </p>
   );
 }
@@ -280,14 +280,14 @@ function EntryList({
         <div key={entry.tag} className="contents">
           <dt
             className={cn(
-              "font-mono text-[11.5px] [overflow-wrap:anywhere]",
+              "font-mono text-[12px] [overflow-wrap:anywhere]",
               cited.has(entry.tag) ? "font-semibold text-info" : "font-medium text-faint",
             )}
           >
             {entry.tag}
             {cited.has(entry.tag) ? <span className="sr-only"> (cited in the draft)</span> : null}
           </dt>
-          <dd className="text-[12.5px] leading-snug text-ink-2 [overflow-wrap:anywhere]">{entry.text}</dd>
+          <dd className="text-[14px] leading-snug text-ink-2 [overflow-wrap:anywhere]">{entry.text}</dd>
         </div>
       ))}
     </dl>

@@ -69,7 +69,7 @@ export default function OversightPage() {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6">
         {tiles.map((tile) => (
           <Card key={tile.label} className="p-4">
-            <p className="text-[11px] font-medium uppercase tracking-[0.07em] text-faint">{tile.label}</p>
+            <p className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{tile.label}</p>
             <p
               className={cn(
                 "mt-2 text-[26px] font-semibold leading-none tracking-tight vp-num",
@@ -78,7 +78,7 @@ export default function OversightPage() {
             >
               {tile.value}
             </p>
-            <p className="mt-1.5 text-[11.5px] leading-snug text-muted">{tile.hint}</p>
+            <p className="mt-1.5 text-[12px] leading-snug text-muted">{tile.hint}</p>
           </Card>
         ))}
       </div>
@@ -96,7 +96,7 @@ export default function OversightPage() {
         <Forecast rows={open} horizon={horizon} setHorizon={setHorizon} />
       </div>
 
-      <p className="mt-5 text-[11.5px] leading-relaxed text-faint">
+      <p className="mt-5 text-[12px] leading-relaxed text-faint">
         Figures cover this session&rsquo;s workflow, computed from the case histories. In a pilot they come from the
         shared case store, across every reviewer. {closed.length} case{closed.length === 1 ? " is" : "s are"} closed.
       </p>
@@ -130,9 +130,9 @@ function Unresolved({ rows }: { rows: Row[] }) {
                 <span className="min-w-0 flex-1 basis-52">
                   <span className="block text-[13px] text-ink">
                     <span className="font-semibold">{assessment.variant.gene}</span>{" "}
-                    <span className="font-mono text-[11.5px] text-muted">{assessment.variant.hgvsCoding}</span>
+                    <span className="font-mono text-[12px] text-muted">{assessment.variant.hgvsCoding}</span>
                   </span>
-                  <span className="mt-0.5 block text-[11.5px] text-muted">
+                  <span className="mt-0.5 block text-[12px] text-muted">
                     {assessment.caseId} · {state.owner ?? "Unassigned"}
                   </span>
                 </span>
@@ -244,7 +244,7 @@ function Workload({ rows }: { rows: Row[] }) {
         <thead>
           <tr className="border-b border-line bg-surface-2">
             {["Owner", "Open", "Overdue", "Decided", "Closed"].map((heading) => (
-              <th key={heading} scope="col" className="px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint">
+              <th key={heading} scope="col" className="px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint">
                 {heading}
               </th>
             ))}
@@ -311,7 +311,7 @@ function Forecast({
       </div>
       {at ? (
         <>
-          <p className="mt-4 text-[13.5px] text-ink-2">
+          <p className="mt-4 text-[16px] text-ink-2">
             By <span className="font-medium text-ink">{formatDate(at.toISOString())}</span>,{" "}
             <span className={cn("font-semibold vp-num", late.length ? "text-crit" : "text-ok")}>{late.length}</span> of{" "}
             {rows.length} open case{rows.length === 1 ? "" : "s"} will be overdue and with {SERVICE_LEAD.name}.

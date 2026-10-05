@@ -121,7 +121,7 @@ export function CaseHistory({
             <span className="min-w-0 flex-1">
               <span className="flex flex-wrap items-baseline gap-x-2">
                 <span className="text-[13px] font-medium leading-snug text-ink">{event.summary}</span>
-                <span className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-faint">
+                <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-faint">
                   {CASE_EVENT_LABEL[event.type]}
                 </span>
               </span>
@@ -130,7 +130,7 @@ export function CaseHistory({
                   {event.detail}
                 </span>
               ) : null}
-              <span className="mt-1 flex flex-wrap items-center gap-x-1.5 text-[11px] text-faint">
+              <span className="mt-1 flex flex-wrap items-center gap-x-1.5 text-[12px] text-faint">
                 <span className="font-medium text-ink-2">{event.actor}</span>
                 <span aria-hidden>·</span>
                 <span>{event.role}</span>

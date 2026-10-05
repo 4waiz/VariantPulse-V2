@@ -17,8 +17,8 @@ export function CaseJourney({ steps, className }: { steps: JourneyStep[]; classN
   return (
     <nav aria-label="Case journey" className={cn("vp-card px-5 py-4", className)}>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-faint">Case journey</p>
-        <p className="text-[11.5px] text-muted vp-num">
+        <p className="text-[12px] font-semibold uppercase tracking-[0.13em] text-faint">Case journey</p>
+        <p className="text-[12px] text-muted vp-num">
           {done} of {steps.length} steps complete
         </p>
       </div>
@@ -40,7 +40,7 @@ export function CaseJourney({ steps, className }: { steps: JourneyStep[]; classN
             ) : null}
             <span
               className={cn(
-                "relative z-10 grid h-[27px] w-[27px] shrink-0 place-items-center rounded-full border text-[11px] font-semibold vp-num",
+                "relative z-10 grid h-[27px] w-[27px] shrink-0 place-items-center rounded-full border text-[12px] font-semibold vp-num",
                 step.status === "done" && "border-ok bg-ok text-white",
                 step.status === "skipped" && "border-dashed border-line-2 bg-surface text-faint",
                 step.status === "current" && "border-accent bg-accent-soft text-accent ring-4 ring-accent-soft/70",
@@ -81,7 +81,7 @@ export function CaseJourney({ steps, className }: { steps: JourneyStep[]; classN
                 <span className="mt-0.5 block text-[12px] leading-snug text-accent">Next step</span>
               ) : null}
               {step.actor || step.at ? (
-                <span className="mt-0.5 block text-[11px] leading-snug text-faint vp-num">
+                <span className="mt-0.5 block text-[12px] leading-snug text-faint vp-num">
                   {[step.actor, step.at ? formatDate(step.at) : null].filter(Boolean).join(" · ")}
                 </span>
               ) : null}

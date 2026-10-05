@@ -99,7 +99,7 @@ export default function VariantsPage() {
                   <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full", SIGNALS[option.signal].dot)} />
                 ) : null}
                 {option.label}
-                <span className="text-[11px] text-faint vp-num">{counts[option.id]}</span>
+                <span className="text-[12px] text-faint vp-num">{counts[option.id]}</span>
               </button>
             ))}
           </div>
@@ -126,7 +126,7 @@ export default function VariantsPage() {
           stageClassName="h-[250px] sm:h-[290px]"
         />
 
-        <div className="hidden items-center gap-4 border-b border-line bg-surface-2 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint lg:flex">
+        <div className="hidden items-center gap-4 border-b border-line bg-surface-2 px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint lg:flex">
           <span className="flex-1">Variant</span>
           <span className="hidden md:block">On record → current</span>
           <span className="w-20 text-right">Records</span>
@@ -160,8 +160,8 @@ export default function VariantsPage() {
           .filter((type) => analysis.assessments.some((a) => a.changeType === type))
           .map((type) => (
             <div key={type} className="vp-card-flat p-3.5">
-              <p className="text-[12.5px] font-semibold text-ink">{CHANGE_TYPES[type].label}</p>
-              <p className="mt-1 text-[11.5px] leading-snug text-muted">
+              <p className="text-[14px] font-semibold text-ink">{CHANGE_TYPES[type].label}</p>
+              <p className="mt-1 text-[13px] leading-snug text-muted">
                 {CHANGE_TYPES[type].description}
               </p>
             </div>

@@ -72,7 +72,7 @@ export default function PatientPage() {
           <div className="flex flex-wrap items-center gap-2.5 border-b border-line bg-surface-2 px-5 py-3">
             <PriorityBadge level={assessment.priority.level} />
             <ChangeTypeBadge type={changeType} />
-            <p className="text-[12.5px] text-muted">{CHANGE_TYPES[changeType].description}</p>
+            <p className="text-[14px] text-muted">{CHANGE_TYPES[changeType].description}</p>
           </div>
           <div className="p-5">
             <ThenNow assessment={assessment} size="lg" />
@@ -83,7 +83,7 @@ export default function PatientPage() {
           <Badge tone="positive" dot>
             No material change
           </Badge>
-          <p className="text-[13px] text-muted">
+          <p className="text-[14px] text-muted">
             Current evidence agrees with the interpretation issued for this record.
           </p>
         </Card>
@@ -103,7 +103,7 @@ export default function PatientPage() {
             <Field label="Last contact" value={formatDate(patient.lastContact)} />
             <Field label="Indication" value={patient.indication} className="col-span-2" />
           </dl>
-          <p className="mt-4 border-t border-line pt-3 text-[11.5px] text-faint">
+          <p className="mt-4 border-t border-line pt-3 text-[12px] text-faint">
             Synthetic record. No identifiers in this workspace correspond to a real person.
           </p>
         </Card>
@@ -155,7 +155,7 @@ export default function PatientPage() {
             />
             <Field label="Reported on (synthetic)" value={formatDate(variant.recordedOn)} />
           </dl>
-          <p className="mt-4 border-t border-line pt-3 text-[12.5px] leading-relaxed text-muted">
+          <p className="mt-4 border-t border-line pt-3 text-[14px] leading-relaxed text-muted">
             <span className="font-medium text-ink-2">Original report note (synthetic): </span>
             {variant.recordedEvidenceNote}
           </p>

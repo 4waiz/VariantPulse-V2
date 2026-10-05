@@ -178,7 +178,7 @@ export default function ActivityPage() {
         </div>
       )}
 
-      <p className="mt-4 text-[11.5px] leading-relaxed text-faint">
+      <p className="mt-4 text-[12px] leading-relaxed text-faint">
         The trail is held for this browser session only and exports as it stands. In a pilot it would be
         written to an append-only, server-side audit store. No entry records a change of classification or
         diagnosis: VariantPulse surfaces evidence, clinicians decide.

@@ -67,11 +67,11 @@ export function ImpactPanel({
 function ImpactStat({ label, value, detail }: { label: string; value: string; detail: string }) {
   return (
     <div className="min-w-0 px-5 py-3">
-      <p className="text-[10.5px] font-medium uppercase tracking-[0.07em] text-faint">{label}</p>
+      <p className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">{label}</p>
       <p className="mt-1 text-[18px] font-semibold leading-tight tracking-tight text-ink vp-num">
         {value}
       </p>
-      <p className="mt-0.5 text-[11.5px] leading-snug text-muted">{detail}</p>
+      <p className="mt-0.5 text-[12px] leading-snug text-muted">{detail}</p>
     </div>
   );
 }

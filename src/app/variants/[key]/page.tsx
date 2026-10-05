@@ -174,7 +174,7 @@ export default function VariantPage() {
 
       <Card className="mt-5 p-5">
         <SectionHeading title="Recommendation" />
-        <p className="mt-3 text-[14px] leading-relaxed text-ink-2">
+        <p className="mt-3 text-[16px] leading-relaxed text-ink-2">
           {composeRecommendation(changeType, impactedPatients.length)}
         </p>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-4">

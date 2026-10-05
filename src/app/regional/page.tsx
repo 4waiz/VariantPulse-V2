@@ -70,7 +70,7 @@ export default function RegionalPage() {
               <Globe2 className="h-4 w-4 text-muted" />
               <Eyebrow>Global</Eyebrow>
             </div>
-            <p className="mt-2.5 text-[13.5px] leading-relaxed text-ink-2">
+            <p className="mt-2.5 text-[16px] leading-relaxed text-ink-2">
               ClinVar submissions, reference population frequencies and published international evidence. The
               reference cohorts behind these datasets are predominantly of European ancestry.
             </p>
@@ -81,14 +81,14 @@ export default function RegionalPage() {
               <MapPin className="h-4 w-4 text-muted" />
               <Eyebrow>Regional</Eyebrow>
             </div>
-            <p className="mt-2.5 text-[13.5px] leading-relaxed text-ink-2">
+            <p className="mt-2.5 text-[16px] leading-relaxed text-ink-2">
               gnomAD v4 allele counts for the {REGIONAL_SOURCE.population}, and catalogue readings from{" "}
               {REGIONAL_SOURCE.catalogueShortName}, quoted and attributed.
             </p>
           </div>
         </div>
 
-        <p className="mt-5 border-t border-line pt-3.5 text-[13px] leading-relaxed text-ink-2">
+        <p className="mt-5 border-t border-line pt-3.5 text-[16px] leading-relaxed text-ink-2">
           gnomAD v4 holds <span className="font-medium text-ink vp-num">{inGnomad}</span> of the{" "}
           <span className="vp-num">{analysis.assessments.length}</span> monitored variants;{" "}
           <span className="font-medium text-ink vp-num">{absent}</span> are absent altogether.{" "}
@@ -97,7 +97,7 @@ export default function RegionalPage() {
           ClinVar today. <span className="font-medium text-warn vp-num">{conflicts.length}</span> variant
           {conflicts.length === 1 ? " carries" : "s carry"} a regional signal for a clinician to weigh.
         </p>
-        <p className="mt-3 rounded-xl border border-line bg-surface-2 px-3.5 py-2.5 text-[12.5px] leading-relaxed text-ink-2">
+        <p className="mt-3 rounded-xl border border-line bg-surface-2 px-3.5 py-2.5 text-[14px] leading-relaxed text-ink-2">
           <strong className="font-semibold text-ink">Context, not a conclusion.</strong> A Middle Eastern frequency
           rests on about 3,000 people in gnomAD. VariantPulse raises it for qualified review and never turns it into a
           classification or a clinical recommendation.
@@ -164,7 +164,7 @@ export default function RegionalPage() {
                   <th
                     key={heading}
                     scope="col"
-                    className="px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint"
+                    className="px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint"
                   >
                     {heading}
                   </th>
@@ -204,7 +204,7 @@ export default function RegionalPage() {
 
       <Card className="mt-5 p-5">
         <SectionHeading title="Why regional evidence matters" />
-        <p className="mt-3 max-w-3xl text-[13.5px] leading-relaxed text-ink-2">
+        <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-ink-2">
           A variant that is common and harmless in one population can be a founder variant in another. When the
           reference data behind a classification does not include the population a patient belongs to, a confident
           global reading can still be the wrong reading locally. VariantPulse holds both, labels where each comes
@@ -270,9 +270,9 @@ function SignalCard({ assessment }: { assessment: VariantAssessment }) {
       </div>
       <div className="border-t border-line bg-surface-2 px-5 py-4">
         <Eyebrow>Why it is raised</Eyebrow>
-        <p className="mt-2 text-[13px] leading-relaxed text-ink-2">{regionalStatement(signal)}</p>
+        <p className="mt-2 text-[16px] leading-relaxed text-ink-2">{regionalStatement(signal)}</p>
         {evidence?.context?.note ? (
-          <p className="mt-2 text-[12.5px] leading-relaxed text-muted">{evidence.context.note}</p>
+          <p className="mt-2 text-[14px] leading-relaxed text-muted">{evidence.context.note}</p>
         ) : null}
         {evidence?.context?.citations.length ? (
           <ul className="mt-3 space-y-1.5 border-t border-line pt-3">
@@ -294,7 +294,7 @@ function SignalCard({ assessment }: { assessment: VariantAssessment }) {
             ))}
           </ul>
         ) : null}
-        <p className="mt-3 text-[12.5px] font-medium text-ink">
+        <p className="mt-3 text-[14px] font-medium text-ink">
           Evidence to weigh, not a classification. A clinician decides whether it matters for these records.
         </p>
       </div>
@@ -319,7 +319,7 @@ function Coverage() {
             <tr className="border-b border-line bg-surface-2">
               {["Variant", "gnomAD v4 Middle Eastern", "gnomAD v4 all samples", REGIONAL_SOURCE.catalogueShortName, "Regional signal"].map(
                 (heading) => (
-                  <th key={heading} scope="col" className="px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint">
+                  <th key={heading} scope="col" className="px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.07em] text-faint">
                     {heading}
                   </th>
                 ),
@@ -352,7 +352,7 @@ function Coverage() {
                     ) : (
                       <span className="text-muted">Not observed in {formatNumber(me?.alleleNumber ?? 0)} alleles</span>
                     )}
-                    {evidence?.callSet === "exomes" ? <span className="block text-[11px] text-faint">Exome counts</span> : null}
+                    {evidence?.callSet === "exomes" ? <span className="block text-[12px] text-faint">Exome counts</span> : null}
                   </td>
                   <td className="px-5 py-3 text-[12.5px] text-ink-2 vp-num">
                     {global ? `${formatNumber(global.alleleCount)} of ${formatNumber(global.alleleNumber)}` : <span className="text-muted">-</span>}
@@ -429,7 +429,7 @@ function Sources() {
                 {SOURCE_KIND[source.kind].label}
               </Badge>
             </div>
-            <div className="min-w-0 space-y-1 text-[12.5px] leading-relaxed text-ink-2">
+            <div className="min-w-0 space-y-1 text-[14px] leading-relaxed text-ink-2">
               <p>{source.provides}</p>
               <p className="text-muted">
                 <span className="font-medium text-ink-2">Coverage: </span>
@@ -445,7 +445,7 @@ function Sources() {
               </p>
             </div>
             <div className="min-w-0">
-              <p className="flex items-start gap-1.5 text-[12.5px] leading-relaxed">
+              <p className="flex items-start gap-1.5 text-[14px] leading-relaxed">
                 {source.permissionConfirmed ? (
                   <CircleCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ok" aria-hidden />
                 ) : (
