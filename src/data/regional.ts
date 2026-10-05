@@ -178,7 +178,7 @@ export const EVIDENCE_SOURCES: EvidenceSource[] = [
     provides: "The catalogue's clinical significance for three variants, quoted verbatim and attributed.",
     coverage: "Variants recorded in Arab patients; the three held here are UAE records.",
     obtained: "The CTGA database, read on 25 Sep 2026.",
-    limitations: "Readings are quoted, never adopted, and cover three of fifteen variants.",
+    limitations: "Readings are quoted, never adopted, and cover four of twenty-eight variants.",
     permission: "Quoted with attribution. Permission for clinical or commercial reuse not yet confirmed with the publisher.",
     permissionConfirmed: false,
     url: "https://cags.org.ae/en/ctga-overview",
@@ -200,7 +200,7 @@ export const EVIDENCE_SOURCES: EvidenceSource[] = [
     publisher: "This demonstration",
     kind: "curated",
     provides: "A short note per variant on why regional interpretation matters, and one review flag (HBB c.380T>G).",
-    coverage: "Seven of fifteen variants.",
+    coverage: "Eight of twenty-eight variants.",
     obtained: "Written for the demonstration dataset, citing published papers.",
     limitations: "Context, not evidence about the variant. A pilot replaces it with the partner's own regional knowledge.",
     permission: "Original to VariantPulse.",
@@ -214,7 +214,14 @@ export const EVIDENCE_SOURCES: EvidenceSource[] = [
  * these are the exome figures; every other observed variant's are the joint
  * exome-and-genome figures. Checked against the gnomAD API on 2026-09-25.
  */
-const EXOME_ONLY = new Set(["BRCA2:c.7847C>T", "TP53:c.589G>A", "PTEN:c.149T>C", "HBB:c.380T>G"]);
+const EXOME_ONLY = new Set([
+  "BRCA2:c.7847C>T",
+  "TP53:c.589G>A",
+  "PTEN:c.149T>C",
+  "HBB:c.380T>G",
+  "LDLR:c.1004G>A",
+  "HBB:c.*132C>T",
+]);
 
 function frequency(counts: AlleleCounts): AlleleFrequency {
   return {
@@ -258,6 +265,14 @@ const CATALOGUE: Record<string, CatalogueRecord> = {
     references: ["Al-Ali et al., 2023", "Rawashdeh et al., 2024"],
     listedSince: "2024-01-23",
     url: "https://cags.org.ae/en/ctga-variant-details/4468/nm0072944c1140dup",
+  }),
+  "CFTR:c.1646G>A": ctga({
+    significance: "Pathogenic",
+    countries: ["United Arab Emirates", "Kuwait", "Lebanon"],
+    conditions: ["Cystic fibrosis"],
+    references: ["Shafiq et al., 2021", "Samilchuk, 2005", "Farra et al., 2010"],
+    listedSince: "2020-04-29",
+    url: "https://cags.org.ae/en/ctga-variant-details/769/nm0004923c1646ga",
   }),
 };
 
@@ -341,6 +356,11 @@ const CONTEXT: Record<string, RegionalContext> = {
   "BRCA1:c.1140dup": {
     note:
       "It is a control: nothing has changed, so nothing is raised.",
+    citations: [],
+    flagForReview: false,
+  },  "CFTR:c.1646G>A": {
+    note:
+      "p.Ser549Asn. CTGA records it as pathogenic in UAE cystic fibrosis patients (Shafiq et al. 2021), as well as in Kuwait and Lebanon. Regional and global readings agree, so it is a control: nothing is raised.",
     citations: [],
     flagForReview: false,
   },

@@ -10,7 +10,7 @@
  * Each monitored finding is one nucleotide on the leading strand, in genome
  * order along the helix, coloured by what happened to its evidence (see
  * `lib/signal`), with its base pair tinted to match. The positions
- * are illustrative, not to scale: fifteen findings on six chromosomes cannot
+ * are illustrative, not to scale: twenty-eight findings on eight chromosomes cannot
  * sit on one short stretch of DNA, and the page says so.
  *
  * Interaction:
