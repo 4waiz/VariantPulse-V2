@@ -123,6 +123,8 @@ export function Topbar() {
           <button
             type="button"
             onClick={() => setPaletteOpen(true)}
+            aria-label="Search patients, variants and cases"
+            aria-keyshortcuts="Control+K Meta+K"
             className="group flex h-10 items-center gap-2.5 rounded-xl border border-line bg-surface px-3 text-left transition-colors hover:border-line-2 sm:w-[268px]"
           >
             <Search className="h-4 w-4 shrink-0 text-faint" />

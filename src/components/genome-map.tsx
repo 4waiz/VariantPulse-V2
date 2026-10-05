@@ -20,7 +20,7 @@ import Link from "next/link";
 import { ClassificationBadge } from "@/components/ui";
 import { useDisplayed } from "@/components/use-displayed";
 import type { VariantAssessment } from "@/lib/analysis";
-import { CHANGE_TYPES } from "@/lib/classification";
+import { CHANGE_TYPES, meta } from "@/lib/classification";
 import { GRCH38, formatPosition, locusOf, type Locus } from "@/lib/genome";
 import { SIGNALS, SIGNAL_OF, SIGNAL_ORDER, type Signal } from "@/lib/signal";
 import { cn } from "@/lib/utils";
@@ -284,6 +284,9 @@ export function GenomeMap({
               <Link
                 key={item.key}
                 href={`/variants/${encodeURIComponent(item.key)}`}
+                // Named like the helix beads, for voice control and audits; the
+                // layer itself stays hidden from assistive technology (see above).
+                aria-label={`${item.assessment.variant.gene} ${item.assessment.variant.hgvsCoding}: ${meta(item.assessment.recordedCode).label} on record, ${meta(item.assessment.currentCode).label} now. ${SIGNALS[item.signal].label}.`}
                 tabIndex={-1}
                 draggable={false}
                 ref={(element) => {
