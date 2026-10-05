@@ -50,6 +50,25 @@ export function formatYear(value: string | null | undefined): string {
   return match ? match[1] : "-";
 }
 
+/**
+ * `5 Oct 2026, 13:34:27 GMT+4`: the full moment with its zone named, in
+ * `timeZone`, or the runtime's own zone when that is undefined.
+ */
+export function formatMoment(value: string, timeZone: string | undefined): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone,
+    timeZoneName: "short",
+  }).format(date);
+}
+
 /** Compact relative time such as `2m ago` or `3d ago`. */
 export function relativeTime(value: string | null | undefined, now = Date.now()): string {
   if (!value) return "-";

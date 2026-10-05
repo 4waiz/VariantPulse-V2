@@ -9,6 +9,7 @@
 import { Download } from "lucide-react";
 
 import { Timestamp } from "@/components/clinical/timestamp";
+import { RelativeTime } from "@/components/relative-time";
 import { Button, Card, SectionHeading } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { CASE_EVENT_LABEL, type CaseEvent, type CaseEventType, type CaseState } from "@/lib/workflow";
@@ -133,6 +134,8 @@ export function CaseHistory({
                 <span className="font-medium text-ink-2">{event.actor}</span>
                 <span aria-hidden>·</span>
                 <span>{event.role}</span>
+                <span aria-hidden>·</span>
+                <RelativeTime value={event.at} className="vp-num" />
                 <span aria-hidden>·</span>
                 <Timestamp value={event.at} className="vp-num" />
               </span>
