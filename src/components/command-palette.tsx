@@ -196,6 +196,7 @@ export function CommandPalette({
         <div className="flex items-center gap-3 border-b border-line px-4">
           <Search className="h-4 w-4 shrink-0 text-faint" />
           <input
+            name="search"
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}

@@ -107,6 +107,7 @@ export default function VariantsPage() {
           <label className="ml-auto flex h-9 min-w-[200px] items-center gap-2 rounded-xl border border-line px-3">
             <Search className="h-3.5 w-3.5 shrink-0 text-faint" />
             <input
+              name="filter-variants"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Filter by gene or HGVS"

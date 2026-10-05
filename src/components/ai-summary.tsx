@@ -129,6 +129,7 @@ export function AiSummaryPanel({
             ) : (
               <>
                 <textarea
+                  name="summary-draft"
                   value={text}
                   onChange={(event) => setText(event.target.value)}
                   rows={10}

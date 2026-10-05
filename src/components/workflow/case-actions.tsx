@@ -533,6 +533,7 @@ export function FollowUpCard({ caseId, assessment, state }: CaseProps) {
                   className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-line bg-surface px-3 py-2.5 transition-colors hover:bg-surface-2"
                 >
                   <input
+                    name="follow-ups"
                     type="checkbox"
                     checked={selected.has(draft.title)}
                     onChange={() => toggle(draft.title)}

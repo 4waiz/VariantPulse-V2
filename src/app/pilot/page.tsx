@@ -466,7 +466,7 @@ function Worklist({ alertKeys }: { alertKeys: string[] }) {
             <FileUp className="h-3.5 w-3.5" />
             Load reference set
           </Button>
-          <input ref={fileRef} type="file" accept=".csv,text/csv" className="hidden" onChange={onFile} />
+          <input ref={fileRef} name="reference-set" type="file" accept=".csv,text/csv" className="hidden" onChange={onFile} />
           <Button size="sm" onClick={exportLabels}>
             <Download className="h-3.5 w-3.5" />
             Labels

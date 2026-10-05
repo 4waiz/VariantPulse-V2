@@ -117,6 +117,7 @@ export default function ReviewPage() {
         </div>
         <label className="ml-auto inline-flex cursor-pointer items-center gap-2 text-[13px] text-ink-2">
           <input
+            name="only-mine"
             type="checkbox"
             checked={mine}
             onChange={(event) => setMine(event.target.checked)}

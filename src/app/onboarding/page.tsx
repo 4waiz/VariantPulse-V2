@@ -130,7 +130,7 @@ export default function OnboardingPage() {
               <span className="text-[13.5px] font-medium text-ink">Choose a file to validate</span>
               <span className="text-[12px] text-muted">Read in this browser. Nothing is uploaded.</span>
             </button>
-            <input ref={fileRef} type="file" accept=".csv,.tsv,.txt,text/csv" className="hidden" onChange={onFile} />
+            <input ref={fileRef} name="import-file" type="file" accept=".csv,.tsv,.txt,text/csv" className="hidden" onChange={onFile} />
           </div>
           <div>
             <label htmlFor="paste" className="text-[12px] font-medium uppercase tracking-[0.07em] text-faint">
