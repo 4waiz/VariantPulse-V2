@@ -17,6 +17,7 @@ import {
   Users,
 } from "lucide-react";
 
+import { ClinVarWideStrip } from "@/components/clinvar-wide";
 import { EvidenceHelix } from "@/components/evidence-helix";
 import { ImpactPanel } from "@/components/impact-panel";
 import { evidenceModeMeta } from "@/components/story/mode";
@@ -43,9 +44,11 @@ export default function HomePage() {
 
       <ImpactPanel
         findingsChecked={analysis.scan.findingsChecked}
-        casesSurfaced={analysis.metrics.evidenceChanges}
+        cases={pick(analysis, analysis.reviewableKeys)}
         scanMs={scanMs}
       />
+
+      <ClinVarWideStrip assessments={analysis.assessments} />
 
       {lead ? (
         <>
