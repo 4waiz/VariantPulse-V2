@@ -1,0 +1,194 @@
+"use client";
+
+import Link from "next/link";
+import { notFound, useParams } from "next/navigation";
+import { ArrowRight, ExternalLink } from "lucide-react";
+
+import { ThenNow } from "@/components/domain";
+import { GenomeMap } from "@/components/genome-map";
+import { PageHeader, PageShell } from "@/components/page-header";
+import {
+  EvidenceComparison,
+  EvidenceSummaryPanel,
+  PriorityPanel,
+  ReasoningPanel,
+  RegionalComparison,
+  ScienceTimeline,
+} from "@/components/panels";
+import { PatientImpactTable } from "@/components/patient-table";
+import { PatientImpactGraph, SyntheticDataLabel } from "@/components/clinical/patient-impact-graph";
+import { SyncButton } from "@/components/sync";
+import {
+  Badge,
+  Button,
+  Card,
+  ChangeTypeBadge,
+  DecisionNotice,
+  PriorityBadge,
+  SectionHeading,
+} from "@/components/ui";
+import { CHANGE_TYPES } from "@/lib/classification";
+import { formatPosition, locusOf } from "@/lib/genome";
+import { caseStage } from "@/lib/workflow";
+import { WhatChanged } from "@/components/what-changed";
+import { composeRecommendation } from "@/lib/narrative";
+import { useWorkspace } from "@/state/workspace";
+
+export default function VariantPage() {
+  const params = useParams<{ key: string }>();
+  const { analysis, getCase } = useWorkspace();
+
+  const key = decodeURIComponent(params.key);
+  const assessment = analysis.assessments.find((a) => a.variant.key === key);
+  if (!assessment) notFound();
+
+  const { variant, evidence, changeType, impactedPatients, caseId } = assessment;
+  const byKey = new Map(analysis.assessments.map((a) => [a.variant.key, a]));
+  const locus = locusOf(evidence);
+
+  return (
+    <PageShell>
+      <PageHeader
+        back={{ href: "/variants", label: "All variants" }}
+        eyebrow={variant.panel}
+        title={`${variant.gene} ${variant.hgvsCoding}`}
+        description={`${variant.proteinChange ? `${variant.proteinChange} · ` : ""}${variant.condition}`}
+        actions={
+          <>
+            <span className="hidden sm:inline-flex">
+              <SyncButton />
+            </span>
+            {caseId ? (
+              <Link href={`/review/${caseId}`}>
+                <Button variant="primary">
+                  Open clinical review
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            ) : null}
+          </>
+        }
+      />
+
+      <div className="mb-5 flex flex-wrap items-center gap-2.5">
+        <ChangeTypeBadge type={changeType} />
+        {caseId ? <PriorityBadge level={assessment.priority.level} /> : null}
+        {caseId ? (
+          <Badge tone="muted">{caseId}</Badge>
+        ) : (
+          <Badge tone="positive" dot>
+            No review required
+          </Badge>
+        )}
+        <a
+          href={`https://www.ncbi.nlm.nih.gov/clinvar/variation/${evidence.clinvarId}/`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-[12.5px] font-medium text-accent hover:underline"
+        >
+          {evidence.accession ?? `VCV${evidence.clinvarId}`}
+          <ExternalLink className="h-3 w-3" />
+        </a>
+        {evidence.rsid ? (
+          <a
+            href={`https://www.ncbi.nlm.nih.gov/snp/${evidence.rsid}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-[12.5px] font-medium text-accent hover:underline"
+          >
+            {evidence.rsid}
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        ) : null}
+      </div>
+
+      <Card className="mb-5 p-5">
+        <SectionHeading
+          title="Then and now"
+          description={CHANGE_TYPES[changeType].description}
+        />
+        <ThenNow assessment={assessment} size="lg" caption className="mt-5" />
+      </Card>
+
+      <Card className="mb-5 p-5">
+        <SectionHeading
+          title="Patient impact"
+          count={impactedPatients.length}
+          description="The changed variant and every historical record that carries it. Select a record to see its detail."
+        />
+        <SyntheticDataLabel className="mt-3" />
+        <PatientImpactGraph
+          assessment={assessment}
+          caseStatus={caseId ? caseStage(getCase(caseId)) : undefined}
+          className="mt-5"
+        />
+      </Card>
+
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
+        <div className="min-w-0 space-y-5">
+          <WhatChanged assessment={assessment} read={analysis} />
+          <EvidenceSummaryPanel assessment={assessment} />
+          <EvidenceComparison assessment={assessment} />
+          {assessment.regional ? <RegionalComparison assessment={assessment} /> : null}
+        </div>
+
+        <div className="min-w-0 space-y-5">
+          {locus ? (
+            <Card className="p-5">
+              <SectionHeading
+                title="Where it sits"
+                description={`Chromosome ${locus.chromosome.name}, ${locus.arm} arm${locus.band ? `, band ${locus.band}` : ""}. GRCh38 position ${formatPosition(locus.position)}, from ClinVar.`}
+              />
+              <GenomeMap
+                assessments={analysis.assessments}
+                mode="locus"
+                focusKey={variant.key}
+                label={`Chromosome ${locus.chromosome.name} drawn to scale, with ${variant.gene} ${variant.hgvsCoding} marked at ${locus.band ?? "its position"} and any other monitored variant on the same chromosome beside it.`}
+                className="mt-2"
+                stageClassName="h-[230px]"
+              />
+            </Card>
+          ) : null}
+          <ScienceTimeline assessment={assessment} />
+          <ReasoningPanel assessment={assessment} />
+          {caseId ? <PriorityPanel assessment={assessment} /> : null}
+        </div>
+      </div>
+
+      <Card className="mt-5 overflow-hidden">
+        <div className="border-b border-line px-5 py-4">
+          <SectionHeading
+            title="Records carrying this variant"
+            count={impactedPatients.length}
+            description="The same records as a list, for scanning and screen readers."
+          />
+          <SyntheticDataLabel className="mt-3" />
+        </div>
+        <PatientImpactTable
+          rows={impactedPatients}
+          byKey={byKey}
+          showVariant={false}
+          caseStatus={caseId ? caseStage(getCase(caseId)) : undefined}
+        />
+      </Card>
+
+      <Card className="mt-5 p-5">
+        <SectionHeading title="Recommendation" />
+        <p className="mt-3 text-[14px] leading-relaxed text-ink-2">
+          {composeRecommendation(changeType, impactedPatients.length)}
+        </p>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-4">
+          <DecisionNotice className="max-w-xl" />
+          {caseId ? (
+            <Link href={`/review/${caseId}`}>
+              <Button variant="primary">
+                Open clinical review
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          ) : null}
+        </div>
+      </Card>
+    </PageShell>
+  );
+}

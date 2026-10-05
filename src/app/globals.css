@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+/* ── VariantPulse design tokens ────────────────────────────────────────────
+   Source of truth: docs/color-system.md. Garnet is the product, vermilion
+   means "something changed", semantic colours only carry their state, and
+   everything else stays neutral (bone and warm white). The semantic names
+   below are the ones components use; the explicit palette tokens exist for
+   the rare case that needs the exact brand colour. */
+@theme {
+  /* Palette */
+  --color-garnet: #7a263a;
+  --color-oxblood: #481a27;
+  --color-vermilion: #e85d4a;
+  --color-vermilion-soft: #fdece8;
+  --color-bone: #f7f4ed;
+  --color-warm-white: #fffefb;
+  --color-carbon: #17191c;
+  --color-slate: #74777d;
+  --color-mineral: #dddad2;
+  --color-clinical-green: #277c66;
+  --color-amber: #d99a28;
+  --color-clinical-red: #c63d3d;
+  --color-evidence-blue: #416b8c;
+
+  /* Component states */
+  --color-active-bg: #f0dfe2;
+  --color-selected-bg: #fff8f6;
+  --color-selected-border: #e8c5cc;
+
+  /* Surfaces */
+  --color-canvas: #f7f4ed;
+  --color-canvas-deep: #efebe2;
+  --color-surface: #fffefb;
+  --color-surface-2: #fbf9f4;
+  --color-surface-3: #f5f2eb;
+
+  /* Text. Every tone clears 4.5:1 on every surface above and on the
+     selected-record background. Palette slate (#74777d) is 4.09:1 on bone,
+     so it is non-text only (icons, dividers, the historical-state
+     connector); small muted text uses the text-safe slate #6b6e74 (`faint`).
+     `faint` is 3.98:1 on active-bg, so only ink, ink-2, muted and accent
+     are used on the active navigation fill. */
+  --color-ink: #17191c;
+  --color-ink-2: #3f4247;
+  --color-muted: #55585e;
+  --color-faint: #6b6e74;
+
+  --color-line: #dddad2;
+  --color-line-2: #d0ccc2;
+
+  --color-accent: #7a263a;
+  --color-accent-hover: #481a27;
+  --color-accent-soft: #f0dfe2;
+  --color-accent-ring: #e8c5cc;
+
+  /* Status. Text colour, soft background and border per the priority chips
+     in the colour system. Palette amber (#d99a28) is a fill/indicator
+     colour; its documented text tone #a86e11 is only 4.05:1 on its soft
+     background, so `warn` is a text-safe amber derived from it. */
+  --color-ok: #277c66;
+  --color-ok-soft: #edf6f2;
+  --color-ok-border: #c6ded5;
+  --color-warn: #94620f;
+  --color-warn-soft: #fff8e8;
+  --color-warn-border: #e8d19c;
+  --color-crit: #c63d3d;
+  --color-crit-soft: #fff1ef;
+  --color-crit-border: #f0c5c0;
+  --color-info: #416b8c;
+  --color-info-soft: #eef3f7;
+  --color-info-border: #c9d7e3;
+
+  --radius-card: 20px;
+  --radius-panel: 24px;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+}
+
+:root {
+  --vp-garnet: var(--color-garnet);
+  --vp-oxblood: var(--color-oxblood);
+  --vp-vermilion: var(--color-vermilion);
+  --vp-bone: var(--color-bone);
+  --vp-white: var(--color-warm-white);
+  --vp-carbon: var(--color-carbon);
+  --vp-slate: var(--color-slate);
+  --vp-border: var(--color-mineral);
+  --vp-success: var(--color-clinical-green);
+  --vp-warning: var(--color-amber);
+  --vp-danger: var(--color-clinical-red);
+  --vp-info: var(--color-evidence-blue);
+  --vp-active-bg: var(--color-active-bg);
+  --vp-selected-bg: var(--color-selected-bg);
+  --vp-danger-bg: var(--color-crit-soft);
+  --vp-warning-bg: var(--color-warn-soft);
+  --vp-success-bg: var(--color-ok-soft);
+  /* The one permitted brand gradient: hero accents and brand artwork only. */
+  --vp-brand-gradient: linear-gradient(135deg, #481a27 0%, #7a263a 65%, #e85d4a 100%);
+  --vp-shadow-rgb: 23, 25, 28;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  }
+
+  /* Visible, consistent focus for every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--color-accent-ring);
+    color: var(--color-ink);
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.021em;
+  }
+}
+
+@layer components {
+  /* The standard card. Borders do the structural work; shadow only lifts. */
+  .vp-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow:
+      0 1px 2px rgba(var(--vp-shadow-rgb), 0.03),
+      0 10px 28px -20px rgba(var(--vp-shadow-rgb), 0.18);
+  }
+
+  .vp-card-flat {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  /* Floating elements over the hero composition. */
+  .vp-float {
+    background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid var(--color-line);
+    border-radius: 18px;
+    box-shadow:
+      0 1px 2px rgba(var(--vp-shadow-rgb), 0.04),
+      0 18px 40px -22px rgba(var(--vp-shadow-rgb), 0.24);
+  }
+
+  /* Selected clinical record: soft rose surface with a garnet left accent. */
+  .vp-selected {
+    background: var(--color-selected-bg);
+    border-color: var(--color-selected-border);
+    box-shadow: inset 3px 0 0 var(--color-garnet);
+  }
+
+  .vp-hairline {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .vp-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-2) transparent;
+  }
+  .vp-scroll::-webkit-scrollbar { width: 9px; height: 9px; }
+  .vp-scroll::-webkit-scrollbar-thumb {
+    background: var(--color-line-2);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  .vp-scroll::-webkit-scrollbar-track { background: transparent; }
+
+  .vp-num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+/* ── Motion ────────────────────────────────────────────────────────────────
+   Small, purposeful, and fully disabled under reduced-motion. */
+@keyframes vp-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes vp-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes vp-pulse-ring {
+  0% { transform: scale(1); opacity: 0.55; }
+  70% { transform: scale(2.1); opacity: 0; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+@keyframes vp-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes vp-trace {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes vp-sweep {
+  0% { transform: translateY(-110%); }
+  100% { transform: translateY(210%); }
+}
+@keyframes vp-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes vp-helix-turn {
+  to { transform: translateY(var(--vp-pitch, 0)); }
+}
+
+.vp-rise { animation: vp-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.vp-fade { animation: vp-fade 0.45s ease both; }
+.vp-drift { animation: vp-drift 7s ease-in-out infinite; }
+.vp-spin { animation: vp-spin 1s linear infinite; }
+/* Slides the helix by exactly one turn, which reads as continuous rotation. */
+.vp-helix { animation: vp-helix-turn 11s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* The helix rests at phase zero rather than snapping to the loop end. */
+  .vp-helix { animation: none !important; }
+
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .vp-drift { animation: none !important; }
+}
+
+@media print {
+  .vp-no-print { display: none !important; }
+  body { background: var(--color-surface); }
+  .vp-card, .vp-card-flat { box-shadow: none; break-inside: avoid; }
+}

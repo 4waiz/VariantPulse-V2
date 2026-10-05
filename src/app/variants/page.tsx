@@ -1,0 +1,172 @@
+"use client";
+
+import * as React from "react";
+import { Search } from "lucide-react";
+
+import { VariantRow } from "@/components/domain";
+import { GenomeMap } from "@/components/genome-map";
+import { PageHeader, PageShell } from "@/components/page-header";
+import { SyncButton } from "@/components/sync";
+import { Card, EmptyState } from "@/components/ui";
+import { CHANGE_TYPES, type ChangeType } from "@/lib/classification";
+import { locusOf } from "@/lib/genome";
+import { SIGNALS, SIGNAL_OF, type Signal } from "@/lib/signal";
+import { cn } from "@/lib/utils";
+import { useWorkspace } from "@/state/workspace";
+
+type Filter = "all" | "changed" | "conflict" | "stable";
+
+/** The filters are the map's three signals, so a filter and its colour always agree. */
+const bySignal = (signal: Signal) => (type: ChangeType) => SIGNAL_OF[type] === signal;
+
+const FILTERS: { id: Filter; label: string; signal: Signal | null; matches: (type: ChangeType) => boolean }[] = [
+  { id: "all", label: "All", signal: null, matches: () => true },
+  { id: "changed", label: SIGNALS.changed.label, signal: "changed", matches: bySignal("changed") },
+  { id: "conflict", label: SIGNALS.review.label, signal: "review", matches: bySignal("review") },
+  { id: "stable", label: SIGNALS.quiet.label, signal: "quiet", matches: bySignal("quiet") },
+];
+
+export default function VariantsPage() {
+  const { analysis } = useWorkspace();
+  const [filter, setFilter] = React.useState<Filter>("all");
+  const [query, setQuery] = React.useState("");
+  // The variant under the pointer, in the list or on the map; each highlights it in the other.
+  const [activeKey, setActiveKey] = React.useState<string | null>(null);
+
+  const rows = React.useMemo(() => {
+    const active = FILTERS.find((f) => f.id === filter)!;
+    const q = query.trim().toLowerCase();
+    return analysis.assessments
+      .filter((a) => active.matches(a.changeType))
+      .filter((a) =>
+        q
+          ? [a.variant.gene, a.variant.hgvsCoding, a.variant.proteinChange, a.variant.condition]
+              .join(" ")
+              .toLowerCase()
+              .includes(q)
+          : true,
+      );
+  }, [analysis, filter, query]);
+
+  const visibleKeys = React.useMemo(() => new Set(rows.map((a) => a.variant.key)), [rows]);
+  // The map can only draw what the evidence places on GRCh38; say so if that is not everything.
+  const mapLabel = React.useMemo(() => {
+    const loci = analysis.assessments.map((a) => locusOf(a.evidence)).filter((l) => l !== null);
+    const total = analysis.assessments.length;
+    const chromosomes = new Set(loci.map((l) => l.chromosome.name)).size;
+    const drawn = loci.length === total ? `${total}` : `${loci.length} of ${total}`;
+    return `Genome map: ${drawn} monitored variants on ${chromosomes} chromosome${chromosomes === 1 ? "" : "s"}, each at its GRCh38 position from ClinVar. The list below holds every variant.`;
+  }, [analysis]);
+
+  const counts = React.useMemo(
+    () =>
+      Object.fromEntries(
+        FILTERS.map((f) => [f.id, analysis.assessments.filter((a) => f.matches(a.changeType)).length]),
+      ) as Record<Filter, number>,
+    [analysis],
+  );
+
+  return (
+    <PageShell>
+      <PageHeader
+        eyebrow="Monitored panel"
+        title="Variants"
+        description="Every variant this workspace tracks, with the interpretation on record beside the interpretation held today."
+        actions={<SyncButton />}
+      />
+
+      <Card className="overflow-hidden">
+        <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">
+          <div
+            className="vp-scroll flex max-w-full items-center gap-1 overflow-x-auto rounded-xl bg-surface-3 p-1"
+            role="tablist"
+          >
+            {FILTERS.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                role="tab"
+                aria-selected={filter === option.id}
+                onClick={() => setFilter(option.id)}
+                className={cn(
+                  "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-[12.5px] font-medium transition-colors",
+                  filter === option.id
+                    ? "bg-surface text-ink shadow-sm"
+                    : "text-muted hover:text-ink",
+                )}
+              >
+                {option.signal ? (
+                  <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full", SIGNALS[option.signal].dot)} />
+                ) : null}
+                {option.label}
+                <span className="text-[11px] text-faint vp-num">{counts[option.id]}</span>
+              </button>
+            ))}
+          </div>
+
+          <label className="ml-auto flex h-9 min-w-[200px] items-center gap-2 rounded-xl border border-line px-3">
+            <Search className="h-3.5 w-3.5 shrink-0 text-faint" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Filter by gene or HGVS"
+              aria-label="Filter variants"
+              className="min-w-0 flex-1 bg-transparent text-[13px] text-ink outline-none placeholder:text-faint"
+            />
+          </label>
+        </div>
+
+        <GenomeMap
+          assessments={analysis.assessments}
+          visibleKeys={visibleKeys}
+          activeKey={activeKey}
+          onActiveChange={setActiveKey}
+          label={mapLabel}
+          className="border-b border-line bg-surface-2/60 px-4 pb-3 pt-1"
+          stageClassName="h-[250px] sm:h-[290px]"
+        />
+
+        <div className="hidden items-center gap-4 border-b border-line bg-surface-2 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.07em] text-faint lg:flex">
+          <span className="flex-1">Variant</span>
+          <span className="hidden md:block">On record → current</span>
+          <span className="w-20 text-right">Records</span>
+          <span className="w-[132px] text-right">Change</span>
+          <span className="w-[86px] text-right">Priority</span>
+        </div>
+
+        {rows.length === 0 ? (
+          <EmptyState
+            title="No variants match"
+            description="Clear the filter or search for a different gene symbol."
+          />
+        ) : (
+          <div className="divide-y divide-line">
+            {rows.map((assessment) => (
+              <VariantRow
+                key={assessment.variant.key}
+                assessment={assessment}
+                active={activeKey === assessment.variant.key}
+                onHoverChange={(hovering) =>
+                  setActiveKey((key) => (hovering ? assessment.variant.key : key === assessment.variant.key ? null : key))
+                }
+              />
+            ))}
+          </div>
+        )}
+      </Card>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {(Object.keys(CHANGE_TYPES) as ChangeType[])
+          .filter((type) => analysis.assessments.some((a) => a.changeType === type))
+          .map((type) => (
+            <div key={type} className="vp-card-flat p-3.5">
+              <p className="text-[12.5px] font-semibold text-ink">{CHANGE_TYPES[type].label}</p>
+              <p className="mt-1 text-[11.5px] leading-snug text-muted">
+                {CHANGE_TYPES[type].description}
+              </p>
+            </div>
+          ))}
+      </div>
+    </PageShell>
+  );
+}
