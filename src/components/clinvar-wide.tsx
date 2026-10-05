@@ -45,7 +45,8 @@ export function ClinVarWideStrip({
         scope="variants in ClinVar"
         note={
           <>
-            All of ClinVar, its archived releases compared. Not this workspace.{" "}
+            Every variant in ClinVar that crossed between VUS and pathogenic or likely pathogenic (P/LP),
+            from its archived releases. Not this workspace.{" "}
             <a
               href={CLINVAR_WIDE.sourceUrl}
               target="_blank"
@@ -115,6 +116,7 @@ function Half({
 }
 
 const PILL_TONE = { VUS: meta("VUS").tone, "P/LP": meta("PATHOGENIC").tone } as const;
+const PILL_TITLE = { VUS: "Variant of uncertain significance", "P/LP": "Pathogenic or likely pathogenic" } as const;
 
 function Shift({
   value,
@@ -134,9 +136,13 @@ function Shift({
         {formatNumber(value)}
       </span>
       <span aria-hidden className="inline-flex items-center gap-1.5">
-        <Badge tone={PILL_TONE[from]}>{from}</Badge>
+        <Badge tone={PILL_TONE[from]} title={PILL_TITLE[from]}>
+          {from}
+        </Badge>
         <ArrowRight className="h-3.5 w-3.5 text-faint" />
-        <Badge tone={PILL_TONE[to]}>{to}</Badge>
+        <Badge tone={PILL_TONE[to]} title={PILL_TITLE[to]}>
+          {to}
+        </Badge>
       </span>
     </p>
   );
