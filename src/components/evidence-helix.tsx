@@ -22,7 +22,7 @@ import { ClassificationBadge } from "@/components/ui";
 import { useDisplayed } from "@/components/use-displayed";
 import type { VariantAssessment } from "@/lib/analysis";
 import { CHANGE_TYPES, meta } from "@/lib/classification";
-import { compareLoci, locusOf } from "@/lib/genome";
+import { inGenomeOrder, locusOf } from "@/lib/genome";
 import { SIGNALS, SIGNAL_OF, SIGNAL_ORDER, type Signal } from "@/lib/signal";
 import { cn } from "@/lib/utils";
 
@@ -37,37 +37,65 @@ interface Finding {
 
 /** Genome order, so neighbours on the helix are neighbours on the genome. */
 function orderFindings(assessments: VariantAssessment[]): Finding[] {
-  return assessments
-    .map((assessment) => ({
-      key: assessment.variant.key,
-      assessment,
-      signal: SIGNAL_OF[assessment.changeType],
-      locus: locusOf(assessment.evidence),
-    }))
-    .sort((a, b) => {
-      if (a.locus && b.locus) return compareLoci(a.locus, b.locus);
-      // Anything the evidence cannot place goes last, in its original order.
-      return a.locus ? -1 : b.locus ? 1 : 0;
-    })
-    .map(({ locus, ...finding }) => ({ ...finding, band: locus?.band ?? null }));
+  return inGenomeOrder(assessments).map((assessment) => ({
+    key: assessment.variant.key,
+    assessment,
+    signal: SIGNAL_OF[assessment.changeType],
+    band: locusOf(assessment.evidence)?.band ?? null,
+  }));
 }
 
 const TIP_WIDTH = 262;
 const TIP_GAP = 16;
 
+/**
+ * Motes drifting round the helix, as on the illustration: a few bright specks
+ * and a few out-of-focus discs. Placed in percent of the figure, so they hold
+ * the composition at every width. Decorative only.
+ */
+const MOTES: readonly { x: number; y: number; size: number; tone: "vermilion" | "amber" | "rose"; soft?: boolean; delay: number }[] = [
+  { x: 8, y: 18, size: 9, tone: "vermilion", delay: 0 },
+  { x: 22, y: 6, size: 5, tone: "amber", delay: 1.4 },
+  { x: 4, y: 64, size: 46, tone: "rose", soft: true, delay: 0.6 },
+  { x: 30, y: 88, size: 6, tone: "vermilion", delay: 2.2 },
+  { x: 47, y: 2, size: 4, tone: "vermilion", delay: 3.1 },
+  { x: 62, y: 92, size: 5, tone: "amber", delay: 0.9 },
+  { x: 74, y: 10, size: 7, tone: "vermilion", delay: 2.7 },
+  { x: 90, y: 58, size: 6, tone: "vermilion", delay: 1.8 },
+  { x: 86, y: 84, size: 54, tone: "rose", soft: true, delay: 2.4 },
+  { x: 16, y: 40, size: 34, tone: "rose", soft: true, delay: 3.6 },
+  { x: 96, y: 26, size: 4, tone: "amber", delay: 0.3 },
+];
+
+const MOTE_TONE = {
+  vermilion: "bg-vermilion/70",
+  amber: "bg-amber/70",
+  rose: "bg-[radial-gradient(closest-side,rgba(236,150,172,0.42),rgba(236,150,172,0))]",
+} as const;
+
 export function EvidenceHelix({
   assessments,
   leadKey,
   scanning,
+  onReadyChange,
+  describedBy,
   className,
 }: {
   assessments: VariantAssessment[];
   leadKey: string | null;
   scanning: boolean;
+  /** Told when the 3D helix is on screen, so a legend outside the figure can show with it. */
+  onReadyChange?: (ready: boolean) => void;
+  /** Id of the legend that explains the helix. */
+  describedBy?: string;
   className?: string;
 }) {
   const findings = React.useMemo(() => orderFindings(assessments), [assessments]);
   const [status, setStatus] = React.useState<"loading" | "ready" | "failed">("loading");
+
+  React.useEffect(() => {
+    onReadyChange?.(status === "ready");
+  }, [status, onReadyChange]);
   const [dragging, setDragging] = React.useState(false);
   const [hoverKey, setHoverKey] = React.useState<string | null>(null);
   const [focusKey, setFocusKey] = React.useState<string | null>(null);
@@ -197,42 +225,49 @@ export function EvidenceHelix({
     spotRefs.current.get(findings[next].key)?.focus();
   };
 
-  const counts = SIGNAL_ORDER.map((signal) => ({
-    signal,
-    count: findings.filter((f) => f.signal === signal).length,
-  })).filter((c) => c.count > 0);
-
   const ready = status === "ready";
 
   return (
-    <figure className={cn("relative m-0", className)}>
+    <figure className={cn("relative m-0", className)} aria-describedby={describedBy}>
+      {/* A blush disc behind the form and motes drifting round it, as on the illustration. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-1/2 aspect-square w-[min(78%,330px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(240,170,192,0.6),rgba(244,196,212,0.34)_58%,rgba(244,196,212,0)_100%)]" />
+        <div className="absolute left-1/2 top-1/2 aspect-square w-[min(56%,236px)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/60 bg-[radial-gradient(closest-side,rgba(255,255,255,0.28),rgba(255,255,255,0))]" />
+        {MOTES.map((mote, index) => (
+          <span
+            key={index}
+            className={cn("vp-drift absolute rounded-full", MOTE_TONE[mote.tone], mote.soft ? "" : "blur-[0.4px]")}
+            style={{
+              left: `${mote.x}%`,
+              top: `${mote.y}%`,
+              width: mote.size,
+              height: mote.size,
+              animationDelay: `-${mote.delay}s`,
+              animationDuration: `${7 + (index % 4)}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div
         ref={interactiveRef}
         className={cn(
-          "relative h-[210px] touch-pan-y select-none xl:h-[232px]",
+          "relative h-[250px] touch-pan-y select-none xl:h-[296px]",
           ready && (dragging ? "cursor-grabbing" : "cursor-grab"),
         )}
       >
         {/* The illustration holds the column until the 3D helix has drawn its first frame. */}
         <HeroHelix
           className={cn(
-            "pointer-events-none absolute inset-0 m-auto h-[184px] w-full transition-opacity duration-700",
+            "pointer-events-none absolute inset-0 m-auto h-[210px] w-full transition-opacity duration-700 xl:h-[250px]",
             ready ? "opacity-0" : "opacity-100",
           )}
         />
 
-        {/* A soft blush behind the form, as on the illustration. */}
-        <div
-          aria-hidden
-          className={cn(
-            "pointer-events-none absolute inset-x-[6%] inset-y-[4%] rounded-[50%] bg-[radial-gradient(closest-side,rgba(232,197,204,0.5),transparent)] transition-opacity duration-700",
-            ready ? "opacity-100" : "opacity-0",
-          )}
-        />
         <div
           ref={stageRef}
           className={cn(
-            "absolute inset-0 transition-opacity duration-700 [mask-image:radial-gradient(ellipse_62%_60%_at_50%_50%,#000_62%,transparent_100%)]",
+            "absolute inset-0 transition-opacity duration-700 [mask-image:radial-gradient(ellipse_72%_68%_at_50%_50%,#000_66%,transparent_100%)]",
             ready ? "opacity-100" : "opacity-0",
           )}
         />
@@ -309,26 +344,48 @@ export function EvidenceHelix({
           </div>
         ) : null}
       </div>
-
-      <figcaption
-        className={cn(
-          "mt-1 text-center transition-opacity duration-700",
-          ready ? "opacity-100" : "opacity-0",
-        )}
-      >
-        <span className="flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5 text-[12px] text-muted">
-          {counts.map(({ signal, count }) => (
-            <span key={signal} className="inline-flex items-center gap-1.5 whitespace-nowrap">
-              <span className={cn("h-2 w-2 rounded-full", SIGNALS[signal].dot)} />
-              <span className="font-medium text-ink-2 vp-num">{count}</span>
-              {SIGNALS[signal].label.toLowerCase()}
-            </span>
-          ))}
-        </span>
-        <span className="mt-0.5 block text-[12px] text-faint">
-          Genome order, not to scale · drag to turn
-        </span>
-      </figcaption>
     </figure>
+  );
+}
+
+/**
+ * What the helix's colours mean, counted from the same findings it draws. It
+ * sits under the hero text rather than under the helix, and shows only once
+ * the 3D helix is on screen: the illustration that stands in before then does
+ * not mark findings.
+ */
+export function HelixLegend({
+  assessments,
+  ready,
+  id,
+  className,
+}: {
+  assessments: VariantAssessment[];
+  ready: boolean;
+  id?: string;
+  className?: string;
+}) {
+  const counts = SIGNAL_ORDER.map((signal) => ({
+    signal,
+    count: assessments.filter((a) => SIGNAL_OF[a.changeType] === signal).length,
+  })).filter((c) => c.count > 0);
+
+  return (
+    <div
+      id={id}
+      className={cn("transition-opacity duration-700", ready ? "opacity-100" : "opacity-0", className)}
+    >
+      <p className="flex flex-wrap items-center gap-x-6 gap-y-1 text-[14px] text-muted">
+        {counts.map(({ signal, count }) => (
+          <span key={signal} className="inline-flex items-center gap-2 whitespace-nowrap">
+            <span className={cn("h-2.5 w-2.5 rounded-full", SIGNALS[signal].dot)} />
+            <span>
+              <span className="vp-num">{count}</span> {SIGNALS[signal].label.toLowerCase()}
+            </span>
+          </span>
+        ))}
+      </p>
+      <p className="mt-1.5 text-[12.5px] text-faint">Genome order, not to scale · drag to turn</p>
+    </div>
   );
 }

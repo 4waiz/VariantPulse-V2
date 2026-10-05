@@ -9,7 +9,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Check, ShieldCheck } from "lucide-react";
+import { Check, ChevronDown, ShieldCheck } from "lucide-react";
 
 import { PERSONAS } from "@/data/workspace";
 import { ROLES } from "@/lib/roles";
@@ -46,15 +46,19 @@ export function PersonaMenu() {
         aria-expanded={open}
         aria-controls={menuId}
         title={`${persona.name} · ${ROLES[persona.role].label}`}
-        className="flex h-10 items-center gap-2.5 rounded-full border border-line bg-surface py-1 pl-1 pr-1 transition-colors hover:bg-surface-2 sm:pr-3"
+        className="flex h-11 items-center gap-2.5 rounded-2xl py-1 pl-1 pr-1 transition-colors hover:bg-surface/70 sm:pr-2"
       >
-        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-oxblood text-[12.5px] font-semibold text-white">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-oxblood text-[13px] font-semibold text-white shadow-[0_4px_12px_-6px_rgba(72,26,39,0.6)]">
           {persona.initials}
         </span>
         <span className="hidden min-w-0 text-left leading-tight sm:block">
-          <span className="block max-w-[140px] truncate text-[12.5px] font-medium text-ink">{persona.name}</span>
-          <span className="block max-w-[140px] truncate text-[12px] text-muted">{ROLES[persona.role].label}</span>
+          <span className="block max-w-[150px] truncate text-[13.5px] font-semibold text-ink">{persona.name}</span>
+          <span className="mt-0.5 block max-w-[150px] truncate text-[12px] text-muted">{ROLES[persona.role].label}</span>
         </span>
+        <ChevronDown
+          aria-hidden
+          className={cn("hidden h-4 w-4 shrink-0 text-muted transition-transform sm:block", open && "rotate-180")}
+        />
         <span className="sr-only">, switch identity</span>
       </button>
 

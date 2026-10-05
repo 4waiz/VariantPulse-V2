@@ -75,22 +75,17 @@ function NavLink({ item, active }: { item: NavItem; active: boolean }) {
       href={item.href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "group flex items-center gap-3 rounded-xl px-3 py-[7px] text-[13px] font-medium transition-colors",
-        active
-          ? "bg-active-bg text-accent"
-          : "text-muted hover:bg-surface-3 hover:text-ink",
+        "group flex h-11 items-center gap-3.5 rounded-[14px] px-3.5 text-[14px] font-medium transition-colors short:h-10",
+        active ? "vp-nav-active text-accent" : "text-ink-2 hover:bg-surface hover:text-ink",
       )}
     >
-      <span
+      <Icon
         className={cn(
-          "grid h-7 w-7 shrink-0 place-items-center rounded-lg transition-colors",
-          active
-            ? "text-accent"
-            : "text-slate group-hover:text-ink-2",
+          "h-[18px] w-[18px] shrink-0 transition-colors",
+          active ? "text-accent" : "text-muted group-hover:text-ink-2",
         )}
-      >
-        <Icon className="h-[15px] w-[15px]" strokeWidth={2} />
-      </span>
+        strokeWidth={1.75}
+      />
       {item.label}
     </Link>
   );
@@ -100,40 +95,35 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full w-[224px] shrink-0 flex-col border-r border-line bg-canvas">
-      <Link
-        href="/"
-        className="flex items-center gap-2.5 border-b border-line px-5 py-[18px]"
-      >
+    <aside className="flex h-full w-[256px] shrink-0 flex-col border-r border-line/70 bg-surface/70">
+      <Link href="/" className="flex items-center gap-3 pb-5 pl-5 pr-4 pt-6 short:pb-4 short:pt-5">
         <Image
           src="/logo.png"
           alt=""
-          width={36}
-          height={36}
+          width={44}
+          height={44}
           priority
-          className="h-9 w-9 object-contain"
+          className="h-11 w-11 object-contain"
         />
         <span className="min-w-0">
-          <span className="block text-[16.5px] font-semibold leading-none tracking-tight text-ink">
+          <span className="block text-[20px] font-bold leading-none tracking-[-0.025em] text-ink">
             VariantPulse
           </span>
-          {/* Part of the logo lockup, so held at its drawn size: the one text on
-              the page below the 12px floor, as a logotype (cf. WCAG 1.4.3). */}
-          <span className="mt-[5px] block whitespace-nowrap text-[10.5px] font-medium leading-none text-faint">
+          <span className="mt-1.5 block whitespace-nowrap text-[12px] font-medium leading-none text-muted">
             Genomic Change Intelligence
           </span>
         </span>
       </Link>
 
-      <nav className="vp-scroll flex-1 overflow-y-auto px-3 py-3" aria-label="Main">
+      <nav className="vp-scroll flex-1 overflow-y-auto px-3.5 pb-4 pt-1" aria-label="Main">
         {GROUPS.map((group, index) => (
-          <div key={group.label ?? "workspace"} className={cn(index > 0 && "mt-3 border-t border-line pt-3")}>
+          <div key={group.label ?? "workspace"} className={cn(index > 0 && "mt-3 border-t border-line/80 pt-4 short:mt-2 short:pt-3")}>
             {group.label ? (
-              <p className="px-3 pb-1.5 text-[12px] font-semibold uppercase tracking-[0.13em] text-faint">
+              <p className="px-3.5 pb-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-faint">
                 {group.label}
               </p>
             ) : null}
-            <ul className="space-y-0.5">
+            <ul>
               {group.items.map((item) => (
                 <li key={item.href}>
                   <NavLink item={item} active={isActive(pathname, item.href)} />
@@ -144,7 +134,7 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="flex items-center gap-2.5 border-t border-line px-5 py-3.5">
+      <div className="flex items-center gap-2.5 border-t border-line/70 px-5 py-3.5 short:py-2.5">
         <Image
           src="/logo.png"
           alt=""

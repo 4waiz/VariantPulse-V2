@@ -98,6 +98,12 @@ const checks = [
   ["focus ring (garnet)", t.accent, SURFACES, 3.0],
   ["connected dot (clinical green)", t.ok, SURFACES.slice(0, 2).concat(t.canvas), 3.0],
   ["change indicator (vermilion, non-text/large only)", t.vermilion, [t.surface, t.canvas], 3.0],
+
+  // Home tiles: tags and step numbers on the rose and blue tints, icons on the rest.
+  ["garnet text on the rose tile", t.accent, [t["tile-rose"]], 4.5],
+  ["evidence blue text on the blue tile", t.info, [t["tile-blue"]], 4.5],
+  ["amber icon on the amber tile (non-text)", t.warn, [t["tile-amber"]], 3.0],
+  ["green icon on the green tile (non-text)", t.ok, [t["tile-green"]], 3.0],
 ];
 
 const failures = [];
@@ -191,7 +197,8 @@ const PALETTE = {
   "active-bg": "#f0dfe2",
   "selected-bg": "#fff8f6",
   "selected-border": "#e8c5cc",
-  canvas: "#f7f4ed",
+  porcelain: "#f9f5f6",
+  canvas: "#f9f5f6",
   surface: "#fffefb",
   ink: "#17191c",
   accent: "#7a263a",

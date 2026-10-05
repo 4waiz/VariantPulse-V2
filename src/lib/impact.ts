@@ -10,6 +10,7 @@
 
 import type { VariantAssessment } from "./analysis";
 import { meta } from "./classification";
+import { inGenomeOrder } from "./genome";
 import { SIGNAL_OF } from "./signal";
 
 /** Assumed minutes a clinician spends looking one finding up in ClinVar by hand. */
@@ -46,6 +47,36 @@ export function reclassificationShifts(assessments: VariantAssessment[]) {
 
 export function estimatedHoursSaved(findingsChecked: number): number {
   return (findingsChecked * MINUTES_PER_MANUAL_CHECK) / 60;
+}
+
+/**
+ * The series drawn beside the impact figures: one value per monitored gene, in
+ * genome order, as the helix orders its findings. Each is read from the same
+ * analysis as its figure and adds up to it, so a chart never disagrees with
+ * the number it sits beside.
+ */
+export function impactSeries(assessments: VariantAssessment[], cases: VariantAssessment[]) {
+  const genes = new Map<string, VariantAssessment[]>();
+  for (const assessment of inGenomeOrder(assessments)) {
+    const gene = genes.get(assessment.variant.gene);
+    if (gene) gene.push(assessment);
+    else genes.set(assessment.variant.gene, [assessment]);
+  }
+  const queued = new Set(cases.map((a) => a.variant.key));
+  // A variant's records are the findings the scan matched to it.
+  const findingsPerGene = [...genes.values()].map((group) =>
+    group.reduce((sum, a) => sum + a.impactedRecordCount, 0),
+  );
+  let minutes = 0;
+  return {
+    genes: [...genes.keys()],
+    /** Findings checked per gene: adds up to "Findings scanned". */
+    findingsPerGene,
+    /** Review cases per gene: adds up to "Cases surfaced". */
+    casesPerGene: [...genes.values()].map((group) => group.filter((a) => queued.has(a.variant.key)).length),
+    /** Estimated minutes saved, a running total gene by gene from zero: ends at the estimate. */
+    minutesRunning: [0, ...findingsPerGene.map((n) => (minutes += n * MINUTES_PER_MANUAL_CHECK))],
+  };
 }
 
 /** Runs `run` and reports how long it took, in milliseconds. */

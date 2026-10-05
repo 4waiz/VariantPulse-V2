@@ -73,7 +73,8 @@ const YAW_LIMIT = 0.55;
 const PITCH_LIMIT = 0.28;
 const SWAY = 0.05;
 
-const BONE = "#F7F4ED";
+/** The page canvas (globals.css `--color-canvas`), which far geometry fades toward. */
+const CANVAS = "#F9F5F6";
 const PORCELAIN_P = "#F4EEE6";
 const PORCELAIN_Q = "#EAE1D6";
 const CENTROMERE = "#C98C9C";
@@ -193,7 +194,7 @@ export function mountGenome(stageHost: HTMLElement, interactive: HTMLElement, op
   const { scene, camera } = stage;
   const locus = options.mode === "locus";
 
-  scene.fog = new Fog(BONE, 10, 40);
+  scene.fog = new Fog(CANVAS, 10, 40);
   scene.environmentIntensity = 0.55;
   scene.add(new HemisphereLight("#FFFAF4", "#E4D6CC", 1.1));
   const key = new DirectionalLight("#FFF2E6", 1.7);

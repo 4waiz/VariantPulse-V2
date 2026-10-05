@@ -25,7 +25,7 @@ export function SyncButton({
   size = "md",
   className,
 }: {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "soft";
   size?: "sm" | "md" | "lg";
   className?: string;
 }) {

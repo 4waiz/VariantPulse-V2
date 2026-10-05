@@ -87,16 +87,20 @@ The visual meaning of vermilion is:
 
 ### Page Background
 
-Bone
-`#F7F4ED`
+Porcelain
+`#F9F5F6`
 
 Use for:
 - main app background
 - large page surfaces
-- side navigation background
 - empty canvas areas
 
-This should be the dominant background color.
+This should be the dominant background color. It is a near-white with a faint
+garnet cast, so the page sits in the brand's family. It replaced Bone
+(`#F7F4ED`) as the page colour in October 2026; Bone stays in the palette.
+
+The side navigation is warm white at 70% over the canvas, so the canvas reads
+through it faintly.
 
 ---
 
@@ -388,6 +392,13 @@ Use only for:
 - special transition animations
 
 Never use this gradient as the default background for cards or pages.
+
+### Ambient canvas
+
+The workspace canvas carries a few very soft garnet-tinted radial glows
+(`.vp-ambient`, 30% alpha at most) and the home hero a blush disc behind the
+helix. They stay faint enough that no text tone drops below its contrast
+floor, and they never sit under a card's content.
 
 ---
 
