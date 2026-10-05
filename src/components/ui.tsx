@@ -151,18 +151,21 @@ export function Badge({
 export function ClassificationBadge({
   code,
   full = false,
+  compact = false,
   className,
 }: {
   code: ClassificationCode;
   full?: boolean;
+  /** For dense tables: no dot (the tint already carries the tone) and tighter padding. */
+  compact?: boolean;
   className?: string;
 }) {
   const info = classificationMeta(code);
   return (
     <Badge
       tone={info.tone}
-      dot
-      className={className}
+      dot={!compact}
+      className={cn(compact && "px-2", className)}
       title={info.code === "VUS" ? "Variant of uncertain significance" : info.label}
     >
       {full ? info.label : info.short}
